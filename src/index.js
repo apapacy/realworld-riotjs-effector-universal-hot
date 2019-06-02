@@ -1,10 +1,6 @@
-const riot = require('riot');
 import App from './app.riot'
-import Component from './component.riot'
-import Inner from './my-inner.riot'
 import hydrate from '@riotjs/hydrate'
-riot.register('my-inner', Inner)
-riot.register('component', Component)
+import './register';
 
 const hydrateWithMyComponent = hydrate(App)
 

@@ -1,15 +1,7 @@
 
-const riot = require('riot');
+//import './register';
 import ssr from '@riotjs/ssr';
 import App from './app.riot'
-import Component from'./component.riot';
-import Inner from './my-inner.riot';
-
-try{riot.unregister('my-inner')}catch(ex){}
-riot.register('my-inner', Inner)
-try{riot.unregister('component')}catch(ex){}
-riot.register('component', Component)
-
 
 export const render = function(req, res, next) {
   const html = ssr('app', App, { some: 'initial props' })
