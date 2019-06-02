@@ -1,12 +1,12 @@
 <component>
-  <p onclick={action}>{ state.message }</p>
-  <my-inner></my-inner>
+  <p onclick={action}>{ state.message }+++++</p>
+  <my-inner></my-inner>++++++++++++++++++===============
 
   <script>
 
     export default {
       state: {
-        message: '==hi++'
+        message: 'Hi!++*********************'
       },
       action() {
         throw new Error('foo')
