@@ -45,7 +45,6 @@ module.exports = {
           '@babel/preset-react',
         ],
         plugins: (isDevelopment ? [
-          'react-hot-loader/babel',
           ['module:fast-async', { spec: true }],
           ['@babel/plugin-transform-runtime', {
             corejs: false,

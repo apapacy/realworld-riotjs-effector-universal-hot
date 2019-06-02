@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@riotjs/hydrate": "^4.0.0",
     "@riotjs/ssr": "^4.0.0",
     "babel-loader": "^8.0.6",
     "cookie-encrypter": "^1.0.1",

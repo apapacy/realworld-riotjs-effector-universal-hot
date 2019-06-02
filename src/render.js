@@ -24,9 +24,9 @@ export const render = function(req, res, next) {
           <link rel="stylesheet" href="//demo.productionready.io/main.css">
         </head>
         <body>
-          <script>
-          </script>
-          <section id="app">${html}</section>
+          <section id="app">${html}123</section>
+          <script src='/static/common.bundle.js' type='text/javascript'></script>
+          <script src='/static/main.bundle.js' type='text/javascript'></script>
     `);
     res.end();
 }
