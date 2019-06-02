@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "riot": "^4.0.2",
     "riotjs": "^1.0.4",
+    "universal-router": "^8.2.0",
     "webpack-node-externals": "^1.7.2"
   },
   "devDependencies": {

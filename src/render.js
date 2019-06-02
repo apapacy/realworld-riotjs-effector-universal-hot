@@ -1,7 +1,7 @@
 
-//import './register';
+import './register';
 import ssr from '@riotjs/ssr';
-import App from './app.riot'
+import App from './riot/app.riot'
 
 export const render = function(req, res, next) {
   const html = ssr('app', App, { some: 'initial props' })
