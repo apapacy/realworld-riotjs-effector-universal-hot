@@ -1,0 +1,15 @@
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": {
+        "node": "6.11.1"
+      }
+    }],
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "syntax-dynamic-import",
+    "babel-plugin-dynamic-import-node",
+    "@babel/plugin-transform-modules-commonjs"
+  ]
+}

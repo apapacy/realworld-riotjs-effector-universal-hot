@@ -1,0 +1,41 @@
+{
+  "name": "riot-blank",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config src/webpack.config.js",
+    "hot": "rm -rf ./build && mkdir ./build && NODE_ENV=development webpack -d --config=./src/config.server.js --mode=development && NODE_ENV=development webpack -d --config=./src/config.client.js --mode=development && node ./src/dev_server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@riotjs/ssr": "^4.0.0",
+    "babel-loader": "^8.0.6",
+    "cookie-encrypter": "^1.0.1",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "riot": "^4.0.2",
+    "riotjs": "^1.0.4",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.4.4",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "@riotjs/compiler": "^4.2.4",
+    "@riotjs/hot-reload": "^4.0.0",
+    "@riotjs/webpack-loader": "^4.0.0",
+    "babel-plugin-dynamic-import-node": "^2.2.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "fast-async": "^6.3.8",
+    "react-hot-loader": "^4.9.0",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-middleware": "^3.7.0",
+    "webpack-hot-middleware": "^2.25.0"
+  }
+}
