@@ -1,7 +1,7 @@
 const riot = require('riot');
 
 const tags = {
-  './riot/':['component', 'my-inner'],
+  './riot/':['component', 'my-inner', 'my-link'],
   './riot/pages/':['page1', 'page2', 'page3']
 }
 

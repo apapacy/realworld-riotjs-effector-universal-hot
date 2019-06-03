@@ -25,8 +25,6 @@ history.push = function(path, state)
     return _push.apply(history, [path, state, ...args]);
 };
 
-
-
 const render = async (location) => {
     const route = await router.resolve(location);
     alert(route)
@@ -38,3 +36,5 @@ history.listen(render);
 
 // Initial Rendering for the initial location
 render(history.location);
+
+export default history;

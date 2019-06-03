@@ -1,0 +1,17 @@
+<my-link>
+ <a href={props.href} onclick={action}>123</a>
+
+  <script>
+    import history from '../history';
+    export default {
+      action(e) {
+        e.preventDefault();
+        alert(1234)
+        history.push(e.currentTarget.getAttribute('href'));
+        if (props.onclick) {
+          props.onclick.call(this, e);
+        }
+      }
+    }
+  </script>
+</my-link>

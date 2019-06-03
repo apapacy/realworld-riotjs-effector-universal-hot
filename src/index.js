@@ -1,7 +1,7 @@
 import App from './riot/app.riot'
 import hydrate from '@riotjs/hydrate'
 import './register';
-import router from './router';
+import router from './router.client';
 
 const hydrateWithMyComponent = hydrate(App)
 
