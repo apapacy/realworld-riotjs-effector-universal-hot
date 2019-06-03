@@ -24,10 +24,14 @@ history.push = function(path, state)
 };
 
 const render = async (location) => {
+   alert('rebder')
     const route = await router.resolve(location);
-    riot.mount("#app", route[1], route[0])
+    riot.update("*", { page: route[0] })
 };
 
 history.listen(render);
 
-render(history.location);
+export function getInitialComponentName() {
+  return router.resolve(history.location)
+}
+// render(history.location);

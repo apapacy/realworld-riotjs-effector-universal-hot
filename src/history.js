@@ -26,7 +26,7 @@ history.push = function(path, state) {
 const render = async (location) => {
     const route = await router.resolve(location);
     alert(route)
-    riot.mount("#app", route[1], route[0])
+    riot.update("#app", {page: route[0]})
 };
 
 // Listening for the history changes to the current location

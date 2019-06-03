@@ -1,7 +1,7 @@
 
 import './register';
 import ssr from '@riotjs/ssr';
-import App from './riot/app.riot'
+import App from './riot/my-layout.riot'
 
 export const render = function(req, res, next) {
   const html = ssr('app', App, { some: 'initial props' })
@@ -19,7 +19,7 @@ export const render = function(req, res, next) {
           <link rel="stylesheet" href="//demo.productionready.io/main.css">
         </head>
         <body>
-          <section id="app">${html}123</section>
+          <section id="app"></section>
           <script src='/static/common.bundle.js' type='text/javascript'></script>
           <script src='/static/main.bundle.js' type='text/javascript'></script>
     `);

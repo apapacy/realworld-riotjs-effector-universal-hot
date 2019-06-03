@@ -8,6 +8,7 @@
         history.push(e.currentTarget.getAttribute('href'));
         if (this.props.onclick) {
           this.props.onclick.call(this, e);
+          e.stopPropagation();
         }
       }
     }
