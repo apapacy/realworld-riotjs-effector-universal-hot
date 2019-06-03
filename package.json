@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config src/webpack.config.js",
-    "hot": "rm -rf ./build && mkdir ./build && NODE_ENV=development webpack -d --config=./src/config.server.js --mode=development && NODE_ENV=development webpack -d --config=./src/config.client.js --mode=development && node ./src/dev_server",
+    "hot": "rm -rf ./build && mkdir ./build && NODE_ENV=development webpack -d --config=./src/config.server.js --mode=development && NODE_ENV=development node ./src/dev_server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

@@ -35,7 +35,7 @@ app.use(webpackClientDevMiddleware(clientCompiler, {
 app.use(webpackClientHotMiddleware(clientCompiler, {
   log: console.log,
   path: '/__webpack_hmr',
-  heartbeat: 10000,
+  heartbeat: 1000,
 }));
 
 
