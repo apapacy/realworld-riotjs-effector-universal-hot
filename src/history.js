@@ -23,16 +23,5 @@ history.push = function(path, state) {
     return _push.apply(history, [path, state, ...args]);
 };
 
-const render = async (location) => {
-    const route = await router.resolve(location);
-    alert(route)
-    riot.update("#app", {page: route[0]})
-};
-
-// Listening for the history changes to the current location
-history.listen(render);
-
-// Initial Rendering for the initial location
-render(history.location);
 
 export default history;
