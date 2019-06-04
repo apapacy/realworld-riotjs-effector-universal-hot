@@ -3,7 +3,14 @@
   <span is='my-link' href='/1'>page 1</span>
   <span is='my-link' href='/2'>page 2</span>
   <span is='my-link' href='/3'>page 3</span>
-  <section id='page' is={props.page}></section>
+  <section id='page' is={state.page}></section>
   456
   </div>
+  <script>
+    export default {
+      onBeforeMount(props, state) {
+        Object.assign(state, props);
+      },
+    }
+  </script>
 </my-layout>
