@@ -15,7 +15,7 @@ const render = async (location) => {
     try {
       riot.register(route[0], component.default || component)
     } catch (ex) {
-      console.log(ex)
+      //console.log(ex)
     }
     if (component.default.exports && component.default.exports.init) {
       component.default.exports.init();
@@ -31,7 +31,7 @@ export async function getInitialComponentName() {
   try {
     riot.register(route[0], component.default || component)
   } catch (ex) {
-    console.log(ex)
+    //console.log(ex)
   }
   return route[0]
 }
