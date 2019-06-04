@@ -3,13 +3,25 @@
   <span is='my-link' href='/1'>page 1</span>
   <span is='my-link' href='/2'>page 2</span>
   <span is='my-link' href='/3'>page 3</span>
-  <section id='page' is={state.page}></section>
+  <section id='page' is={state.page || props.page}></section>
   456
   </div>
   <script>
+    import MyLink from './my-link.riot'
+    //import page1 from './pages/page1.riot'
+    //import page2 from './pages/page2.riot'
+    //import page3 from './pages/page3.riot'
+
     export default {
+      components: {
+        'my-link': MyLink,
+      //  page1,
+      //  page2,
+      //  page3,
+      },
       onBeforeMount(props, state) {
         Object.assign(state, props);
+        console.log('state', state)
       },
     }
   </script>

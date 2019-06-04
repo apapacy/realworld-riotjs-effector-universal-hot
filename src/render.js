@@ -4,7 +4,7 @@ import ssr from '@riotjs/ssr';
 import App from './riot/my-layout.riot'
 
 export const render = function(req, res, next) {
-  const html = ssr('app', App, { some: 'initial props' })
+  //const html = ssr('app', App, { some: 'initial props' })
   res.writeHead(200);
   res.write(`
       <!DOCTYPE html>
