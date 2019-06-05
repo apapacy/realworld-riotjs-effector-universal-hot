@@ -1,8 +1,9 @@
-import Layout from './riot/my-layout.riot'
 import hydrate from '@riotjs/hydrate'
+import Layout from './riot/my-layout.riot'
 //import './register';
 import {getInitialComponentName, setRootComponent} from './router.client';
 
+console.log(Layout)
 const hydrateWithMyComponent = hydrate(Layout)
 getInitialComponentName().then(componentName =>
     alert(componentName) + setRootComponent(hydrateWithMyComponent(

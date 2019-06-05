@@ -2,9 +2,16 @@
 import './register';
 import ssr from '@riotjs/ssr';
 import App from './riot/my-layout.riot'
+import router from './router';
+import './register'
 
-export const render = function(req, res, next) {
-  //const html = ssr('app', App, { some: 'initial props' })
+
+export const render = async function(req, res, next) {
+  const route = await router.resolve(req.originalUrl);
+  const html = ssr('section', App, {page: route[0]})
+  console.log(html)
+
+
   res.writeHead(200);
   res.write(`
       <!DOCTYPE html>
@@ -19,7 +26,7 @@ export const render = function(req, res, next) {
           <link rel="stylesheet" href="//demo.productionready.io/main.css">
         </head>
         <body>
-          <section id="app"></section>
+          <section id="app">${html}</section>
           <script src='/static/common.bundle.js' type='text/javascript'></script>
           <script src='/static/main.bundle.js' type='text/javascript'></script>
     `);
