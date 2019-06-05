@@ -1,10 +1,8 @@
 
-import './register';
 import ssr from '@riotjs/ssr';
 import App from './riot/my-layout.riot'
 import router from './router';
-import './register'
-
+import './register';
 
 export const render = async function(req, res, next) {
   const route = await router.resolve(req.originalUrl);

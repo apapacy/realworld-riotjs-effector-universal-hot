@@ -18,7 +18,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../build'),
     filename: 'render.bundle.js',
-    libraryTarget: 'commonjs2',
+    libraryTarget: 'commonjs-module',
   },
   module: {
     rules: [{
