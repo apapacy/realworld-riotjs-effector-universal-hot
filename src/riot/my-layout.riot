@@ -1,18 +1,18 @@
 <my-layout>
   <div>
-  <span is='mylink' href='/1/45?e=we#16'>page 1</span>
-  <span is='mylink' href='/2'>page 2</span>
-  <span is='mylink' href='/3'>page 3</span>
+  <span is='my-link' href='/1/45?e=we#16'>page 1</span>
+  <span is='my-link' href='/2'>page 2</span>
+  <span is='my-link' href='/3'>page 3</span>
   <section id='page' is={state.page || props.page}></section>
   456
   </div>
   <script>
-    import Mylink from './mylink.riot'
+    import Mylink from './my-link.riot'
     console.log('++++55555555555555', Mylink)
 
     export default {
       components: {
-        Mylink,
+        'my-link': Mylink,
       //  page1,
       //  page2,
       //  page3,

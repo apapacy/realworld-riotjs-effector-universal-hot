@@ -5,7 +5,7 @@ import router from './router';
 const riot = require('riot')
 const isNode=new Function("try {return this===global;}catch(e){return false;}");
 let history;
- console.log('ishode', isNode())
+
 if(!isNode()) {
   history = createBrowserHistory();
   const _push = history.push;

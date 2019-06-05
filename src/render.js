@@ -1,11 +1,15 @@
+const riot = require('riot')
 
 import ssr from '@riotjs/ssr';
 import App from './riot/my-layout.riot'
 import router from './router';
-import './register';
+// import './register';
 
 export const render = async function(req, res, next) {
   const route = await router.resolve(req.originalUrl);
+  const page = require(`./riot/pages/${route[0]}.riot`).default
+  console.log('1111111111111111', page)
+  riot.register(route[0], page)
   const html = ssr('section', App, {page: route[0]})
   console.log(html)
 
