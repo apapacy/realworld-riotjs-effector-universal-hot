@@ -1,5 +1,5 @@
 import hydrate from '@riotjs/hydrate'
-import Layout from './riot/my-layout.riot'
+import Layout from './riot/components/layout.riot'
 //import './register';
 import {getInitialComponentName, setRootComponent} from './router.client';
 

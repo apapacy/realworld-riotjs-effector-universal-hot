@@ -1,0 +1,55 @@
+<layout>
+  <nav class="navbar navbar-light">
+    <div class="container">
+      <my-link class="navbar-brand" href={user && user.id ? '/feed' : '/'}>
+        conduit
+      </my-link>
+      <ul className="nav navbar-nav pull-xs-right">
+          <li is="menu-item" to="/feed" key="feed">
+            <i className="ion-home" />&nbsp;Home
+          </li is="menu-item">
+          <li is="menu-item" to="/new-post" key="new-post">
+            <i className="ion-compose" />&nbsp;New Post
+          </li is="menu-item">
+          <li is="menu-item" to="/settings" key="settings">
+            <i className="ion-gear-a" />&nbsp;Settings
+          </li is="menu-item">
+          <li is="menu-item" to={`/author/${user && user.username}`} key="author">
+            <img alt="author" src={user.image} className="user-pic" />
+            {user && user.username}
+          </li is="menu-item">
+          <li is="menu-item" to="/sign-out" key="log-out">
+            <i className="ion-log-out" />&nbsp;Sign out
+          </li is="menu-item">
+          <li is="menu-item" to="/" key="home">
+            <i className="ion-home" />&nbsp;Home
+          </li is="menu-item">
+          <li is="menu-item" to="/sign-in" key="sign-in">
+            <i className="ion-log-in" />&nbsp;Sign in
+          </li is="menu-item">
+          <li is="menu-item" to="/sign-up" key="sign-up">
+            <i className="ion-person-add" />&nbsp;Sign up
+          </li is="menu-item">
+      </ul>
+    </div>
+  </nav>
+  {children}
+  <footer>
+    <div className="container">
+      <my-link href="/" className="logo-font">conduit</my-link>
+      <span className="attribution">
+        An interactive learning project from <a href="https://thinkster.io">Thinkster</a>. Code &amp; design licensed under MIT.
+      </span>
+    </div>
+  </footer>
+  <script>
+    import Link from '../my-link.riot';
+    import Menuitem from './menuItem.riot';
+    export default {
+      components: {
+        'li is="menu-item"' : Menuitem,
+        'my-link': Link
+      }
+    }
+  </script>
+</layout>

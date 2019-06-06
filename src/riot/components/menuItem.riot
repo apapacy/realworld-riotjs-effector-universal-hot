@@ -1,0 +1,11 @@
+<menu-item class='active' key={to}>
+  <my-link href={to}><slot/></my-link>
+  <script>
+    import Mylink from '../my-link.riot'
+    export default {
+      components: {
+        'my-link': Mylink
+      }
+    }
+  </script>
+</menu-item>

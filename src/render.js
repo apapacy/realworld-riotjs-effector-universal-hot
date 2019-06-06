@@ -1,6 +1,6 @@
 import * as riot from 'riot'
 import ssr from '@riotjs/ssr';
-import App from './riot/my-layout.riot'
+import App from './riot/components/layout.riot'
 import router from './router';
 const pages = {}
 const isDevelopment = process.env.NODE_ENV === 'development'
@@ -19,6 +19,7 @@ export const render = async function(req, res, next) {
   res.writeHead(200);
   res.write(`
       <!DOCTYPE html>
+      <!DOCTYPE html>
       <html>
         <head>
           <meta charset="utf-8">
@@ -33,6 +34,8 @@ export const render = async function(req, res, next) {
           <section id="app">${html}</section>
           <script src='/static/common.bundle.js' type='text/javascript'></script>
           <script src='/static/main.bundle.js' type='text/javascript'></script>
+        </body>
+      </html>
     `);
     res.end();
 }
