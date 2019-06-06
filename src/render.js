@@ -1,19 +1,20 @@
 const riot = require('riot')
-
 import ssr from '@riotjs/ssr';
 import App from './riot/my-layout.riot'
 import router from './router';
-// import './register';
-
+const pages = {}
 export const render = async function(req, res, next) {
   const route = await router.resolve(req.originalUrl);
-  const page = require(`./riot/pages/${route[0]}.riot`).default
-  console.log('1111111111111111', page)
-  riot.register(route[0], page)
+  if (!pages[route[0]]) {
+    pages[route[0]] = require(`./riot/pages/${route[0]}.riot`).default
+    try {
+      riot.unregister(route[0]);
+    } catch (ex) {
+      console.log(ex);
+    }
+    riot.register(route[0], pages[route[0]]);
+  }
   const html = ssr('section', App, {page: route[0]})
-  console.log(html)
-
-
   res.writeHead(200);
   res.write(`
       <!DOCTYPE html>
