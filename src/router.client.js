@@ -2,7 +2,8 @@ import history from './history';
 import parse from 'url-parse';
 import deepEqual from 'deep-equal';
 import router from './router';
-const riot = require('riot')
+import * as riot from 'riot'
+console.log('77777777777777777777',riot)
 // import register from './register'
 
 let root;

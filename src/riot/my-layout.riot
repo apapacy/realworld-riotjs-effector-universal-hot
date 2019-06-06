@@ -26,7 +26,6 @@
         this.unregister = observe(orderline, () => this.update())
       },
       onUnmounted(props, state) {
-        alert(0)
         this.unregister()
       }
     }

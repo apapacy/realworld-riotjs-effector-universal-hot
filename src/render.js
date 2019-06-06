@@ -1,4 +1,4 @@
-const riot = require('riot')
+import * as riot from 'riot'
 import ssr from '@riotjs/ssr';
 import App from './riot/my-layout.riot'
 import router from './router';

@@ -2,7 +2,7 @@ import { createBrowserHistory } from 'history';
 import parse from 'url-parse';
 import deepEqual from 'deep-equal';
 import router from './router';
-const riot = require('riot')
+import * as riot from 'riot'
 const isNode = new Function("try {return this===global;}catch(e){return false;}");
 let history;
 
