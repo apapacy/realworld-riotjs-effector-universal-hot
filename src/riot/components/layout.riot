@@ -1,43 +1,43 @@
 <layout>
   <nav class="navbar navbar-light">
     <div class="container">
-      <my-link class="navbar-brand" href={user && user.id ? '/feed' : '/'}>
+      <a is='my-link' class={"navbar-brand"} href={user && user.id ? '/feed' : '/'}>
         conduit
-      </my-link>
-      <ul className="nav navbar-nav pull-xs-right">
-          <li is="menu-item" to="/feed" key="feed">
-            <i className="ion-home" />&nbsp;Home
-          </li is="menu-item">
-          <li is="menu-item" to="/new-post" key="new-post">
-            <i className="ion-compose" />&nbsp;New Post
-          </li is="menu-item">
-          <li is="menu-item" to="/settings" key="settings">
-            <i className="ion-gear-a" />&nbsp;Settings
-          </li is="menu-item">
-          <li is="menu-item" to={`/author/${user && user.username}`} key="author">
-            <img alt="author" src={user.image} className="user-pic" />
+      </a>
+      <ul class={"nav navbar-nav pull-xs-right"}>
+          <li is="nav-item" to="/feed" key="feed">
+            <i class={"ion-home"} />&nbsp;Home
+          </li>
+          <li is="nav-item" to="/new-post" key="new-post">
+            <i class={"ion-compose"} />&nbsp;New Post
+          </li>
+          <li is="nav-item" to="/settings" key="settings">
+            <i class={"ion-gear-a"} />&nbsp;Settings
+          </li>
+          <li is="nav-item" to={`/author/${user && user.username}`} key="author">
+            <img alt="author" src={user && user.image} class={"user-pic"} />
             {user && user.username}
-          </li is="menu-item">
-          <li is="menu-item" to="/sign-out" key="log-out">
-            <i className="ion-log-out" />&nbsp;Sign out
-          </li is="menu-item">
-          <li is="menu-item" to="/" key="home">
-            <i className="ion-home" />&nbsp;Home
-          </li is="menu-item">
-          <li is="menu-item" to="/sign-in" key="sign-in">
-            <i className="ion-log-in" />&nbsp;Sign in
-          </li is="menu-item">
-          <li is="menu-item" to="/sign-up" key="sign-up">
-            <i className="ion-person-add" />&nbsp;Sign up
-          </li is="menu-item">
+          </li>
+          <li is="nav-item" to="/sign-out" key="log-out">
+            <i class={"ion-log-out"} />&nbsp;Sign out
+          </li>
+          <li is="nav-item" to="/" key="home">
+            <i class={"ion-home"} />&nbsp;Home
+          </li>
+          <li is="nav-item" to="/sign-in" key="sign-in">
+            <i class={"ion-log-in"} />&nbsp;Sign in
+          </li>
+          <li is="nav-item" to="/sign-up" key="sign-up">
+            <i class={"ion-person-add"} />&nbsp;Sign up
+          </li>
       </ul>
     </div>
   </nav>
-  {children}
+  <slot />
   <footer>
-    <div className="container">
-      <my-link href="/" className="logo-font">conduit</my-link>
-      <span className="attribution">
+    <div class={"container"}>
+      <my-link href="/" class={"logo-font"}>conduit</my-link>
+      <span class={"attribution"}>
         An interactive learning project from <a href="https://thinkster.io">Thinkster</a>. Code &amp; design licensed under MIT.
       </span>
     </div>

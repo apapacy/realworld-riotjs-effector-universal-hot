@@ -1,10 +1,10 @@
 <menu-item class='active' key={to}>
-  <my-link href={to}><slot/></my-link>
+  <nav-item to={to}></nav-item>
   <script>
-    import Mylink from '../my-link.riot'
+    import Navitem from './navItem.riot'
     export default {
       components: {
-        'my-link': Mylink
+        'nav-item': Navitem,
       }
     }
   </script>
