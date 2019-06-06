@@ -1,7 +1,11 @@
 <page1>
-page199999999
+page199999999<p is="my-inner"/>
   <script>
+    import Inner from '../components/inner.riot'
     export default {
+      components: {
+        'my-inner': Inner
+      }
       init() {
          alert('init')
       }

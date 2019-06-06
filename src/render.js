@@ -3,9 +3,10 @@ import ssr from '@riotjs/ssr';
 import App from './riot/my-layout.riot'
 import router from './router';
 const pages = {}
+const isDevelopment = process.env.NODE_ENV === 'development'
 export const render = async function(req, res, next) {
   const route = await router.resolve(req.originalUrl);
-  if (!pages[route[0]]) {
+  if (isDevelopment || !pages[route[0]] ) {
     pages[route[0]] = require(`./riot/pages/${route[0]}.riot`).default
     try {
       riot.unregister(route[0]);
