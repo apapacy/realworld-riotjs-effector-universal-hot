@@ -5,7 +5,7 @@
     export default {
       action(e) {
         e.preventDefault();
-        history.push(e.currentTarget.getAttribute('href'));
+        history.navigate(e.currentTarget.getAttribute('href'));
         if (this.props.onclick) {
           this.props.onclick.call(this, e);
           e.stopPropagation();
