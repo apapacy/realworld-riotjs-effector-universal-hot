@@ -1,6 +1,8 @@
 <page1>
-page199999999<p is="my-inner"/>
+page199999999<p is="my-inner" onclick={handleClick}/> {orderline.price}
   <script>
+    import {orderline} from '../../store';
+    console.log('44444444444444444', orderline)
     import Inner from '../components/inner.riot'
     export default {
       components: {
@@ -9,6 +11,10 @@ page199999999<p is="my-inner"/>
       init() {
          alert('init')
       }
+      handleClick(e) {
+        orderline.price ++;
+      }
+      orderline: orderline
     }
   </script>
 </page1>

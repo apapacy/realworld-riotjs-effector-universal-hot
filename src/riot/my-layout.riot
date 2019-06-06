@@ -7,6 +7,9 @@
   456
   </div>
   <script>
+    import {observe} from 'mobx'
+    import {orderline} from '../store';
+
     import Mylink from './my-link.riot'
     console.log('++++55555555555555', Mylink)
 
@@ -20,7 +23,12 @@
       onBeforeMount(props, state) {
         Object.assign(state, props);
         console.log('state', state)
+        this.unregister = observe(orderline, () => this.update())
       },
+      onUnmounted(props, state) {
+        alert(0)
+        this.unregister()
+      }
     }
   </script>
 </my-layout>

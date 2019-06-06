@@ -55,6 +55,8 @@ module.exports = {
             useESModules: false,
           }],
           'syntax-dynamic-import',
+          ["@babel/plugin-proposal-decorators", { "legacy": true }],
+          ["@babel/plugin-proposal-class-properties", { "loose": true }]
         ] : [
           ['@babel/plugin-transform-runtime', {
             corejs: false,
@@ -63,6 +65,8 @@ module.exports = {
             useESModules: false,
           }],
           'syntax-dynamic-import',
+          ["@babel/plugin-proposal-decorators", { "legacy": true }],
+          ["@babel/plugin-proposal-class-properties", { "loose": true }]
         ]).concat([
         ]),
       },
