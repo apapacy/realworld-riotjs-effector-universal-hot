@@ -1,0 +1,63 @@
+<log-in class={"auth-page"}>
+  <div class="container page">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 col-xs-12">
+        <h1 class="text-xs-center">
+            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' }
+        </h1>
+        <p className="text-xs-center">
+          <a is="mylink" href="/sign-in">Have an account?</a>
+          <a is="mylink" href="/sign-up">Need an account?</a>
+        </p>
+        <errorslist error={'error'} />
+        <form>
+          <fieldset class="form-group">
+            <input
+              class="form-control form-control-lg"
+              type="text"
+              placeholder="Your Name"
+              autoComplete="off"
+            />
+          </fieldset>
+          <fieldset class="form-group">
+            <input
+              class="form-control form-control-lg"
+              type="text"
+              placeholder="Email"
+              autoComplete="off"
+            />
+          </fieldset>
+          <fieldset className="form-group">
+            <input
+              class="form-control form-control-lg"
+              type="password"
+              placeholder="Password"
+              autoComplete="off"
+            />
+          </fieldset>
+          <button className="btn btn-lg btn-primary pull-xs-right">
+                 Sign up
+                 Sign in
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    import Mylink from '../my-link.riot';
+    import Errorslist from '../components/errorsList.riot';
+    export default {
+      components: {
+        Mylink,
+        Errorslist
+      },
+      onBeforeUpdate() {
+        console.log('****************---', this)
+        return true
+      },
+      onUpdated() {
+        console.log('****************+++', this)
+      }
+    }
+  </script>
+</log-in>

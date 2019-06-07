@@ -56,7 +56,6 @@ function clearCache() {
 }
 
 function onServerChange(err, stats) {
-  console.log('*****************************')
   if (err || (stats.compilation && stats.compilation.errors && stats.compilation.errors.length)) {
     console.log('Server bundling error:', err || stats.compilation.errors);
   }

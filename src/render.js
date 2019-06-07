@@ -15,7 +15,7 @@ export const render = async function(req, res, next) {
     }
     riot.register(route[0], pages[route[0]]);
   }
-  const html = ssr('section', App, {page: route[0]})
+  const html = ssr('section', App, { page: route[0], data: route[1] })
   res.writeHead(200);
   res.write(`
       <!DOCTYPE html>

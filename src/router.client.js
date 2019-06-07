@@ -10,7 +10,6 @@ let root;
 let currentPage
 
 const render = async (location) => {
-   alert('rebder')
     const route = await router.resolve(location);
     const component = await import(`./riot/pages/${route[0]}.riot`);
     try {
@@ -21,7 +20,7 @@ const render = async (location) => {
     if (component.default.exports && component.default.exports.init) {
       component.default.exports.init();
     }
-    root.update({page: route[0]})
+    root.update({page: route[0], data: route[1]})
 };
 
 history.listen(render);
@@ -34,7 +33,7 @@ export async function getInitialComponentName() {
   } catch (ex) {
     //console.log(ex)
   }
-  return route[0]
+  return route;
 }
 
 export function setRootComponent(component) {

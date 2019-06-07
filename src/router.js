@@ -1,6 +1,6 @@
 import UniversalRouter from 'universal-router';
 export default new UniversalRouter([
-  { path: '/1/(.*)', action: (req) => console.log(req)||['page1', {}] },
-  { path: '/2', action: () => ['page2', {}] },
+  { path: '/sign-in', action: () => ['login', { action: 'sign-in' }] },
+  { path: '/sign-up', action: () => ['login', { action: 'sign-up' }] },
   { path: '(.*)', action: () => ['page3', {}] },
 ])

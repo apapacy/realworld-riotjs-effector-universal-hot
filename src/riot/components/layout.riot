@@ -33,8 +33,7 @@
         </ul>
       </div>
     </nav>
-    <div class="home-page">
-      <slot />
+    <div class="home-page" is={state.page || props.page} {...state.data}>
     </div>
     <footer>
       <div class={"container"}>
@@ -48,10 +47,20 @@
   <script>
     import Mylink from '../my-link.riot';
     import Navitem from './navItem.riot';
+    import Login from '../pages/login.riot';
     export default {
       components: {
         Navitem,
-        Mylink
+        Mylink,
+        Login
+      },
+      onBeforeMount(props, state) {
+        Object.assign(state, props);
+        console.log('state', state)
+        // this.unregister = observe(orderline, () => this.update())
+      },
+      onUnmounted(props, state) {
+        //this.unregister()
       }
     }
   </script>

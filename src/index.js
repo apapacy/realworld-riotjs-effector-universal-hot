@@ -3,12 +3,12 @@ import Layout from './riot/components/layout.riot'
 //import './register';
 import {getInitialComponentName, setRootComponent} from './router.client';
 
-console.log(Layout)
+alert(1)
 const hydrateWithMyComponent = hydrate(Layout)
-getInitialComponentName().then(componentName =>
-    alert(componentName) + setRootComponent(hydrateWithMyComponent(
+getInitialComponentName().then(route =>
+  setRootComponent(hydrateWithMyComponent(
      document.getElementById('app'),
-     {page: componentName}
+     { page: route[0], data: route[1] }
      //window.__INITIAL_APPLICATION_PROPS__
    ))
  );
