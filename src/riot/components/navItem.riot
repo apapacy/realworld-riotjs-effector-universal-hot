@@ -1,5 +1,11 @@
 <nav-item class={'nav-item'}>
-  <a is="mylink" class={'nav-link active'} href={props.to}><slot/></a>
+  <a
+    is="mylink"
+    class={'nav-link'  + ('/' + props.action === props.to ? ' active' : '') }
+    href={props.to}
+  >
+    <slot/>
+  </a>
   <script>
     import Mylink from '../my-link.riot'
     export default {
