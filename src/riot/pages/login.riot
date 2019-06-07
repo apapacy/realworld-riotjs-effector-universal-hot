@@ -5,11 +5,11 @@
         <h1 class="text-xs-center">
             { props.action === 'sign-up' ? 'Sign up' : 'Sign in' }
         </h1>
-        <p className="text-xs-center">
-          <a is="mylink" href="/sign-in">Have an account?</a>
-          <a is="mylink" href="/sign-up">Need an account?</a>
+        <p class="text-xs-center">
+          <a if={props.action === 'sign-up'} is="mylink" href="/sign-in">Have an account?</a>
+          <a if={props.action === 'sign-in'} is="mylink" href="/sign-up">Need an account?</a>
         </p>
-        <errorslist error={'error'} />
+        <ul is="errorslist" error={'error'} />
         <form>
           <fieldset class="form-group">
             <input
@@ -27,7 +27,7 @@
               autoComplete="off"
             />
           </fieldset>
-          <fieldset className="form-group">
+          <fieldset class="form-group">
             <input
               class="form-control form-control-lg"
               type="password"
@@ -35,9 +35,8 @@
               autoComplete="off"
             />
           </fieldset>
-          <button className="btn btn-lg btn-primary pull-xs-right">
-                 Sign up
-                 Sign in
+          <button class="btn btn-lg btn-primary pull-xs-right">
+            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' }
           </button>
         </form>
       </div>
