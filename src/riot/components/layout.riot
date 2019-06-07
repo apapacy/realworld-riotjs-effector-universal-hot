@@ -1,29 +1,29 @@
 <layout>
   <nav class="navbar navbar-light">
     <div class="container">
-      <a is='my-link' class={"navbar-brand"} href={'/feed'}>
+      <a is='mylink' class={"navbar-brand"} href={'/feed'}>
         conduit
       </a>
       <ul class={"nav navbar-nav pull-xs-right"}>
-          <li is="nav-item" to="/feed" key="feed">
+          <li is="navitem" to="/feed" key="feed">
             <i class={"ion-home"} />&nbsp;Home
           </li>
-          <li is="nav-item" to="/new-post" key="new-post">
+          <li is="navitem" to="/new-post" key="new-post">
             <i class={"ion-compose"} />&nbsp;New Post
           </li>
-          <li is="nav-item" to="/settings" key="settings">
+          <li is="navitem" to="/settings" key="settings">
             <i class={"ion-gear-a"} />&nbsp;Settings
           </li>
-          <li is="nav-item" to={`/author/`} key="author">
+          <li is="navitem" to={`/author/`} key="author">
             <img alt="author"  class={"user-pic"} />
           </li>
-          <li is="nav-item" to="/sign-out" key="log-out">
+          <li is="navitem" to="/sign-out" key="log-out">
             <i class={"ion-log-out"} />&nbsp;Sign out
           </li>
-          <li is="nav-item" to="/" key="home">
+          <li is="navitem" to="/" key="home">
             <i class={"ion-home"} />&nbsp;Home
           </li>
-          <li is="nav-item" to="/sign-in" key="sign-in">
+          <li is="navitem" to="/sign-in" key="sign-in">
             <i class={"ion-log-in"} />&nbsp;Sign in
           </li>
           <li is="navitem" to="/sign-up" key="sign-up">
@@ -35,19 +35,19 @@
   <slot />
   <footer>
     <div class={"container"}>
-      <my-link href="/" class={"logo-font"}>conduit</my-link>
+      <mylink href="/" class={"logo-font"}>conduit</mylink>
       <span class={"attribution"}>
         An interactive learning project from <a href="https://thinkster.io">Thinkster</a>. Code &amp; design licensed under MIT.
       </span>
     </div>
   </footer>
   <script>
-    import Link from '../my-link.riot';
+    import Mylink from '../my-link.riot';
     import Navitem from './navItem.riot';
     export default {
       components: {
-        'nav-item': Navitem,
-        'my-link': Link
+        Navitem,
+        Mylink
       }
     }
   </script>

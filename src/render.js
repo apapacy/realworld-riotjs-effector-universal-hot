@@ -30,8 +30,8 @@ export const render = async function(req, res, next) {
           <!-- Import the custom Bootstrap 4 theme from our hosted CDN -->
           <link rel="stylesheet" href="//demo.productionready.io/main.css">
         </head>
-        <body>
-          <section id="app">${html}</section>
+        <body id='app'>
+          ${html}
           <script src='/static/common.bundle.js' type='text/javascript'></script>
           <script src='/static/main.bundle.js' type='text/javascript'></script>
         </body>
