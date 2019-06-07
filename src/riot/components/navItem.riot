@@ -1,10 +1,10 @@
 <nav-item>
-  <a is="mylink" class={'nav-link active'} href={props.to}><slot/></a>
+  <a is="my-link" class={'nav-link active'} href={props.to}><slot/></a>
   <script>
-    import MyLink from '../my-link.riot'
+    import Mylink from '../my-link.riot'
     export default {
       components: {
-        MyLink
+        'my-link': Mylink
       }
     }
   </script>
