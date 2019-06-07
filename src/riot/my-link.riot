@@ -4,6 +4,7 @@
     import history from '../history';
     export default {
       action(e) {
+        console.log('+++++++++++++++++++++')
         e.preventDefault();
         history.navigate(e.currentTarget.getAttribute('href'));
         if (this.props.onclick) {

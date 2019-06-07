@@ -1,7 +1,7 @@
 <layout>
   <nav class="navbar navbar-light">
     <div class="container">
-      <a is='my-link' class={"navbar-brand"} href={user && user.id ? '/feed' : '/'}>
+      <a is='my-link' class={"navbar-brand"} href={'/feed'}>
         conduit
       </a>
       <ul class={"nav navbar-nav pull-xs-right"}>
@@ -14,9 +14,8 @@
           <li is="nav-item" to="/settings" key="settings">
             <i class={"ion-gear-a"} />&nbsp;Settings
           </li>
-          <li is="nav-item" to={`/author/${user && user.username}`} key="author">
-            <img alt="author" src={user && user.image} class={"user-pic"} />
-            {user && user.username}
+          <li is="nav-item" to={`/author/`} key="author">
+            <img alt="author"  class={"user-pic"} />
           </li>
           <li is="nav-item" to="/sign-out" key="log-out">
             <i class={"ion-log-out"} />&nbsp;Sign out
@@ -27,7 +26,7 @@
           <li is="nav-item" to="/sign-in" key="sign-in">
             <i class={"ion-log-in"} />&nbsp;Sign in
           </li>
-          <li is="nav-item" to="/sign-up" key="sign-up">
+          <li is="navitem" to="/sign-up" key="sign-up">
             <i class={"ion-person-add"} />&nbsp;Sign up
           </li>
       </ul>
@@ -47,7 +46,7 @@
     import Navitem from './navItem.riot';
     export default {
       components: {
-        'nav-item"' : Navitem,
+        'nav-item': Navitem,
         'my-link': Link
       }
     }
