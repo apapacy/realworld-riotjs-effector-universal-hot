@@ -48,6 +48,7 @@
     import Mylink from '../my-link.riot';
     import Navitem from './navItem.riot';
     import Login from '../pages/login.riot';
+    import {userStore} from '../../services/user';
     export default {
       components: {
         Navitem,
@@ -57,6 +58,8 @@
       onBeforeMount(props, state) {
         Object.assign(state, props);
         console.log('state', state)
+        //const update = this.update;
+        // userStore.watch(update);
         // this.unregister = observe(orderline, () => this.update())
       },
       onUnmounted(props, state) {

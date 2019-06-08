@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-6 offset-md-3 col-xs-12">
         <h1 class="text-xs-center">
-            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' } {user.email || 123 }
+            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' } {user.user && user.user.email || 123 }
         </h1>
         <p class="text-xs-center">
           <a if={props.action === 'sign-up'} is="mylink" href="/sign-in">Have an account?</a>
