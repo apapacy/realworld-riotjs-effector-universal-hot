@@ -12,6 +12,7 @@ export function parseError(error) {
   if (error) {
     ({ message } = error);
   }
+  console.log({ errors, message })
   return { errors, message };
 }
 /* eslint-enable */

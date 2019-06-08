@@ -51,11 +51,6 @@
     import Errorslist from '../components/errorsList.riot';
     export default {
       get user() {
-      try {
-        console.log('sssssssssssssssss', this.props.store.userStore.userStore.getState());
-      } catch (ex) {
-        console.log(ex)
-      }
         return this.props
           && this.props.store
           && this.props.store.userStore

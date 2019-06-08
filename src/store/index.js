@@ -11,10 +11,10 @@ export default store;
 
 export const getState = (store) => {
   const state = {};
-  return state;
   Object.keys(store).forEach(key => {
     state[key] = store[key].state;
   });
+  return state;
 }
 
 export const setState = (store, state) => {

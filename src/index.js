@@ -1,11 +1,13 @@
 import hydrate from '@riotjs/hydrate'
 import Layout from './riot/components/layout.riot'
-import getStore, {setState} from './store';
+import getStore, {setState, getState} from './store';
 import {getInitialComponentName, setRootComponent} from './router.client';
 alert(1)
-store = getStore();
-setState(store, window.__INITIAL_APPLICATION_PROPS__)
-delete window.__INITIAL_APPLICATION_PROPS__;
+const store = getStore();
+setState(store, window.__PRELOADED_STATE__)
+delete window.__PRELOADED_STATE__;
+console.log(getState(store))
+alert(2)
 const hydrateWithMyComponent = hydrate(Layout)
 getInitialComponentName().then(route =>
   setRootComponent(hydrateWithMyComponent(
