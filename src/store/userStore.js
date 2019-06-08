@@ -7,17 +7,26 @@ import { parseError } from '../utils';
 
 export default class UserStore {
 
+  get state() {
+    return this.store.getState();
+  }
+
   constructor() {
-    this.userStore = createStore({});
+    this.store = createStore({});
     this.userLoginSuccess = createEvent('user:login:success');
     this.userLoginError = createEvent('user:login:error');
-    this.userStore.on(this.userLoginSuccess, (before, user) => {
+    this.inject = createEvent('user:inject');
+    this.store.on(this.userLoginSuccess, (before, user) => {
       console.log('+++++++++++++', user)
       return { user }
     });
-    this.userStore.on(this.userLoginError, (before, error) => {
+    this.store.on(this.userLoginError, (before, error) => {
       console.log('-------------', error)
-      return { error }
+      return { error };
+    });
+    this.store.on(this.inject, (before, state) => {
+      console.log('-------------***', state)
+      return { ...state };
     });
   }
 
@@ -70,15 +79,15 @@ login({ email, password }) {
 };
 
 
-/*me({ req }) {
+me({ req }) {
   return request(req, {
     method: 'get',
     url: '/user',
   }).then(
-    response => dispatch({ type: USER_SUCCESS, payload: response.data }),
-    error => dispatch({ type: USER_FAILURE, error: parseError(error) }),
+    response => this.userLoginSuccess(response.data.user),
+    error => this.userLoginError(parseError(error)),
   );
-};*/
+};
 
 
 /*export function save({ bio, email, image, username, password }) {

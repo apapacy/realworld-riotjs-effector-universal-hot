@@ -3,6 +3,22 @@ import UserStore from './userStore';
 
 
 // export const orderline = new OrderLine();
-export default {
+const store = () => ({
   userStore: new UserStore(),
+});
+
+export default store;
+
+export const getState = (store) => {
+  const state = {};
+  return state;
+  Object.keys(store).forEach(key => {
+    state[key] = store[key].state;
+  });
+}
+
+export const setState = (store, state) => {
+  Object.keys(store).forEach(key => {
+    store[key].inject(state[key]);
+  });
 }

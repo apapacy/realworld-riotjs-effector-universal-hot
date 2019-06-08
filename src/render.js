@@ -2,9 +2,18 @@ import * as riot from 'riot'
 import ssr from '@riotjs/ssr';
 import App from './riot/components/layout.riot'
 import router from './router';
+import getStore, {getState} from './store';
+
 const pages = {}
 const isDevelopment = process.env.NODE_ENV === 'development'
+
 export const render = async function(req, res, next) {
+  const store = getStore();
+  try {
+    await store.userStore.me({ req });
+  } catch(ex) {
+    console.log(ex)
+  }
   const route = await router.resolve(req.originalUrl);
   if (isDevelopment || !pages[route.page] ) {
     pages[route.page] = require(`./riot/pages/${route.page}.riot`).default
@@ -15,7 +24,7 @@ export const render = async function(req, res, next) {
     }
     riot.register(route.page, pages[route.page]);
   }
-  const html = ssr('section', App, route)
+  const html = ssr('section', App, {...route, store })
   res.writeHead(200);
   res.write(`
       <!DOCTYPE html>
@@ -30,6 +39,7 @@ export const render = async function(req, res, next) {
           <!-- Import the custom Bootstrap 4 theme from our hosted CDN -->
           <link rel="stylesheet" href="//demo.productionready.io/main.css">
           <script>
+            window.__PRELOADED_STATE__ = ${JSON.stringify(getState(store), null, 2).replace(/</g, '\\u003c')};
             window.__GWT__ = "${(req.signedCookies.token || '').replace(/</g, '\\u003c')}";
           </script>
         </head>
