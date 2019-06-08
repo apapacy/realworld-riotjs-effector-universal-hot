@@ -9,7 +9,7 @@
           <a if={props.action === 'sign-up'} is="mylink" href="/sign-in">Have an account?</a>
           <a if={props.action === 'sign-in'} is="mylink" href="/sign-up">Need an account?</a>
         </p>
-        <ul is="errorslist" error={'error'} />
+        <ul is="errorslist" if={user.error} error={user.error} />
         <form onsubmit={this.onsubmit}>
           <fieldset  if={props.action === 'sign-up'} class="form-group">
             <input
