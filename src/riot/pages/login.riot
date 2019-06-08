@@ -3,13 +3,13 @@
     <div class="row">
       <div class="col-md-6 offset-md-3 col-xs-12">
         <h1 class="text-xs-center">
-            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' } {user.user && user.user.email || 123 }
+            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' } {user && user.user && user.user.email || 123 }
         </h1>
         <p class="text-xs-center">
           <a if={props.action === 'sign-up'} is="mylink" href="/sign-in">Have an account?</a>
           <a if={props.action === 'sign-in'} is="mylink" href="/sign-up">Need an account?</a>
         </p>
-        <ul is="errorslist" if={user.error} error={user.error} />
+        <ul is="errorslist" if={user && user.error} error={user && user.error} />
         <form onsubmit={this.onsubmit}>
           <fieldset  if={props.action === 'sign-up'} class="form-group">
             <input
@@ -49,27 +49,29 @@
     let isFirstLoad = true
     import Mylink from '../my-link.riot';
     import Errorslist from '../components/errorsList.riot';
-    import {login, userStore} from '../../services/user';
     export default {
       get user() {
-      console.log('det user', userStore.getState())
-        return userStore.getState()
+      try {
+        console.log('sssssssssssssssss', this.props.store.userStore.userStore.getState());
+      } catch (ex) {
+        console.log(ex)
+      }
+        return this.props
+          && this.props.store
+          && this.props.store.userStore
+          && this.props.store.userStore.userStore
+          && this.props.store.userStore.userStore.getState()
       }
       components: {
         Mylink,
         Errorslist
       },
-      onBeforeUpdate() {
-        console.log('****************---', this)
-        if (isFirstLoad) {
-          isFirstLoad = false
-          userStore.watch((...args) => console.log('watch++', ...args))
-          userStore.watch(() => this.update())
-        }
+      onMounted(props, state) {
+        console.log('****************---', props, state)
         return true
       },
-      onUpdated() {
-        console.log('****************+++', this)
+      onUpdated(props, state) {
+        console.log('****************+++', props, state)
       },
       async onsubmit(e) {
         e.preventDefault();
@@ -77,7 +79,7 @@
         alert(e.target.name.value)
         const email = e.target.email.value
         const password = e.target.password.value
-        await login({ email, password})
+        await this.props.store.userStore.login({ email, password})
         console.log('this.user', this.user)
         this.update()
       }

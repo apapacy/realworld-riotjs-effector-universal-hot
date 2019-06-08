@@ -33,7 +33,7 @@
         </ul>
       </div>
     </nav>
-    <div class="home-page" is={state.page || props.page} {...state.data}>
+    <div class="home-page" is={state.page || props.page} store={state.store} {...state.data}>
     </div>
     <footer>
       <div class={"container"}>
@@ -48,7 +48,6 @@
     import Mylink from '../my-link.riot';
     import Navitem from './navItem.riot';
     import Login from '../pages/login.riot';
-    import {userStore} from '../../services/user';
     export default {
       components: {
         Navitem,
@@ -56,6 +55,8 @@
         Login
       },
       onBeforeMount(props, state) {
+      console.log('state', state)
+      console.log('props', props)
         Object.assign(state, props);
         console.log('state', state)
         //const update = this.update;

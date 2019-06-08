@@ -4,17 +4,22 @@ import axios from 'axios'
 import { request, setJWT } from '../agent';
 import { parseError } from '../utils';
 
-export const userStore = createStore({});
-const userLoginSuccess = createEvent('user:login:success')
-const userLoginError = createEvent('user:login:error')
-userStore.on(userLoginSuccess, (before, user) => {
-  console.log('+++++++++++++', user)
-  return { user }
-});
-userStore.on(userLoginError, (before, error) => {
-  console.log('-------------', error)
-  return { error }
-});
+
+export default class UserStore {
+
+  constructor() {
+    this.userStore = createStore({});
+    this.userLoginSuccess = createEvent('user:login:success');
+    this.userLoginError = createEvent('user:login:error');
+    this.userStore.on(this.userLoginSuccess, (before, user) => {
+      console.log('+++++++++++++', user)
+      return { user }
+    });
+    this.userStore.on(this.userLoginError, (before, error) => {
+      console.log('-------------', error)
+      return { error }
+    });
+  }
 
 
 /*export function signup({ username, email, password }) {
@@ -42,7 +47,7 @@ userStore.on(userLoginError, (before, error) => {
   };
 }*/
 
-export function login({ email, password }) {
+login({ email, password }) {
   return request(undefined, {
     method: 'post',
     url: '/users/login',
@@ -50,13 +55,13 @@ export function login({ email, password }) {
   }).then(
     (response) => {
       console.log(response.data.user)
-      userLoginSuccess(response.data.user)
+      this.userLoginSuccess(response.data.user)
       setJWT(response.data.user.token);
       // set cookie with frontend server
       axios.post('/token', { token: response.data.user.token });
     },
     (error) => {
-      userLoginError(parseError(error))
+      this.userLoginError(parseError(error))
       setJWT(undefined);
       // clear cookie with frontend server
       axios.post('/token', { token: '' });
@@ -65,19 +70,16 @@ export function login({ email, password }) {
 };
 
 
-/*export function me({ req }) {
-  return (dispatch) => {
-    dispatch({ type: USER_REQUEST });
+/*me({ req }) {
+  return request(req, {
+    method: 'get',
+    url: '/user',
+  }).then(
+    response => dispatch({ type: USER_SUCCESS, payload: response.data }),
+    error => dispatch({ type: USER_FAILURE, error: parseError(error) }),
+  );
+};*/
 
-    return request(req, {
-      method: 'get',
-      url: '/user',
-    }).then(
-      response => dispatch({ type: USER_SUCCESS, payload: response.data }),
-      error => dispatch({ type: USER_FAILURE, error: parseError(error) }),
-    );
-  };
-}*/
 
 /*export function save({ bio, email, image, username, password }) {
   if (!email || !username) {
@@ -123,3 +125,5 @@ export function login({ email, password }) {
 /*export function clearErrors() {
   return { type: CLEAR_ERRORS };
 }*/
+
+}

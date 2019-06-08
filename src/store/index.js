@@ -1,4 +1,8 @@
-import OrderLine from "./orderline";
+import UserStore from './userStore';
+// import OrderLine from "./orderline";
 
 
-export const orderline = new OrderLine();
+// export const orderline = new OrderLine();
+export default {
+  userStore: new UserStore(),
+}
