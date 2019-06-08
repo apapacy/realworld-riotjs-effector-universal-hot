@@ -38,6 +38,15 @@ app.use(webpackClientHotMiddleware(clientCompiler, {
   heartbeat: 1000,
 }));
 
+app.use('/token', (req, res) => {
+  if (req.body.token) {
+    res.cookie('token', req.body.token, { signed: true, httpOnly: false, maxAge: 999999999999 });
+  } else {
+    res.cookie('token', '', { signed: false });
+  }
+  res.send('');
+});
+
 
 app.use('/', (req, res, next) => render(req, res, next));
 

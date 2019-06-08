@@ -3,28 +3,30 @@
     <div class="row">
       <div class="col-md-6 offset-md-3 col-xs-12">
         <h1 class="text-xs-center">
-            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' }
+            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' } {user.email || 123 }
         </h1>
         <p class="text-xs-center">
           <a if={props.action === 'sign-up'} is="mylink" href="/sign-in">Have an account?</a>
           <a if={props.action === 'sign-in'} is="mylink" href="/sign-up">Need an account?</a>
         </p>
         <ul is="errorslist" error={'error'} />
-        <form>
-          <fieldset class="form-group">
+        <form onsubmit={this.onsubmit}>
+          <fieldset  if={props.action === 'sign-up'} class="form-group">
             <input
               class="form-control form-control-lg"
               type="text"
               placeholder="Your Name"
               autoComplete="off"
+              name="name"
             />
           </fieldset>
-          <fieldset if={props.action === 'sign-up'} class="form-group" >
+          <fieldset class="form-group" >
             <input
               class="form-control form-control-lg"
               type="text"
               placeholder="Email"
               autoComplete="off"
+              name="email"
             />
           </fieldset>
           <fieldset class="form-group">
@@ -33,6 +35,7 @@
               type="password"
               placeholder="Password"
               autoComplete="off"
+              name="password"
             />
           </fieldset>
           <button class="btn btn-lg btn-primary pull-xs-right">
@@ -43,19 +46,40 @@
     </div>
   </div>
   <script>
+    let isFirstLoad = true
     import Mylink from '../my-link.riot';
     import Errorslist from '../components/errorsList.riot';
+    import {login, userStore} from '../../services/user';
     export default {
+      get user() {
+      console.log('det user', userStore.getState())
+        return userStore.getState()
+      }
       components: {
         Mylink,
         Errorslist
       },
       onBeforeUpdate() {
         console.log('****************---', this)
+        if (isFirstLoad) {
+          isFirstLoad = false
+          userStore.watch((...args) => console.log('watch++', ...args))
+          userStore.watch(() => this.update())
+        }
         return true
       },
       onUpdated() {
         console.log('****************+++', this)
+      },
+      async onsubmit(e) {
+        e.preventDefault();
+        alert(123)
+        alert(e.target.name.value)
+        const email = e.target.email.value
+        const password = e.target.password.value
+        await login({ email, password})
+        console.log('this.user', this.user)
+        this.update()
       }
     }
   </script>
