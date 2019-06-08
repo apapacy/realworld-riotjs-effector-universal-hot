@@ -6,16 +6,16 @@ const pages = {}
 const isDevelopment = process.env.NODE_ENV === 'development'
 export const render = async function(req, res, next) {
   const route = await router.resolve(req.originalUrl);
-  if (isDevelopment || !pages[route[0]] ) {
-    pages[route[0]] = require(`./riot/pages/${route[0]}.riot`).default
+  if (isDevelopment || !pages[route.page] ) {
+    pages[route.page] = require(`./riot/pages/${route.page}.riot`).default
     try {
-      riot.unregister(route[0]);
+      riot.unregister(route.page);
     } catch (ex) {
       console.log(ex);
     }
-    riot.register(route[0], pages[route[0]]);
+    riot.register(route.page, pages[route.page]);
   }
-  const html = ssr('section', App, { page: route[0], data: route[1] })
+  const html = ssr('section', App, route)
   res.writeHead(200);
   res.write(`
       <!DOCTYPE html>

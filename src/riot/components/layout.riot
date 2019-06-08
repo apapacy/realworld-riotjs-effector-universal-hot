@@ -24,16 +24,16 @@
             <li is="navitem" to="/" key="home">
               <i class={"ion-home"} />&nbsp;Home
             </li>
-            <li is="navitem" to="/sign-in" key="sign-in" {...state.data}>
+            <li is="navitem" to="/sign-in" key="sign-in" {...state}>
               <i class={"ion-log-in"} />&nbsp;Sign in
             </li>
-            <li is="navitem" to="/sign-up" key="sign-up" {...state.data}>
+            <li is="navitem" to="/sign-up" key="sign-up" {...state}>
               <i class={"ion-person-add"} />&nbsp;Sign up
             </li>
         </ul>
       </div>
     </nav>
-    <div class="home-page" is={state.page || props.page} {...state.data}>
+    <div class="home-page" is={state.page || props.page} {...state}>
     </div>
     <footer>
       <div class={"container"}>

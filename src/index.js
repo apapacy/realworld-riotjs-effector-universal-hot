@@ -8,7 +8,7 @@ const hydrateWithMyComponent = hydrate(Layout)
 getInitialComponentName().then(route =>
   setRootComponent(hydrateWithMyComponent(
      document.getElementById('app'),
-     { page: route[0], data: route[1] }
+     route
      //window.__INITIAL_APPLICATION_PROPS__
    ))
  );
