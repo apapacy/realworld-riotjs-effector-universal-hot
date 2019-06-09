@@ -53,59 +53,50 @@ export default class UserStore {
   };
 }*/
 
-login({ email, password }) {
-  return request(undefined, {
-    method: 'post',
-    url: '/users/login',
-    data: { user: { email, password } },
-  }).then(
-    (response) => {
-      this.userLoginSuccess(response.data.user)
-      setJWT(response.data.user.token);
-      axios.post('/token', { token: response.data.user.token });
-    },
-    (error) => {
-      this.userLoginError(parseError(error))
-      setJWT(undefined);
-      axios.post('/token', { token: '' });
-    },
-  );
-};
-
-
-me({ req }) {
-  return request(req, {
-    method: 'get',
-    url: '/user',
-  }).then(
-    response => this.userLoginSuccess(response.data.user),
-    error => this.userLoginError(parseError(error)),
-  );
-};
-
-
-/*export function save({ bio, email, image, username, password }) {
-  if (!email || !username) {
-    return { type: SAVE_FAILURE, error: { message: 'Empty username or email' } };
-  }
-  const user = { bio, email, image, username };
-  if (password) {
-    user.password = password;
+  login({ email, password }) {
+    return request(undefined, {
+      method: 'post',
+      url: '/users/login',
+      data: { user: { email, password } },
+    }).then(
+      (response) => {
+        this.userLoginSuccess(response.data.user)
+        setJWT(response.data.user.token);
+        axios.post('/token', { token: response.data.user.token });
+      },
+      (error) => {
+        this.userLoginError(parseError(error))
+        setJWT(undefined);
+        axios.post('/token', { token: '' });
+      },
+    );
   }
 
-  return (dispatch) => {
-    dispatch({ type: SAVE_REQUEST });
+  me({ req }) {
+    return request(req, {
+      method: 'get',
+      url: '/user',
+    }).then(
+      response => this.userLoginSuccess(response.data.user),
+      error => this.userLoginError(parseError(error)),
+    );
+  }
 
+  save({ bio, email, image, username, password }) {
+    const user = { bio, email, image, username };
+    if (password) {
+      user.password = password;
+    }
     return request(undefined, {
       method: 'put',
       url: '/user',
       data: { user },
     }).then(
-      response => dispatch({ type: SAVE_SUCCESS, payload: response.data }),
-      error => dispatch({ type: SAVE_FAILURE, error: parseError(error) }),
+      response => this.userLoginSuccess(response.data.user),
+      error => console.log(error),
     );
-  };
-}*/
+  }
+
 
 /*export function logout() {
   return (dispatch) => {

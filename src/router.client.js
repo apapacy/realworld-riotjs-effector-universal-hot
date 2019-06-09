@@ -38,7 +38,7 @@ export async function getInitialComponentName() {
 
 export function setRootComponent(component) {
   root = component;
-  root.props.store.userStore.store.watch(()=> root.update())
+  root.props.store.userStore.store.watch(function(){alert('updated')})
   console.log('wwwwwwwwwwwwwwwwwwwwwwww', component)
 }
 // render(history.location);

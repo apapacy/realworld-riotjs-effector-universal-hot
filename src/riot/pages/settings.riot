@@ -1,0 +1,102 @@
+<settings>
+  <div class="settings-page">
+    <div class="container page">
+      <div class="row">
+        <div class="col-md-6 offset-md-3 col-xs-12">
+          <h1 class="text-xs-center">Your Settings</h1>
+          <ul is="errorslist" if={user && user.error} error={user && user.error} />
+          <form if={user && user.data} onsubmit={this.onsubmit}>
+            <fieldset>
+              <fieldset class="form-group">
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="URL of profile picture"
+                  name="image"
+                  autoComplete="off"
+                  value={user.data.image}
+                />
+              </fieldset>
+              <fieldset class="form-group">
+                <input
+                  class="form-control form-control-lg"
+                  type="text"
+                  placeholder="Your Name"
+                  name="username"
+                  autoComplete="off"
+                  value={user.data.username}
+                />
+              </fieldset>
+              <fieldset class="form-group">
+                <textarea
+                  class="form-control form-control-lg"
+                  rows="8"
+                  placeholder="Short bio about you"
+                  name="bio"
+                  autoComplete="off"
+                >{user.data.bio}</textarea>
+              </fieldset>
+              <fieldset class="form-group">
+                <input
+                  class="form-control form-control-lg"
+                  type="text"
+                  placeholder="Email"
+                  name="email"
+                  autoComplete="off"
+                  value={user.data.email}
+                />
+              </fieldset>
+              <fieldset class="form-group">
+                <input
+                  class="form-control form-control-lg"
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                  autoComplete="off"
+                />
+              </fieldset>
+              <button
+                class="btn btn-lg btn-primary pull-xs-right"
+                type="submit"
+              >
+                Update Settings
+              </button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    import Errorslist from '../components/errorsList.riot';
+    export default {
+      get user() {
+        try {
+          return this.userStore.state;
+        } catch (ex) {
+        }
+      },
+      get userStore() {
+        try {
+          return this.props.store.userStore;
+        } catch (ex) {
+        }
+      },
+      components: {
+        Errorslist
+      },
+      async onsubmit(e) {
+        e.preventDefault();
+        alert(1)
+        const bio = e.target.bio.value
+        const email = e.target.email.value
+        const image = e.target.image.value
+        const username = e.target.username.value
+        const password = e.target.password.value
+        console.log(this.userStore)
+        await this.userStore.save({ bio, email, image, username, password })
+        alert(2)
+      }
+    }
+  </script>
+</settings>

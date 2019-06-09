@@ -51,11 +51,17 @@
     import Errorslist from '../components/errorsList.riot';
     export default {
       get user() {
-        return this.props
-          && this.props.store
-          && this.props.store.userStore
-          && this.props.store.userStore.state
-      }
+        try {
+          return this.userStore.state;
+        } catch (ex) {
+        }
+      },
+      get userStore() {
+        try {
+          return this.props.store.userStore;
+        } catch (ex) {
+        }
+      },
       components: {
         Navigationlink,
         Errorslist
@@ -65,7 +71,7 @@
         alert(e.target.name.value)
         const email = e.target.email.value
         const password = e.target.password.value
-        await this.props.store.userStore.login({ email, password})
+        await this.userStore.login({ email, password})
         this.update()
       }
     }
