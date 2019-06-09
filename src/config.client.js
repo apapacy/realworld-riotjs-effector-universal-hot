@@ -50,9 +50,9 @@ module.exports = {
           ['module:fast-async', { spec: true }],
           ['@babel/plugin-transform-runtime', {
             corejs: false,
-            helpers: true,
-            regenerator: true,
-            useESModules: false,
+            helpers: false,
+            regenerator: false,
+            useESModules: true,
           }],
           'syntax-dynamic-import',
           ["@babel/plugin-proposal-decorators", { "legacy": true }],
@@ -60,9 +60,9 @@ module.exports = {
         ] : [
           ['@babel/plugin-transform-runtime', {
             corejs: false,
-            helpers: true,
-            regenerator: true,
-            useESModules: false,
+            helpers: false,
+            regenerator: false,
+            useESModules: true,
           }],
           'syntax-dynamic-import',
           ["@babel/plugin-proposal-decorators", { "legacy": true }],

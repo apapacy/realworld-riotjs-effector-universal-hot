@@ -1,39 +1,38 @@
-<layout id={'app'}>
+<layout id={'app0'}>
   <div>
     <nav class="navbar navbar-light">
       <div class="container">
-        <a is='mylink' class={"navbar-brand"} href={'/feed'}>
+        <a is='navigationlink' class={"navbar-brand"} href={'/feed'}>
           conduit
         </a>
         <ul class={"nav navbar-nav pull-xs-right"}>
-            <li is="navitem" to="/feed" key="feed">
+            <li is="navigationitem" to="/feed" key="feed">
               <i class={"ion-home"} />&nbsp;Home
             </li>
-            <li is="navitem" to="/new-post" key="new-post">
+            <li is="navigationitem" to="/new-post" key="new-post">
               <i class={"ion-compose"} />&nbsp;New Post
             </li>
-            <li is="navitem" to="/settings" key="settings">
+            <li is="navigationitem" to="/settings" key="settings">
               <i class={"ion-gear-a"} />&nbsp;Settings
             </li>
-            <li is="navitem" to={`/author/`} key="author">
-              <img alt="author"  class={"user-pic"} />
+            <li is="navigationitemauthor" if={user && user.data} user={user} to={`/author/${user.data.username}`} key="author">
             </li>
-            <li is="navitem" to="/sign-out" key="log-out">
+            <li is="navigationitem" to="/sign-out" key="log-out">
               <i class={"ion-log-out"} />&nbsp;Sign out
             </li>
-            <li is="navitem" to="/" key="home">
+            <li is="navigationitem" to="/" key="home">
               <i class={"ion-home"} />&nbsp;Home
             </li>
-            <li is="navitem" to="/sign-in" key="sign-in" {...state.data}>
+            <li is="navigationitem" to="/sign-in" key="sign-in" {...state.data}>
               <i class={"ion-log-in"} />&nbsp;Sign in
             </li>
-            <li is="navitem" to="/sign-up" key="sign-up" {...state.data}>
+            <li is="navigationitem" to="/sign-up" key="sign-up" {...state.data}>
               <i class={"ion-person-add"} />&nbsp;Sign up
             </li>
         </ul>
       </div>
     </nav>
-    <div class="home-page" is={state.page || props.page} store={state.store} {...state.data}>
+    <div class="home-page" is={state.page || props.page} store={state.store || props.store} {...(state.data || props.data)}>
     </div>
     <footer>
       <div class={"container"}>
@@ -45,22 +44,40 @@
     </footer>
   </div>
   <script>
-    import Mylink from '../my-link.riot';
-    import Navitem from './navItem.riot';
+    import Navigationlink from '../navigationLink.riot';
+    import Navigationitem from './navigationItem.riot';
+    import Navigationitemauthor from './navigationItemAuthor.riot';
     import Login from '../pages/login.riot';
     export default {
+      get user() {
+        try {
+          return this.userStore.state;
+        } catch (ex) {
+        }
+      },
+      get userStore() {
+        try {
+          return this.state.store.userStore;
+        } catch (ex) {
+        }
+        try {
+          return this.props.store.userStore;
+        } catch (ex) {
+        }
+      },
       components: {
-        Navitem,
-        Mylink,
+        Navigationitem,
+        Navigationitemauthor,
+        Navigationlink,
         Login
       },
       onBeforeMount(props, state) {
       console.log('state', state)
       console.log('props', props)
-        Object.assign(state, props);
-        console.log('state', state)
+        //Object.assign(state, props);
+        //console.log('state', state)
         //const update = this.update;
-        // userStore.watch(update);
+        //this.userStore.userStore && this.userStore.userStore.watch(update);
         // this.unregister = observe(orderline, () => this.update())
       },
       onUnmounted(props, state) {

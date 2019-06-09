@@ -3,11 +3,11 @@
     <div class="row">
       <div class="col-md-6 offset-md-3 col-xs-12">
         <h1 class="text-xs-center">
-            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' } {user && user.user && user.user.email || 123 }
+            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' } {user && user.data && user.data.email || 123 }
         </h1>
         <p class="text-xs-center">
-          <a if={props.action === 'sign-up'} is="mylink" href="/sign-in">Have an account?</a>
-          <a if={props.action === 'sign-in'} is="mylink" href="/sign-up">Need an account?</a>
+          <a if={props.action === 'sign-up'} is="navigationlink" href="/sign-in">Have an account?</a>
+          <a if={props.action === 'sign-in'} is="navigationlink" href="/sign-up">Need an account?</a>
         </p>
         <ul is="errorslist" if={user && user.error} error={user && user.error} />
         <form onsubmit={this.onsubmit}>
@@ -47,7 +47,7 @@
   </div>
   <script>
     let isFirstLoad = true
-    import Mylink from '../my-link.riot';
+    import Navigationlink from '../navigationLink.riot';
     import Errorslist from '../components/errorsList.riot';
     export default {
       get user() {
@@ -57,24 +57,15 @@
           && this.props.store.userStore.state
       }
       components: {
-        Mylink,
+        Navigationlink,
         Errorslist
-      },
-      onMounted(props, state) {
-        console.log('****************---', props, state)
-        return true
-      },
-      onUpdated(props, state) {
-        console.log('****************+++', props, state)
       },
       async onsubmit(e) {
         e.preventDefault();
-        alert(123)
         alert(e.target.name.value)
         const email = e.target.email.value
         const password = e.target.password.value
         await this.props.store.userStore.login({ email, password})
-        console.log('this.user', this.user)
         this.update()
       }
     }

@@ -1,0 +1,17 @@
+<navigation-item-author class={ 'nav-item'  + ('/' + props.action === props.to ? ' active' : '') }>
+  <a
+    is='navigationlink'
+    class='nav-link'
+    href={ props.to }
+  >
+    <img alt="author" src={props.user.data.image} class={"user-pic"} />{props.user.data.username}
+  </a>
+  <script>
+    import Navigationlink from '../navigationLink.riot'
+    export default {
+      components: {
+        Navigationlink
+      }
+    }
+  </script>
+</navigation-item-author>

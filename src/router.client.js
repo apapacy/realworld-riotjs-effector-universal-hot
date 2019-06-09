@@ -38,6 +38,7 @@ export async function getInitialComponentName() {
 
 export function setRootComponent(component) {
   root = component;
-  console.log(component)
+  root.props.store.userStore.store.watch(()=> root.update())
+  console.log('wwwwwwwwwwwwwwwwwwwwwwww', component)
 }
 // render(history.location);

@@ -1,6 +1,7 @@
 import * as riot from 'riot'
 import ssr from '@riotjs/ssr';
-import App from './riot/components/layout.riot'
+// import App from './riot/components/layout.riot'
+import App from './riot/App.riot'
 import router from './router';
 import getStore, {getState} from './store';
 
@@ -17,12 +18,19 @@ export const render = async function(req, res, next) {
   const route = await router.resolve(req.originalUrl);
   if (isDevelopment || !pages[route.page] ) {
     pages[route.page] = require(`./riot/pages/${route.page}.riot`).default
+    pages['layout'] = require(`./riot/components/layout.riot`).default
     try {
       riot.unregister(route.page);
     } catch (ex) {
       console.log(ex);
     }
+    try {
+      riot.unregister('layout');
+    } catch (ex) {
+      console.log(ex);
+    }
     riot.register(route.page, pages[route.page]);
+    riot.register('layout', pages['layout']);
   }
   const html = ssr('section', App, {...route, store })
   res.writeHead(200);

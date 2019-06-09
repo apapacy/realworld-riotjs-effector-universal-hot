@@ -12,20 +12,17 @@ export default class UserStore {
   }
 
   constructor() {
-    this.store = createStore({});
-    this.userLoginSuccess = createEvent('user:login:success');
-    this.userLoginError = createEvent('user:login:error');
-    this.inject = createEvent('user:inject');
-    this.store.on(this.userLoginSuccess, (before, user) => {
-      console.log('+++++++++++++', user)
-      return { user }
+    this.store = createStore(null);
+    this.userLoginSuccess = createEvent();
+    this.userLoginError = createEvent();
+    this.inject = createEvent();
+    this.store.on(this.userLoginSuccess, (before, data) => {
+      return { data }
     });
     this.store.on(this.userLoginError, (before, error) => {
-      console.log('-------------', error)
       return { error };
     });
     this.store.on(this.inject, (before, state) => {
-      console.log('-------------***', state)
       return { ...state };
     });
   }
@@ -63,16 +60,13 @@ login({ email, password }) {
     data: { user: { email, password } },
   }).then(
     (response) => {
-      console.log(response.data.user)
       this.userLoginSuccess(response.data.user)
       setJWT(response.data.user.token);
-      // set cookie with frontend server
       axios.post('/token', { token: response.data.user.token });
     },
     (error) => {
       this.userLoginError(parseError(error))
       setJWT(undefined);
-      // clear cookie with frontend server
       axios.post('/token', { token: '' });
     },
   );
