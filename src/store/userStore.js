@@ -4,29 +4,12 @@ import axios from 'axios'
 import { request, setJWT } from '../agent';
 import { parseError } from '../utils';
 
+import { observable, computed } from "mobx";
+
 
 export default class UserStore {
 
-  get state() {
-    return this.store.getState();
-  }
-
-  constructor() {
-    this.store = createStore(null);
-    this.userLoginSuccess = createEvent();
-    this.userLoginError = createEvent();
-    this.inject = createEvent();
-    this.store.on(this.userLoginSuccess, (before, data) => {
-      return { data }
-    });
-    this.store.on(this.userLoginError, (before, error) => {
-      return { error };
-    });
-    this.store.on(this.inject, (before, state) => {
-      return { ...state };
-    });
-  }
-
+@observable store = null
 
 /*export function signup({ username, email, password }) {
   return (dispatch) => {
@@ -60,12 +43,12 @@ export default class UserStore {
       data: { user: { email, password } },
     }).then(
       (response) => {
-        this.userLoginSuccess(response.data.user)
+        this.store = { data: response.data.user }
         setJWT(response.data.user.token);
         axios.post('/token', { token: response.data.user.token });
       },
       (error) => {
-        this.userLoginError(parseError(error))
+        this.store = { error: parseError(error) }
         setJWT(undefined);
         axios.post('/token', { token: '' });
       },
@@ -77,8 +60,8 @@ export default class UserStore {
       method: 'get',
       url: '/user',
     }).then(
-      response => this.userLoginSuccess(response.data.user),
-      error => this.userLoginError(parseError(error)),
+      response => this.store = { data: response.data.user },
+      error => this.store = { error: parseError(error) },
     );
   }
 
@@ -92,7 +75,7 @@ export default class UserStore {
       url: '/user',
       data: { user },
     }).then(
-      response => this.userLoginSuccess(response.data.user),
+      response => this.store = { data: response.data.user },
       error => console.log(error),
     );
   }

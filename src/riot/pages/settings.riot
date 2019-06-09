@@ -72,13 +72,17 @@
     export default {
       get user() {
         try {
-          return this.userStore.state;
+          return this.userStore.store;
         } catch (ex) {
         }
       },
       get userStore() {
         try {
           return this.props.store.userStore;
+        } catch (ex) {
+        }
+        try {
+          return this.state.store.userStore;
         } catch (ex) {
         }
       },

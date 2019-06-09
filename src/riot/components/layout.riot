@@ -49,7 +49,7 @@
     export default {
       get user() {
         try {
-          return this.userStore.state;
+          return this.userStore.store;
         } catch (ex) {
         }
       },
@@ -69,7 +69,7 @@
         Navigationlink,
         Login
       },
-      onBeforeMount(props, state) {
+      onMounted(props, state) {
       console.log('state', state)
       console.log('props', props)
         //Object.assign(state, props);
