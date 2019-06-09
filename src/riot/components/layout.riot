@@ -31,7 +31,7 @@
         </ul>
       </div>
     </nav>
-    <div class="home-page" is={state.page || props.page} store={state.store || props.store} {...(state.data || props.data)}>
+    <div class="home-page" is={props.page} store={props.store} {...props.data}>
     </div>
     <footer>
       <div class={"container"}>
@@ -54,10 +54,6 @@
         }
       },
       get userStore() {
-        try {
-          return this.state.store.userStore;
-        } catch (ex) {
-        }
         try {
           return this.props.store.userStore;
         } catch (ex) {
