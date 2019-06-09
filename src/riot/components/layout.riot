@@ -1,5 +1,4 @@
-<layout id={'app0'}>
-  <div>
+<layout id={'app0'} is='layout'>
     <nav class="navbar navbar-light">
       <div class="container">
         <a is='navigationlink' class={"navbar-brand"} href={'/feed'}>
@@ -42,7 +41,6 @@
         </span>
       </div>
     </footer>
-  </div>
   <script>
     import Navigationlink from '../navigationLink.riot';
     import Navigationitem from './navigationItem.riot';

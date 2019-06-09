@@ -1,5 +1,5 @@
-<app id={'app'}>
-    <section is="layout" {...state} />
+<section id={'app'}>
+    <div id={'app0'} is="layout" {...Object.assign({}, state, {id: 'app2'})}>no content</div>
   <script>
     import Layout from './components/layout.riot';
     export default {
@@ -13,8 +13,8 @@
         Object.assign(state, props);
         console.log('******************', this)
         const self = this;
-        
+
       }
     }
   </script>
-</app>
+</section>
