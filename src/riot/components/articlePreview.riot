@@ -3,7 +3,7 @@
     <div class="article-meta">
       <a to={`/author/${props.article.author.username}`}><img alt="☺" src={props.article.author.image} /></a>
       <div class="info">
-        <a to={`/author/${props.article.author.username}`} class="author">{props.article.author.username}</a>
+        <a is="navigationlink" href={`/author/${encodeURIComponent(props.article.author.username)}`} class="author">{props.article.author.username}</a>
         <span class="date">{publicationDate}</span>
       </div>
       <Favorited
@@ -35,7 +35,6 @@
         try {
           return moment(this.props.article.updatedAt).format('ddd MMM DD YYYY');
         } catch(ex) {
-          console.log(ex)
         }
       },
       components: {
