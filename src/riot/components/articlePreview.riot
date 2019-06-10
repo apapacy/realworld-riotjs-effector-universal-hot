@@ -1,0 +1,46 @@
+<article-preview>
+  <div class="article-preview">
+    <div class="article-meta">
+      <a to={`/author/${props.article.author.username}`}><img alt="☺" src={props.article.author.image} /></a>
+      <div class="info">
+        <a to={`/author/${props.article.author.username}`} class="author">{props.article.author.username}</a>
+        <span class="date">{publicationDate}</span>
+      </div>
+      <Favorited
+      />
+    </div>
+    <a to={`/{props.article.slug}`} class="preview-link">
+      <h1>{props.article.title}</h1>
+      <p>{props.article.description}</p>
+      <span>Read more...</span>
+    </a>
+    <div>
+      <ul className="tag-list">
+        <li if={props.article.tagList} each={tag in props.article.tagList} class="tag-default tag-pill tag-outline" >
+          <a is="navigationlink" href={`/tags/${tag}`}>#{tag}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <script>
+    import moment from 'moment';
+    //import Link from '../asyncLink';
+    //import { favorite } from '../../redux/services/articles';
+    //import Favorited from './favorited';
+    import Navigationlink from '../navigationLink.riot';
+
+
+    export default {
+      get publicationDate() {
+        try {
+          return moment(this.props.article.updatedAt).format('ddd MMM DD YYYY');
+        } catch(ex) {
+          console.log(ex)
+        }
+      },
+      components: {
+        Navigationlink,
+      }
+    }
+  </script>
+</article-preview>

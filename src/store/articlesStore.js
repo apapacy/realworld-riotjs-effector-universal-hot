@@ -29,44 +29,32 @@ export default class ArticlesStore {
 
   @observable error = null;
 
-/*export function feed({ req, filter, value, page }) {
-  let limit;
-  let offset;
-  if (!filter || filter === 'feed' || filter === 'tag') {
-    limit = GLOBAL_FEED_COUNT;
-  } else {
-    limit = PERSONAL_FEED_COUNT;
-  }
-  if (!page) {
-    offset = 0;
-  } else {
-    offset = (page - 1) * limit;
-  }
-  const params = { limit, offset };
-  if (filter === 'author' || filter === 'favorited' || filter === 'tag') {
-    params[filter] = decodeURIComponent(value);
-  }
-
-  return (dispatch) => {
-    dispatch({ type: ARTICLES_REQUEST });
-
+  feed({ req, filter, value, page }) {
+    let limit;
+    let offset;
+    if (!filter || filter === 'feed' || filter === 'tag') {
+      limit = GLOBAL_FEED_COUNT;
+    } else {
+      limit = PERSONAL_FEED_COUNT;
+    }
+    if (!page) {
+      offset = 0;
+    } else {
+      offset = (page - 1) * limit;
+    }
+    const params = { limit, offset };
+    if (filter === 'author' || filter === 'favorited' || filter === 'tag') {
+      params[filter] = decodeURIComponent(value);
+    }
     return request(req, {
       method: 'get',
       url: filter === 'feed' ? '/articles/feed' : '/articles',
       params,
     }).then(
-      response => dispatch({
-        type: ARTICLES_SUCCESS,
-        payload: response.data,
-        pageLength: limit,
-        page: page || 1,
-        filter,
-        value,
-      }),
-      error => dispatch({ type: ARTICLES_FAILURE, error: parseError(error) }),
-    );
-  };
-}*/
+      response => this.articles = response.data.articles,
+        error => this.error = parseError(error),
+      );
+  }
 
   getTags({ req }) {
     return request(req, {

@@ -18,7 +18,7 @@
               </li>
             </ul>
           </div>
-          <div is="articlepreview"  />
+          <div if={articles} each={article in articles} is="articlepreview" article={article} />
           <div is="pagination"  />
         </div>
         <div class="col-md-3">
@@ -43,7 +43,7 @@
   <script>
     //import { me } from '../../redux/services/user';
     //import { feed, tags } from '../../redux/services/articles';
-    //import Articlepreview from '../components/articlePreview.riot';
+    import Articlepreview from '../components/articlePreview.riot';
     //import Navigationitem from '../components/navigationItem.riot';
     //import Pagination from '../components/pagination.riot';
     import Navigationlink from '../navigationLink.riot';
@@ -69,18 +69,14 @@
         }
       },
       components: {
-        //Articlepreview,
+        Articlepreview,
         //Navigationitem,
         //Pagination,
         Navigationlink,
       },
-      async onMounted() {
-        console.log('+++++++++++++++++++++++', this.articlesStore)
-        await this.articlesStore.getTags({});
-        console.log('-----------------------')
-      }
-      async init(/*{ req, dispatch, user, match }*/) {
-        // await this.articlesStore.tag();
+      async init(route) {
+        await route.store.articlesStore.getTags({});
+        await route.store.articlesStore.feed({});
         /*const page = Number(match.params.page) || 1;
         let filter;
         let value;

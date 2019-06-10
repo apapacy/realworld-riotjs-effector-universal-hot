@@ -18,7 +18,7 @@ const render = async (location) => {
     }
     console.log('component', component)
     if (component.default.exports && component.default.exports.init) {
-      // await component.default.exports.init();
+      await component.default.exports.init({...route, store: root.state.store});
     }
     root.update(route)
 };
