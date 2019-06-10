@@ -25,7 +25,10 @@
           <div class="sidebar">
             <p>Popular Tags</p>
             <div class="tag-list">
-              <a if={tags} each={tag in tags} is="navigationlink"
+              <a if={tags}
+                each={tag in tags}
+                is="navigationlink"
+                href={`/tags/${tag}`}
                 class="tag-pill tag-default"
                 key={tag}
               >
