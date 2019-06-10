@@ -8,8 +8,7 @@
     "@babel/preset-react"
   ],
   "plugins": [
-    "syntax-dynamic-import",
-    "babel-plugin-dynamic-import-node",
+    "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-transform-modules-commonjs",
     ["@babel/plugin-proposal-decorators", { "legacy": true }],
     ["@babel/plugin-proposal-class-properties", { "loose": true }]

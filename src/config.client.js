@@ -54,7 +54,7 @@ module.exports = {
             regenerator: true,
             useESModules: false,
           }],
-          'syntax-dynamic-import',
+          '@babel/plugin-syntax-dynamic-import',
           ["@babel/plugin-proposal-decorators", { "legacy": true }],
           ["@babel/plugin-proposal-class-properties", { "loose": true }]
         ] : [
@@ -64,7 +64,7 @@ module.exports = {
             regenerator: true,
             useESModules: false,
           }],
-          'syntax-dynamic-import',
+          '@babel/plugin-syntax-dynamic-import',
           ["@babel/plugin-proposal-decorators", { "legacy": true }],
           ["@babel/plugin-proposal-class-properties", { "loose": true }]
         ]).concat([
