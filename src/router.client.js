@@ -15,10 +15,11 @@ const render = async (location) => {
       riot.register(route.page, component.default || component)
     } catch (ex) {
     }
-    if (component.default.exports && component.default.exports.init) {
-      component.default.exports.init();
-    }
     root.update(route)
+    if (component.default.exports && component.default.exports.init) {
+      await component.default.exports.init();
+    }
+    //root.update(route)
 };
 
 history.listen(render);

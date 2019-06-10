@@ -1,10 +1,12 @@
 import UserStore from './userStore';
+import ArticlesStore from './articlesStore';
 // import OrderLine from "./orderline";
 
 
 // export const orderline = new OrderLine();
 const store = () => ({
   userStore: new UserStore(),
+  articlesStore: new ArticlesStore(),
 });
 
 export default store;

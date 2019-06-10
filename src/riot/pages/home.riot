@@ -1,51 +1,37 @@
-
-class Home extends React.PureComponent {
-
-  async componentDidMount() {
-    if (this.props.history.action === 'POP' && this.props.hydrated) {
-      await Home.getInitialProps(this.props);
-    }
-  }
-
-  render() {
-    const count = this.props.articles.articlesCount;
-    const { pageLength } = this.props.articles;
-    const page = Number(this.props.match.params.page) || 1;
-    return (
 <home-page>
-  <div className="home-page">
-    <div className="banner">
-      <div className="container">
-        <h1 className="logo-font">conduit</h1>
-        <p className="test">A place to share your knowledge.</p>
+  <div class="home-page">
+    <div class="banner">
+      <div class="container">
+        <h1 class="logo-font">conduit</h1>
+        <p class="test">A place to share your knowledge.</p>
       </div>
     </div>
-    <div className="container page">
-      <div className="row">
-        <div className="col-md-9">
-          <div className="feed-toggle">
+    <div class="container page">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="feed-toggle">
             <ul className="nav nav-pills outline-active">
-              <NavItem if={user && user.data} to="/feed">Your Feed</NavItem>
-              <NavItem to="/">Global Feed</NavItem>
-              <NavItem if={this.props.articles.filter === 'tag'} to={`/tag/${this.props.articles.value}`}>
-                #{this.props.articles.value}
-              </NavItem>
+              <li is="navigationitem"  to="/feed">Your Feed</li>
+              <li is="navigationitem" to="/">Global Feed</li>
+              <li is="navigationitem" >
+                #this.props.articles.value
+              </li>
             </ul>
           </div>
-          <ArticlePreview each={article in this.props.articles.articles} {...article} user={this.props.user} key={article.slug} />)
-          <Pagination {...{ count, pageLength, page }} />
+          <div is="articlepreview"  />
+          <div is="pagination"  />
         </div>
-        <div className="col-md-3">
-          <div className="sidebar">
+        <div class="col-md-3">
+          <div class="sidebar">
             <p>Popular Tags</p>
-            <div className="tag-list">
-              <Link each={tags in this.props.articles.tags}
-                to={`/tag/${tag}`}
-                className="tag-pill tag-default"
+            <div class="tag-list">
+              <a is="navigationlink"
+
+                class="tag-pill tag-default"
                 key={tag}
               >
                 #{tag}
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -53,21 +39,40 @@ class Home extends React.PureComponent {
     </div>
   </div>
   <script>
-    import { me } from '../../redux/services/user';
-    import { feed, tags } from '../../redux/services/articles';
-    import Articlepreview from '../components/articlePreview.riot';
-    import Navigationitem from '../components/navigationItem.riot';
-    import Pagination from '../components/pagination.riot';
+    //import { me } from '../../redux/services/user';
+    //import { feed, tags } from '../../redux/services/articles';
+    //import Articlepreview from '../components/articlePreview.riot';
+    //import Navigationitem from '../components/navigationItem.riot';
+    //import Pagination from '../components/pagination.riot';
     import Navigationlink from '../navigationLink.riot';
     export default {
+      get articles() {
+        try {
+          return this.articlesStore.store;
+        } catch (ex) {
+        }
+      },
+      get articlesStore() {
+        console.log(this)
+        try {
+          return this.props.store.articlesStore;
+        } catch (ex) {
+          console.log(ex)
+        }
+      },
       components: {
-        Articlepreview,
-        Navigationitem,
-        Pagination,
+        //Articlepreview,
+        //Navigationitem,
+        //Pagination,
         Navigationlink,
       },
-      async getInitialProps({ req, dispatch, user, match }) {
-        const page = Number(match.params.page) || 1;
+      onBeforeMount() {
+        console.log('home befora')
+        await this.articlesStore.tag();
+      }
+      async init(/*{ req, dispatch, user, match }*/) {
+        // await this.articlesStore.tag();
+        /*const page = Number(match.params.page) || 1;
         let filter;
         let value;
         if (req && !user) {
@@ -86,9 +91,8 @@ class Home extends React.PureComponent {
         }
         promises.push(dispatch(feed({ req, filter, value, page })));
         promises.push(dispatch(tags({ req })));
-        return Promise.all(promises);
+        return Promise.all(promises);*/
       }
     }
-
   </script>
 </home-page>
