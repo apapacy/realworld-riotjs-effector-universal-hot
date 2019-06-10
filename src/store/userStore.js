@@ -11,6 +11,9 @@ export default class UserStore {
 
 @observable store = null
 
+init(store) {
+  this.store = store;
+}
 /*export function signup({ username, email, password }) {
   return (dispatch) => {
     dispatch({ type: SIGNUP_REQUEST });

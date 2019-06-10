@@ -14,12 +14,13 @@ const render = async (location) => {
     try {
       riot.register(route.page, component.default || component)
     } catch (ex) {
+      console.log(ex)
+    }
+    console.log('component', component)
+    if (component.default.exports && component.default.exports.init) {
+      // await component.default.exports.init();
     }
     root.update(route)
-    if (component.default.exports && component.default.exports.init) {
-      await component.default.exports.init();
-    }
-    //root.update(route)
 };
 
 history.listen(render);

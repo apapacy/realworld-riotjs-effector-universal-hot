@@ -12,9 +12,11 @@
       },
       onMounted(props, state) {
         this.unsubscribe = observe(state.store.userStore, 'store', () => this.update())
+        this.unsubscribeArticles = observe(state.store.articlesStore, 'store', () => this.update())
       },
       onBeforeUnmount(props, state) {
         this.unsubscribe();
+        this.unsubscribeArticles();
       }
     }
   </script>

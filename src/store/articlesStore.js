@@ -9,8 +9,25 @@ const PERSONAL_FEED_COUNT = 5;
 
 export default class ArticlesStore {
 
-  @observable store = null
+  @computed get store() {
+    return {
+      articles: this.articles,
+      tags: this.tags,
+      error: this.error,
+    };
+  }
 
+  init(store) {
+    this.articles = store.articles;
+    this.tags = store.tags;
+    this.error = store.error;
+  }
+
+  @observable articles = null;
+
+  @observable tags = null;
+
+  @observable error = null;
 
 /*export function feed({ req, filter, value, page }) {
   let limit;
@@ -51,13 +68,13 @@ export default class ArticlesStore {
   };
 }*/
 
-  tags({ req }) {
+  getTags({ req }) {
     return request(req, {
       method: 'get',
       url: '/tags',
     }).then(
-      response => this.store = { data: response.data },
-      error => this.store = { error: parseError(error) }
+      response => this.tags = response.data.tags,
+      error => this.error = parseError(error)
     );
   }
 

@@ -25,8 +25,7 @@
           <div class="sidebar">
             <p>Popular Tags</p>
             <div class="tag-list">
-              <a is="navigationlink"
-
+              <a if={tags} each={tag in tags} is="navigationlink"
                 class="tag-pill tag-default"
                 key={tag}
               >
@@ -48,7 +47,13 @@
     export default {
       get articles() {
         try {
-          return this.articlesStore.store;
+          return this.articlesStore.store.articles;
+        } catch (ex) {
+        }
+      },
+      get tags() {
+        try {
+          return this.articlesStore.store.tags;
         } catch (ex) {
         }
       },
@@ -66,9 +71,10 @@
         //Pagination,
         Navigationlink,
       },
-      onBeforeMount() {
-        console.log('home befora')
-        await this.articlesStore.tag();
+      async onMounted() {
+        console.log('+++++++++++++++++++++++', this.articlesStore)
+        await this.articlesStore.getTags({});
+        console.log('-----------------------')
       }
       async init(/*{ req, dispatch, user, match }*/) {
         // await this.articlesStore.tag();

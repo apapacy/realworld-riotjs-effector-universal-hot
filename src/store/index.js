@@ -21,6 +21,6 @@ export const getState = (store) => {
 
 export const setState = (store, state) => {
   Object.keys(store).forEach(key => {
-    store[key].store = state[key];
+    store[key].init(state[key]);
   });
 }
