@@ -68,11 +68,9 @@
       },
       async onsubmit(e) {
         e.preventDefault();
-        alert(e.target.name.value)
         const email = e.target.email.value
         const password = e.target.password.value
         await this.userStore.login({ email, password})
-        /////// this.update()
       }
     }
   </script>

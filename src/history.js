@@ -11,7 +11,6 @@ if(!isNode()) {
   history.navigate = function(path, state) {
       const parsedPath = parse(path);
       const location = history.location;
-      console.log(location)
       if (parsedPath.pathname === location.pathname
           && parsedPath.query === location.search
           && parsedPath.hash === location.hash

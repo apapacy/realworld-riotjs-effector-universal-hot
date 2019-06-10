@@ -9,7 +9,6 @@ const transport = axios.create({
 let JWT;
 
 if (typeof window !== 'undefined') {
-  alert(JWT)
   JWT = window.__GWT__;
   delete window.__GWT__;
 }

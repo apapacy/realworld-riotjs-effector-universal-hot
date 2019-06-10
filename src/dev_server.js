@@ -17,9 +17,6 @@ const nodeEnv = process.env.NODE_ENV || 'development';
 
 const serverPath = path.resolve(__dirname, '../build/render.bundle.js');
 let render = require(serverPath).render; // eslint-disable-line import/no-dynamic-require
-console.log('================================')
-console.log(render)
-
 app.set('env', nodeEnv);
 app.use(cookieParser('change secret value'));
 app.use(cookieEncrypter('change secret value.............'));

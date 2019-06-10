@@ -87,15 +87,12 @@
       },
       async onsubmit(e) {
         e.preventDefault();
-        alert(1)
         const bio = e.target.bio.value
         const email = e.target.email.value
         const image = e.target.image.value
         const username = e.target.username.value
         const password = e.target.password.value
-        console.log(this.userStore)
         await this.userStore.save({ bio, email, image, username, password })
-        alert(2)
       }
     }
   </script>

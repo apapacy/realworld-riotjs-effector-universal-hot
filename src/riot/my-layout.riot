@@ -11,14 +11,10 @@
     import {orderline} from '../store';
 
     import Mylink from './my-link.riot'
-    console.log('++++55555555555555', Mylink)
 
     export default {
       components: {
         'my-link': Mylink,
-      //  page1,
-      //  page2,
-      //  page3,
       },
       onBeforeMount(props, state) {
         Object.assign(state, props);

@@ -7,13 +7,7 @@
         Layout,
       },
       onBeforeMount(props, state) {
-        console.log('before mount')
-        console.log('state', state)
-        console.log('props', props)
         Object.assign(state, props);
-        console.log('******************', this)
-        const self = this;
-
       }
     }
   </script>

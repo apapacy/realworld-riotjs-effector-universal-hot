@@ -4,8 +4,6 @@ const path = require('path');
 const nodeEnv = process.env.NODE_ENV || 'development';
 const isDevelopment = nodeEnv === 'development';
 
-console.log('++++++++++++++++', isDevelopment)
-
 const entry = {};
 
 entry['main'] = [

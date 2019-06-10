@@ -76,7 +76,7 @@ export default class UserStore {
       data: { user },
     }).then(
       response => this.store = { data: response.data.user },
-      error => console.log(error),
+      error => this.store = { ...this.store, error: parseError(error) },
     );
   }
 

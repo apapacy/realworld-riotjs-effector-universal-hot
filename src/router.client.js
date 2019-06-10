@@ -4,8 +4,6 @@ import deepEqual from 'deep-equal';
 import {intercept, observe} from 'mobx';
 import router from './router';
 import * as riot from 'riot'
-console.log('77777777777777777777',riot)
-// import register from './register'
 
 let root;
 let currentPage
@@ -16,7 +14,6 @@ const render = async (location) => {
     try {
       riot.register(route.page, component.default || component)
     } catch (ex) {
-      //console.log(ex)
     }
     if (component.default.exports && component.default.exports.init) {
       component.default.exports.init();
@@ -32,19 +29,13 @@ export async function getInitialComponentName() {
   try {
     riot.register(route.page, component.default || component)
   } catch (ex) {
-    //console.log(ex)
   }
   return route;
 }
 
 export function setRootComponent(component) {
   root = component;
-  //root.props.store.userStore.store.watch(function(){alert('updated')})
   observe(root.props.store.userStore, 'store', function() {
-    alert('observe')
     root.update();
-    alert('ok')
   }, true)
-  console.log('wwwwwwwwwwwwwwwwwwwwwwww', component)
 }
-// render(history.location);

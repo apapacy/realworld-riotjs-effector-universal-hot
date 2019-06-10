@@ -13,7 +13,6 @@ export const render = async function(req, res, next) {
   try {
     await store.userStore.me({ req });
   } catch(ex) {
-    console.log(ex)
   }
   const route = await router.resolve(req.originalUrl);
   if (isDevelopment || !pages[route.page] ) {
@@ -22,12 +21,10 @@ export const render = async function(req, res, next) {
     try {
       riot.unregister(route.page);
     } catch (ex) {
-      console.log(ex);
     }
     try {
       riot.unregister('layout');
     } catch (ex) {
-      console.log(ex);
     }
     riot.register(route.page, pages[route.page]);
     riot.register('layout', pages['layout']);
