@@ -99,8 +99,10 @@
       },
       async init(route) {
         console.log('route', route)
-        await route.store.articlesStore.getTags({});
-        await route.store.articlesStore.feed({});
+        await Promise.all([
+          route.store.articlesStore.getTags({}),
+          route.store.articlesStore.feed({})
+        ]);
         /*const page = Number(match.params.page) || 1;
         let filter;
         let value;
