@@ -1,6 +1,7 @@
 <app id={'app'}>
     <div is="layout" {...Object.assign({}, state, {id: 'layout'})}>no content</div>
   <script>
+    import {observe} from 'mobx';
     import Layout from './components/layout.riot';
     export default {
       components: {
@@ -8,6 +9,12 @@
       },
       onBeforeMount(props, state) {
         Object.assign(state, props);
+      },
+      onMounted(props, state) {
+        this.unsubscribe = observe(state.store.userStore, 'store', () => this.update())
+      },
+      onBeforeUnmount(props, state) {
+        this.unsubscribe();
       }
     }
   </script>

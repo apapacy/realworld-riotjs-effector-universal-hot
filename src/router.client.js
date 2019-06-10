@@ -35,7 +35,4 @@ export async function getInitialComponentName() {
 
 export function setRootComponent(component) {
   root = component;
-  observe(root.props.store.userStore, 'store', function() {
-    root.update();
-  }, true)
 }
