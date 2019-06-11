@@ -9,13 +9,13 @@
       <Favorited
       />
     </div>
-    <a to={`/{props.article.slug}`} class="preview-link">
+    <a is="navigationlink" href={`/${props.article.slug}`} class="preview-link">
       <h1>{props.article.title}</h1>
       <p>{props.article.description}</p>
       <span>Read more...</span>
     </a>
     <div>
-      <ul className="tag-list">
+      <ul class="tag-list">
         <li if={props.article.tagList} each={tag in props.article.tagList} class="tag-default tag-pill tag-outline" >
           <a is="navigationlink" href={`/tags/${tag}`}>#{tag}</a>
         </li>
