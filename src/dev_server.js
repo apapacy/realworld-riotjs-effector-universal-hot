@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const cookieEncrypter = require('cookie-encrypter');
 const bodyParser = require('body-parser');
@@ -18,6 +19,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
 const serverPath = path.resolve(__dirname, '../build/render.bundle.js');
 let render = require(serverPath).render; // eslint-disable-line import/no-dynamic-require
 app.set('env', nodeEnv);
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 app.use(cookieParser('change secret value'));
 app.use(cookieEncrypter('change secret value.............'));
 app.use(bodyParser.json());

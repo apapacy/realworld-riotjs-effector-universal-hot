@@ -29,6 +29,9 @@ export const render = async function(req, res, next) {
     riot.register(route.page, pages[route.page]);
     riot.register('layout', pages['layout']);
   }
+  if (pages[route.page] && pages[route.page].exports && pages[route.page].exports.init) {
+    await pages[route.page].exports.init({...route, store, req});
+  }
   const html = ssr('section', App, {...route, store })
   res.writeHead(200);
   res.write(`
