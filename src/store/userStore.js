@@ -9,11 +9,22 @@ import { observable, computed } from "mobx";
 
 export default class UserStore {
 
-@observable store = null
-
-init(store) {
-  this.store = store;
+get store() {
+  return this.userStore.getState();
 }
+
+constructor() {
+  this.success = createEvent();
+  this.error = createEvent();
+  this.updateError = createEvent();
+  this.init = createEvent();
+  this.userStore = createStore(null)
+    .on(this.init, (state, store) => ({ ...store} ))
+    .on(this.success, (state, data) => ({ data }))
+    .on(this.error, (state, error) => ({ error }))
+    .on(this.updateError, (state, error) => ({...state, error }));
+}
+
 /*export function signup({ username, email, password }) {
   return (dispatch) => {
     dispatch({ type: SIGNUP_REQUEST });
@@ -46,12 +57,12 @@ init(store) {
       data: { user: { email, password } },
     }).then(
       (response) => {
-        this.store = { data: response.data.user }
+        this.success(response.data.user);
         setJWT(response.data.user.token);
         axios.post('/token', { token: response.data.user.token });
       },
       (error) => {
-        this.store = { error: parseError(error) }
+        this.error(parseError(error));
         setJWT(undefined);
         axios.post('/token', { token: '' });
       },
@@ -63,8 +74,8 @@ init(store) {
       method: 'get',
       url: '/user',
     }).then(
-      response => this.store = { data: response.data.user },
-      error => this.store = { error: parseError(error) },
+      response => this.success(response.data.user),
+      error => this.error(parseError(error))
     );
   }
 
@@ -78,8 +89,8 @@ init(store) {
       url: '/user',
       data: { user },
     }).then(
-      response => this.store = { data: response.data.user },
-      error => this.store = { ...this.store, error: parseError(error) },
+      response => this.success(response.data.user),
+      error => this.updateError(parseError(error)),
     );
   }
 

@@ -9,25 +9,21 @@ const PERSONAL_FEED_COUNT = 5;
 
 export default class ArticlesStore {
 
-  @computed get store() {
-    return {
-      articles: this.articles,
-      tags: this.tags,
-      error: this.error,
-    };
+  get store() {
+    return this.articlesStore.getState();
   }
 
-  init(store) {
-    this.articles = store.articles;
-    this.tags = store.tags;
-    this.error = store.error;
+  constructor() {
+    this.successArticles = createEvent();
+    this.successTags = createEvent();
+    this.updateError = createEvent();
+    this.init = createEvent();
+    this.articlesStore = createStore(null)
+      .on(this.init, (state, store) => ({ ...store} ))
+      .on(this.successArticles, (state, articles) => ({ ...state, articles }))
+      .on(this.successTags, (state, tags) => ({ ...state, tags }))
+      .on(this.updateError, (state, error) => ({...state, error }));
   }
-
-  @observable articles = null;
-
-  @observable tags = null;
-
-  @observable error = null;
 
   feed({ req, filter, value, page }) {
     let limit;
@@ -51,9 +47,9 @@ export default class ArticlesStore {
       url: filter === 'feed' ? '/articles/feed' : '/articles',
       params,
     }).then(
-      response => this.articles = response.data.articles,
-        error => this.error = parseError(error),
-      );
+      response => this.successArticles(response.data.articles),
+      error => this.updateError(parseError(error)),
+    );
   }
 
   getTags({ req }) {
@@ -61,8 +57,8 @@ export default class ArticlesStore {
       method: 'get',
       url: '/tags',
     }).then(
-      response => this.tags = response.data.tags,
-      error => this.error = parseError(error)
+      response => this.successTags(response.data.tags),
+      error => this.updateError(parseError(error))
     );
   }
 
