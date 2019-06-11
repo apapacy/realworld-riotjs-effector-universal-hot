@@ -61,9 +61,8 @@
         Navigationlink,
       },
       connect(props, state) {
-        state.articlesStore = props.store.articlesStore
-        state.articles = props.store.articlesStore.articles
-        state.tags = props.store.articlesStore.tags
+        state.articles = props.store.articlesStore.store.articles
+        state.tags = props.store.articlesStore.store.tags
         state.currentTag = props.req.params.tag
       }
       onBeforeMount(props, state) {
