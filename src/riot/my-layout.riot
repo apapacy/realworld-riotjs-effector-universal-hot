@@ -18,7 +18,6 @@
       },
       onBeforeMount(props, state) {
         Object.assign(state, props);
-        console.log('state', state)
         this.unregister = observe(orderline, () => this.update())
       },
       onUnmounted(props, state) {

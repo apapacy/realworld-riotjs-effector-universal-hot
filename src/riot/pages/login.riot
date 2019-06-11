@@ -3,15 +3,15 @@
     <div class="row">
       <div class="col-md-6 offset-md-3 col-xs-12">
         <h1 class="text-xs-center">
-            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' } {user && user.data && user.data.email || 123 }
+            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' } { state.user && state.user.data && state.user.data.email }
         </h1>
         <p class="text-xs-center">
           <a if={props.action === 'sign-up'} is="navigationlink" href="/sign-in">Have an account?</a>
           <a if={props.action === 'sign-in'} is="navigationlink" href="/sign-up">Need an account?</a>
         </p>
-        <ul is="errorslist" if={user && user.error} error={user && user.error} />
+        <ul is="errorslist" if={ state.user && state.user.error } error={ state.user.error } />
         <form onsubmit={this.onsubmit}>
-          <fieldset  if={props.action === 'sign-up'} class="form-group">
+          <fieldset if={ props.action === 'sign-up'} class="form-group">
             <input
               class="form-control form-control-lg"
               type="text"
@@ -50,27 +50,26 @@
     import Navigationlink from '../navigationLink.riot';
     import Errorslist from '../components/errorsList.riot';
     export default {
-      get user() {
-        try {
-          return this.userStore.store;
-        } catch (ex) {
-        }
-      },
-      get userStore() {
-        try {
-          return this.props.store.userStore;
-        } catch (ex) {
-        }
-      },
       components: {
         Navigationlink,
         Errorslist
+      },
+      connect(props, state) {
+        state.userStore = props.store.userStore;
+        state.user = props.store.userStore.store;
+      },
+      onBeforeMount(props, state) {
+        this.connect(props, state);
+      },
+      onBeforeUpdate(props, state) {
+        this.connect(props, state);
       },
       async onsubmit(e) {
         e.preventDefault();
         const email = e.target.email.value
         const password = e.target.password.value
-        await this.userStore.login({ email, password})
+        await this.state.userStore.login({ email, password})
+        this.update();
       }
     }
   </script>

@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export function parseError(error) {
   let errors;
   let message;
@@ -12,7 +11,5 @@ export function parseError(error) {
   if (error) {
     ({ message } = error);
   }
-  console.log({ errors, message })
   return { errors, message };
 }
-/* eslint-enable */

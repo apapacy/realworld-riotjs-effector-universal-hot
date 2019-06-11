@@ -9,17 +9,11 @@
       },
       onBeforeMount(props, state) {
         const self = this
-        console.log('+++++++++++++++++++++++++++++++++++++++++++++++')
-
         Object.assign(state, props);
         this.unsubscribe = observe(state.store.userStore, 'store', function(){self.update()})
         this.unsubscribeArticles = observe(state.store.articlesStore, 'store', function(){self.update()})
       },
-      onMounted(props, state) {
-        console.log('======================================================')
-      },
       onUnmounted(props, state) {
-      console.log('----------------------------------------------------------')
         this.unsubscribe();
         this.unsubscribeArticles();
       }
