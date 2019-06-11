@@ -13,26 +13,26 @@
             <ul class="nav nav-pills outline-active">
               <li is="navigationitem" to="/feed">Your Feed</li>
               <li is="navigationitem" to="/">Global Feed</li>
-              <li if={this.currentTag} class={ 'nav-item'  + ('/' + props.action === props.to ? ' active' : '') }>
+              <li if={state.currentTag} class={ 'nav-item'  + ('/' + props.action === props.to ? ' active' : '') }>
                 <a
                   is='navigationlink'
                   class='nav-link'
                   href={ props.to }
                 >
-                  #{this.currentTag}
+                  #{state.currentTag}
                 </a>
               </li>
             </ul>
           </div>
-          <div if={articles} each={article in articles} is="articlepreview" article={article} />
+          <div if={state.articles} each={article in state.articles} is="articlepreview" article={article} />
           <div is="pagination"  />
         </div>
         <div class="col-md-3">
           <div class="sidebar">
             <p>Popular Tags</p>
             <div class="tag-list">
-              <a if={tags}
-                each={tag in tags}
+              <a if={state.tags}
+                each={tag in state.tags}
                 is="navigationlink"
                 href={`/tags/${tag}`}
                 class="tag-pill tag-default"
@@ -54,48 +54,23 @@
     //import Pagination from '../components/pagination.riot';
     import Navigationlink from '../navigationLink.riot';
     export default {
-      get articles() {
-        try {
-          return this.articlesStore.store.articles;
-        } catch (ex) {
-        }
-      },
-      get tags() {
-        try {
-          return this.articlesStore.store.tags;
-        } catch (ex) {
-        }
-      },
-      get articlesStore() {
-        try {
-          return this.props.store.articlesStore;
-        } catch (ex) {
-        }
-      },
-      get currentTag() {
-      console.log('currentTag', this)
-        try {
-          return this.state.req.params.tag
-        } catch (ex) {
-        }
-        try {
-          return this.props.req.params.tag
-        } catch (ex) {
-        }
-      }
       components: {
         Articlepreview,
         Navigationitem,
         //Pagination,
         Navigationlink,
       },
-      onMounted(state, props) {
-        console.log('mounted with state', state)
-        console.log('mounted with props', props)
+      onBeforeMount(props, state) {
+        state.articlesStore = props.store.articlesStore
+        state.articles = props.store.articlesStore.articles
+        state.tags = props.store.articlesStore.tags
+        state.currentTag = props.req.params.tag
       },
-      onUpdated(state, props) {
-        console.log('updated with state', state)
-        console.log('updated with props', props)
+      onBeforeUpdate(props, state) {
+        state.articlesStore = props.store.articlesStore
+        state.articles = props.store.articlesStore.articles
+        state.tags = props.store.articlesStore.tags
+        state.currentTag = props.req.params.tag
       },
       async init(route) {
         console.log('route', route)
