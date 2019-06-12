@@ -1,7 +1,7 @@
 <comment-tag class={"card"}>
   <div class="card-block">
     <p class="card-text">
-      { console.log(props) || props.comment.body}
+      { props.comment.body }
     </p>
   </div>
   <div class="card-footer">
@@ -9,8 +9,8 @@
       <img alt="" src={props.comment.author.image} class="comment-author-img" />
     </a>
     &nbsp;
-    <a is="navigationlink" href={`/author/${props.comment.author.username}`} class="comment-author">{comment.author.username}</a>
-    <span class="date-posted">moment(props.comment.updatedAt).format('ddd MMM DD YYYY HH:mm')</span>
+    <a is="navigationlink" href={`/author/${props.comment.author.username}`} class="comment-author">{props.comment.author.username}</a>
+    <span class="date-posted">{ commentDate }</span>
       <span class="mod-options">
         <i class="ion-trash-a" />
       </span>
@@ -20,6 +20,12 @@
     import Navigationlink from '../navigationLink.riot';
 
     export default {
+      get commentDate() {
+        try {
+          return moment(this.props.comment.updatedAt).format('ddd MMM DD YYYY HH:mm')
+          } catch(ex) {
+          }
+      },
       components: {
         Navigationlink,
       }
