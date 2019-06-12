@@ -6,5 +6,6 @@ export default new UniversalRouter([
   { path: '/', action: (req) => ({ page: 'home', data: { req, action: 'home' } }) },
   { path: '/feed', action: (req) => ({ page: 'home', data: { req, action: 'feed' } }) },
   { path: '/tags/:tag', action: (req) => ({ page: 'home', data: { req, action: 'tag' } }) },
+  { path: '/article/:article', action: (req) => ({ page: 'article', data: { req, action: 'article' } }) },
   { path: '(.*)', action: () => ({ page: 'page3' }) },
 ])

@@ -1,0 +1,167 @@
+
+<article-div class="article-page">
+  <div class="banner">
+    <div class="container">
+      <h1>this.props.article.article.title</h1>
+      <div class="article-meta">
+        <a is="navigationlink" to={`/author/{this.props.article.article.author.username}`}>
+          <img alt="" src="this.props.article.article.author.image" />
+        </a>
+        <div class="info">
+          <a is="navigationlink" to={`/author/{this.props.article.article.author.username}`} className="author">{this.props.article.article.author.username}</a>
+          <span class="date">moment(this.props.article.article.updatedAt).format('ddd MMM DD YYYY')</span>
+        </div>
+        <a
+          is="navigationlink"
+          className="btn btn-sm btn-outline-secondary"
+          to={`/edit/${this.props.article.article.slug}`}
+          key="edit"
+        >
+          <i className="ion-edit" />
+          &nbsp;
+          Edit <span className="counter" />
+        </a>,
+        <span key="spase">&nbsp;&nbsp;</span>,
+        <a
+          class="btn btn-sm btn-outline-danger"
+          onnlick={this.deleteArticle}
+          role="button"
+          tabIndex={-1}
+          key="delete"
+        >
+          <i class="ion-trash-a" />
+          &nbsp;
+          Delete <span className="counter" />
+        </a>,
+        <following
+          onClick={this.follow}
+        />
+        &nbsp;&nbsp;
+        <favorited
+          onclick={this.favorite}
+        />
+      </div>
+    </div>
+  </div>
+  <div class="container page">
+    <div class="row article-content">
+      <div class="col-md-12">
+        <div>this.props.article.article.body</div>
+      </div>
+    </div>
+    <ul class="tag-list">
+      <li class="tag-default tag-pill tag-outline">
+        <a to={`/tag/${tag}`}>#{tag}</a>
+      </li>
+    </ul>
+    <hr />
+    <div class="article-actions">
+      <div class="article-meta">
+        <a to={`/author/{this.props.article.article.author.username}`}>
+          <img alt="" src={this.props.article.article.author.image} />
+        </a>
+        <div class="info">
+          <a to={`/author/${this.props.article.article.author.username}`} className="author">
+            {this.props.article.article.author.username}
+          </a>
+          <span class="date">moment(this.props.article.article.updatedAt).format('ddd MMM DD YYYY')</span>
+        </div>
+        <following
+          onclick={this.follow}
+        />
+        &nbsp;
+        <favorited
+          onClick={this.favorite}
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-md-8 offset-md-2">
+        <form class="card comment-form" onSubmit={this.addComment}>
+          <div class="card-block">
+            <textarea
+              class="form-control"
+              placeholder="Write a comment..."
+              rows="3"
+            />
+          </div>
+          <div class="card-footer">
+            <img alt=""  class="comment-author-img" />
+            &nbsp;
+            <a to={`/author/${this.props.user.username}`}>{this.props.user.username}</a>
+            <button className="btn btn-sm btn-primary">
+             Post Comment
+            </button>
+          </div>
+        </form>
+        <comments
+        />
+      </div>
+    </div>
+  </div>
+  <script>
+    import Navigationlink from '../navigationLink.riot';
+    //import Following from '../components/following';
+    //import Favorited from '../components/favorited';
+    //import Comments from '../components/comments';
+
+    const KEY_DEL = 46;
+
+    export default {
+      async getInitialProps({ req, dispatch, match, user }) {
+        const promises = [
+          dispatch(article({ req, slug: match.params[0] })),
+          dispatch(comments({ req, slug: match.params[0] })),
+        ];
+        if (req && !user) {
+          promises.unshift(dispatch(me({ req })));
+        }
+        await Promise.all(promises);
+      }
+      async deleteArticle(event) {
+        event.preventDefault();
+        if (this.props.article.transition) {
+          return;
+        }
+        await this.props.dispatch(deleteArticle({ slug: this.props.article.article.slug }));
+        if (!this.props.article.error) {
+          this.props.history.replace(`/author/${this.props.user.username}`);
+        }
+      },
+      addComment(event) {
+        event.preventDefault();
+        const body = this.commentInput.value;
+        if (!body || body === this.commentBody) {
+          return;
+        }
+        this.commentBody = body;
+        this.props.dispatch(addComment({
+          slug: this.props.article.article.slug,
+          body,
+        }));
+      },
+      async deleteComment(id) {
+        this.props.dispatch(deleteComment({
+          id,
+          slug: this.props.article.article.slug,
+        }));
+      },
+      async follow(event) {
+        event.persist();
+        await this.props.dispatch(follow({
+          author: this.props.article.article.author.username,
+          method: this.props.article.article.author.following ? 'delete' : 'post',
+        }));
+        event.target.blur();
+      },
+      async favorite(event) {
+        event.persist();
+        await this.props.dispatch(favorite({
+          slug: this.props.article.article.slug,
+          method: this.props.article.article.favorited ? 'delete' : 'post',
+        }));
+        event.target.blur();
+      }
+    }
+  </script>
+</article-div>
