@@ -1,21 +1,22 @@
-
-<article-div class="article-page">
+<article-div class={"article-page"}>
   <div class="banner">
     <div class="container">
       <h1>{state.article.title}</h1>
       <div class="article-meta">
-        <a is="navigationlink" href={`/author/${state.article.author.username}`}>
-          <img alt="" src="{state.article.author.image}" />
+        <a is="navigationlink" href={`/author/${ state.article.author.username }`}>
+          <img alt="" src={ state.article.author.image } />
         </a>
         <div class="info">
-          <a is="navigationlink" href={`/author/${state.article.author.username}`} className="author">{state.article.author.username}</a>
-          <span class="date">{this.publicationDate}</span>
+          <a is="navigationlink" href={`/author/${ state.article.author.username }`} class="author">
+            { state.article.author.username }
+          </a>
+          <span class="date">{ this.publicationDate }</span>
         </div>
         <a
           is="navigationlink"
-          className="btn btn-sm btn-outline-secondary"
-          to={`/edit/this.props.article.article.slug`}
-          key="edit"
+          class="btn btn-sm btn-outline-secondary"
+          to={`/edit/${state.article.slug}`}
+          action="edit"
         >
           <i className="ion-edit" />
           &nbsp;
@@ -23,10 +24,11 @@
         </a>,
         <span key="spase">&nbsp;&nbsp;</span>,
         <a
+          is="navigationlink"
           class="btn btn-sm btn-outline-danger"
           role="button"
           tabIndex={-1}
-          key="delete"
+          action="delete"
         >
           <i class="ion-trash-a" />
           &nbsp;
@@ -43,7 +45,7 @@
   <div class="container page">
     <div class="row article-content">
       <div class="col-md-12">
-        <div>this.props.article.article.body</div>
+        <div is="raw" html={ state.article.html } />
       </div>
     </div>
     <ul class="tag-list">
@@ -54,14 +56,14 @@
     <hr />
     <div class="article-actions">
       <div class="article-meta">
-        <a to={`/author/${state.article.author.username}`}>
-          <img alt="" />
+        <a to={`/author/${ state.article.author.username }`}>
+          <img alt="" src={ state.article.author.image } />
         </a>
         <div class="info">
-          <a to={`/author/${state.article.author.username}`} class="author">
-            {state.article.author.username}
+          <a is="navigationlink" href={`/author/${ state.article.author.username }`} class="author">
+            { state.article.author.username }
           </a>
-          <span class="date">{this.publicationDate}}</span>
+          <span class="date">{ this.publicationDate }</span>
         </div>
         <following
         />
@@ -81,10 +83,10 @@
             />
           </div>
           <div class="card-footer">
-            <img alt=""  class="comment-author-img" />
+            <img alt="" src={ state.user.data.image } class="comment-author-img" />
             &nbsp;
-            <a to={`/author/this.props.user.username`}>this.props.user.username</a>
-            <button className="btn btn-sm btn-primary">
+            <a is="navigationlink" href={`/author/${ state.user.data.username }`}>{ state.user.data.username }</a>
+            <button class="btn btn-sm btn-primary">
              Post Comment
             </button>
           </div>
@@ -96,7 +98,9 @@
   </div>
   <script>
     import moment from 'moment';
+    import marked from 'marked';
     import Navigationlink from '../navigationLink.riot';
+    import Raw from '../components/raw.riot';
     //import Following from '../components/following';
     //import Favorited from '../components/favorited';
     //import Comments from '../components/comments';
@@ -112,10 +116,12 @@
       },
       components: {
         Navigationlink,
-      }
-
+        Raw,
+      },
       connect(props, state) {
         state.article = props.store.articleStore.store.article
+        state.article.html = marked(state.article.body);
+        state.user = props.store.userStore.store
       }
       onBeforeMount(props, state) {
         this.connect(props, state);
