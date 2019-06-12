@@ -1,5 +1,6 @@
 import UserStore from './userStore';
 import ArticlesStore from './articlesStore';
+import ArticleStore from './articleStore';
 // import OrderLine from "./orderline";
 
 
@@ -7,6 +8,7 @@ import ArticlesStore from './articlesStore';
 const store = () => ({
   userStore: new UserStore(),
   articlesStore: new ArticlesStore(),
+  articleStore: new ArticleStore(),
 });
 
 export default store;

@@ -2,19 +2,19 @@
 <article-div class="article-page">
   <div class="banner">
     <div class="container">
-      <h1>this.props.article.article.title</h1>
+      <h1>{state.article.title}</h1>
       <div class="article-meta">
-        <a is="navigationlink" to={`/author/{this.props.article.article.author.username}`}>
-          <img alt="" src="this.props.article.article.author.image" />
+        <a is="navigationlink" href={`/author/${state.article.author.username}`}>
+          <img alt="" src="{state.article.author.image}" />
         </a>
         <div class="info">
-          <a is="navigationlink" to={`/author/{this.props.article.article.author.username}`} className="author">{this.props.article.article.author.username}</a>
-          <span class="date">moment(this.props.article.article.updatedAt).format('ddd MMM DD YYYY')</span>
+          <a is="navigationlink" href={`/author/${state.article.author.username}`} className="author">{state.article.author.username}</a>
+          <span class="date">{this.publicationDate}</span>
         </div>
         <a
           is="navigationlink"
           className="btn btn-sm btn-outline-secondary"
-          to={`/edit/${this.props.article.article.slug}`}
+          to={`/edit/this.props.article.article.slug`}
           key="edit"
         >
           <i className="ion-edit" />
@@ -24,7 +24,6 @@
         <span key="spase">&nbsp;&nbsp;</span>,
         <a
           class="btn btn-sm btn-outline-danger"
-          onnlick={this.deleteArticle}
           role="button"
           tabIndex={-1}
           key="delete"
@@ -34,11 +33,9 @@
           Delete <span className="counter" />
         </a>,
         <following
-          onClick={this.follow}
         />
         &nbsp;&nbsp;
         <favorited
-          onclick={this.favorite}
         />
       </div>
     </div>
@@ -51,33 +48,31 @@
     </div>
     <ul class="tag-list">
       <li class="tag-default tag-pill tag-outline">
-        <a to={`/tag/${tag}`}>#{tag}</a>
+        <a to={`/tag/tag`}>#{tag}</a>
       </li>
     </ul>
     <hr />
     <div class="article-actions">
       <div class="article-meta">
-        <a to={`/author/{this.props.article.article.author.username}`}>
-          <img alt="" src={this.props.article.article.author.image} />
+        <a to={`/author/${state.article.author.username}`}>
+          <img alt="" />
         </a>
         <div class="info">
-          <a to={`/author/${this.props.article.article.author.username}`} className="author">
-            {this.props.article.article.author.username}
+          <a to={`/author/${state.article.author.username}`} class="author">
+            {state.article.author.username}
           </a>
-          <span class="date">moment(this.props.article.article.updatedAt).format('ddd MMM DD YYYY')</span>
+          <span class="date">{this.publicationDate}}</span>
         </div>
         <following
-          onclick={this.follow}
         />
         &nbsp;
         <favorited
-          onClick={this.favorite}
         />
       </div>
     </div>
     <div class="row">
       <div class="col-xs-12 col-md-8 offset-md-2">
-        <form class="card comment-form" onSubmit={this.addComment}>
+        <form class="card comment-form">
           <div class="card-block">
             <textarea
               class="form-control"
@@ -88,7 +83,7 @@
           <div class="card-footer">
             <img alt=""  class="comment-author-img" />
             &nbsp;
-            <a to={`/author/${this.props.user.username}`}>{this.props.user.username}</a>
+            <a to={`/author/this.props.user.username`}>this.props.user.username</a>
             <button className="btn btn-sm btn-primary">
              Post Comment
             </button>
@@ -100,6 +95,7 @@
     </div>
   </div>
   <script>
+    import moment from 'moment';
     import Navigationlink from '../navigationLink.riot';
     //import Following from '../components/following';
     //import Favorited from '../components/favorited';
@@ -108,7 +104,32 @@
     const KEY_DEL = 46;
 
     export default {
-      async getInitialProps({ req, dispatch, match, user }) {
+      get publicationDate() {
+        try {
+          return moment(this.state.article.updatedAt).format('ddd MMM DD YYYY');
+        } catch(ex) {
+        }
+      },
+      components: {
+        Navigationlink,
+      }
+
+      connect(props, state) {
+        state.article = props.store.articleStore.store.article
+      }
+      onBeforeMount(props, state) {
+        this.connect(props, state);
+      },
+      onBeforeUpdate(props, state) {
+        this.connect(props, state);
+      },
+      async init(route) {
+        await route.store.articleStore.article({ slug: route.data.req.params.article });
+      },
+
+
+
+      /*async getInitialProps({ req, dispatch, match, user }) {
         const promises = [
           dispatch(article({ req, slug: match.params[0] })),
           dispatch(comments({ req, slug: match.params[0] })),
@@ -161,7 +182,7 @@
           method: this.props.article.article.favorited ? 'delete' : 'post',
         }));
         event.target.blur();
-      }
+      }*/
     }
   </script>
 </article-div>

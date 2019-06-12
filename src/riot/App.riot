@@ -11,6 +11,7 @@
         Object.assign(state, props);
         this.unsubscribeUser = state.store.userStore.userStore.watch(() => this.mounted && this.update());
         this.unsubscribeArticles = state.store.articlesStore.articlesStore.watch(() => this.mounted && this.update());
+        this.unsubscribeArticle = state.store.articleStore.articleStore.watch(() => this.mounted && this.update());
       },
       onMounted() {
         this.mounted = true
@@ -19,6 +20,7 @@
       onUnmounted(props, state) {
         this.unsubscribeUser();
         this.unsubscribeArticles();
+        this.unsubscribeArticle();
       }
     }
   </script>

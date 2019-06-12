@@ -6,6 +6,7 @@ import {getInitialComponentName, setRootComponent} from './router.client';
 const store = getStore();
 setState(store, window.__PRELOADED_STATE__)
 delete window.__PRELOADED_STATE__;
+alert(1)
 const hydrateWithMyComponent = hydrate(App)
 getInitialComponentName().then(route =>
   setRootComponent(hydrateWithMyComponent(
