@@ -74,7 +74,7 @@
     </div>
     <div class="row">
       <div class="col-xs-12 col-md-8 offset-md-2">
-        <form class="card comment-form">
+        <form if={ state.user && state.user.data } class="card comment-form">
           <div class="card-block">
             <textarea
               class="form-control"
@@ -91,8 +91,7 @@
             </button>
           </div>
         </form>
-        <comments
-        />
+        <div is="comments" if={ state.comments } each={ comment in  state.comments } comment={ comment }/>
       </div>
     </div>
   </div>
@@ -103,7 +102,7 @@
     import Raw from '../components/raw.riot';
     //import Following from '../components/following';
     //import Favorited from '../components/favorited';
-    //import Comments from '../components/comments';
+    import Comments from '../components/comments.riot';
 
     const KEY_DEL = 46;
 
@@ -117,10 +116,12 @@
       components: {
         Navigationlink,
         Raw,
+        Comments,
       },
       connect(props, state) {
         state.article = props.store.articleStore.store.article
-        state.article.html = marked(state.article.body);
+        state.comments = props.store.articleStore.store.comments
+        state.article.html = marked(state.article && state.article.body);
         state.user = props.store.userStore.store
       }
       onBeforeMount(props, state) {
@@ -130,7 +131,10 @@
         this.connect(props, state);
       },
       async init(route) {
-        await route.store.articleStore.article({ slug: route.data.req.params.article });
+        await Promise.all([
+          route.store.articleStore.article({ slug: route.data.req.params.article }),
+          route.store.articleStore.comments({ slug: route.data.req.params.article })
+        ]);;
       },
 
 

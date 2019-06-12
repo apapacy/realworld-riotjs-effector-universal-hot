@@ -19,14 +19,14 @@ export default class ArticleStore {
 
   constructor() {
     this.successArticle = createEvent();
-    this.successTags = createEvent();
+    this.successComments = createEvent();
     this.error = createEvent();
     this.updateError = createEvent();
     this.init = createEvent();
     this.articleStore = createStore(null)
       .on(this.init, (state, store) => ({ ...store} ))
       .on(this.successArticle, (state, data) => ({ ...state, article: data.article }))
-      .on(this.successTags, (state, tags) => ({ ...state, tags }))
+      .on(this.successComments, (state, data) => ({ ...state, comments: data.comments }))
       .on(this.error, (state, error) => ({ error }))
       .on(this.updateError, (state, error) => ({...state, error }));
   }
@@ -70,22 +70,20 @@ export function deleteArticle(article) { // eslint-disable-line no-shadow
       error => dispatch({ type: ARTICLE_DELETE_FAILURE, error: parseError(error) }),
     );
   };
-}
+}*/
 
-export function comments({ req, slug }) {
-  return (dispatch) => {
-    dispatch({ type: ARTICLE_COMMENTS_REQUEST });
-    return request(req, {
-      method: 'get',
-      url: `/articles/${slug}/comments`,
-    }).then(
-      response => dispatch({ type: ARTICLE_COMMENTS_SUCCESS, payload: response.data }),
-      error => dispatch({ type: ARTICLE_COMMENTS_FAILURE, error: parseError(error) }),
-    );
-  };
-}
+comments({ req, slug }) {
+  return request(req, {
+    method: 'get',
+    url: `/articles/${slug}/comments`,
+  }).then(
+    response => this.successComments(response.data),
+    error => this.updateError(parseError(error))
+  );
+};
 
-export function addComment({ slug, body }) {
+
+/*export function addComment({ slug, body }) {
   return (dispatch) => {
     dispatch({ type: ARTICLE_COMMENT_REQUEST });
     return request(undefined, {
