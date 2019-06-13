@@ -9,7 +9,7 @@ module.exports = {
   mode: isDevelopment ? 'development' : 'production',
   name: 'server',
   devtool: isDevelopment ? 'eval' : false,
-  entry: __dirname + '/render.js',
+  entry: __dirname + '/render.server.js',
   target: 'node',
   bail: !isDevelopment,
   externals: [
@@ -17,7 +17,7 @@ module.exports = {
   ],
   output: {
     path: path.resolve(__dirname, '../build'),
-    filename: 'render.bundle.js',
+    filename: 'render.server.js',
     libraryTarget: 'commonjs-module',
   },
   module: {
@@ -31,7 +31,7 @@ module.exports = {
       use: [{
         loader: '@riotjs/webpack-loader',
         options: {
-          hot: true, // set it to true if you are using hmr
+          hot: isDevelopment, // set it to true if you are using hmr
           // add here all the other @riotjs/compiler options riot.js.org/compiler
           // template: 'pug' for example
         }

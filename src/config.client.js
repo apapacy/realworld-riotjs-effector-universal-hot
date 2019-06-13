@@ -7,7 +7,7 @@ const isDevelopment = nodeEnv === 'development';
 const entry = {};
 
 entry['main'] = [
-  '../src/index.js',
+  '../src/index.client.js',
 ];
 if (isDevelopment) {
   entry['main'].unshift('webpack-hot-middleware/client');
@@ -74,7 +74,7 @@ module.exports = {
       use: [{
         loader: '@riotjs/webpack-loader',
         options: {
-          hot: true, // set it to true if you are using hmr
+          hot: isDevelopment, // set it to true if you are using hmr
           // add here all the other @riotjs/compiler options riot.js.org/compiler
           // template: 'pug' for example
         }
