@@ -20,6 +20,8 @@ export default class ArticleStore {
   constructor() {
     this.successArticle = createEvent();
     this.successComments = createEvent();
+    this.successAddComment = createEvent();
+    this.successDeleteComment = createEvent();
     this.error = createEvent();
     this.updateError = createEvent();
     this.init = createEvent();
@@ -27,6 +29,13 @@ export default class ArticleStore {
       .on(this.init, (state, store) => ({ ...store} ))
       .on(this.successArticle, (state, { article }) => ({ ...state, article }))
       .on(this.successComments, (state, { comments }) => ({ ...state, comments }))
+      .on(this.successAddComment, (state, { comment }) => {
+        return { ...state, comments: [comment, ...state.comments]  };
+      })
+      .on(this.successDeleteComment, (state, { id }) => {
+        const comments = state.comments.filter(comment => comment.id != id);
+        return { ...state, comments };
+      })
       .on(this.error, (state, error) => ({ error }))
       .on(this.updateError, (state, error) => ({...state, error }));
   }
@@ -80,37 +89,33 @@ comments({ req, slug }) {
     response => this.successComments(response.data),
     error => this.updateError(parseError(error))
   );
+}
+
+
+addComment({ slug, body }) {
+  return request(undefined, {
+    method: 'post',
+    url: `/articles/${slug}/comments`,
+    data: { comment: { body } },
+  }).then(
+    response => this.successAddComment(response.data),
+    error => this.updateError(parseError(error))
+  );
+}
+
+
+deleteComment({ slug, id }) {
+  return request(undefined, {
+    method: 'delete',
+    url: `/articles/${slug}/comments/${id}`,
+  }).then(
+    response => this.successDeleteComment( {id} ),
+    error => this.updateError(parseError(error))
+  );
 };
 
 
-/*export function addComment({ slug, body }) {
-  return (dispatch) => {
-    dispatch({ type: ARTICLE_COMMENT_REQUEST });
-    return request(undefined, {
-      method: 'post',
-      url: `/articles/${slug}/comments`,
-      data: { comment: { body } },
-    }).then(
-      response => dispatch({ type: ARTICLE_COMMENT_SUCCESS, payload: response.data }),
-      error => dispatch({ type: ARTICLE_COMMENT_FAILURE, error: parseError(error) }),
-    );
-  };
-}
-
-export function deleteComment({ slug, id }) {
-  return (dispatch) => {
-    dispatch({ type: ARTICLE_COMMENT_DELETE_REQUEST });
-    return request(undefined, {
-      method: 'delete',
-      url: `/articles/${slug}/comments/${id}`,
-    }).then(
-      () => dispatch({ type: ARTICLE_COMMENT_DELETE_SUCCESS, payload: { id } }),
-      error => dispatch({ type: ARTICLE_COMMENT_DELETE_FAILURE, error: parseError(error) }),
-    );
-  };
-}
-
-export function follow({ author, method }) {
+/*export function follow({ author, method }) {
   if (method !== 'post' && method !== 'delete') {
     return { type: ARTICLE_FOLLOW_FAILURE, error: { message: 'Only post or delete methos alowed' } };
   }

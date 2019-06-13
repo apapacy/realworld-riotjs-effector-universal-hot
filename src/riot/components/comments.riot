@@ -9,9 +9,9 @@
       <img alt="" src={props.comment.author.image} class="comment-author-img" />
     </a>
     &nbsp;
-    <a is="navigationlink" href={`/author/${props.comment.author.username}`} class="comment-author">{props.comment.author.username}</a>
+    <a is="navigationlink" href={`/author/${props.comment.author.username}`} class="comment-author"><span>{ props.comment.author.username }</span></a>
     <span class="date-posted">{ commentDate }</span>
-      <span class="mod-options">
+      <span class="mod-options" onclick={ this.deleteComment }>
         <i class="ion-trash-a" />
       </span>
   </div>
@@ -20,6 +20,29 @@
     import Navigationlink from '../navigationLink.riot';
 
     export default {
+      connect(props, state) {
+        state.article = props.store.articleStore.store.article
+        state.comments = props.store.articleStore.store.comments
+        state.user = props.store.userStore.store
+      }
+      onBeforeMount(props, state) {
+        this.connect(props, state);
+      },
+      onBeforeUpdate(props, state) {
+        this.connect(props, state);
+      },
+      onclick(e) {
+        console.log(e)
+        console.log(this)
+        alert(4)
+      },
+      deleteComment(e) {
+        e.preventDefault();
+        return this.props.store.articleStore.deleteComment({
+          id: this.props.comment.id,
+          slug: this.state.article.slug,
+        });
+      },
       get commentDate() {
         try {
           return moment(this.props.comment.updatedAt).format('ddd MMM DD YYYY HH:mm')

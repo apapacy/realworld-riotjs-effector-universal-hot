@@ -74,9 +74,10 @@
     </div>
     <div class="row">
       <div class="col-xs-12 col-md-8 offset-md-2">
-        <form if={ state.user && state.user.data } class="card comment-form">
+        <form if={ state.user && state.user.data } class="card comment-form" onsubmit={this.addComment}>
           <div class="card-block">
             <textarea
+              name="commentBody"
               class="form-control"
               placeholder="Write a comment..."
               rows="3"
@@ -91,7 +92,7 @@
             </button>
           </div>
         </form>
-        <div is="comments" if={ state.comments } each={ comment in  state.comments } comment={ comment }/>
+        <div is="comments" if={ state.comments } each={ comment in  state.comments } comment={ comment } store={ props.store }/>
       </div>
     </div>
   </div>
@@ -136,6 +137,21 @@
           route.store.articleStore.comments({ slug: route.data.req.params.article })
         ]);;
       },
+      addComment(e) {
+        e.preventDefault();
+        console.log(e)
+        console.log(this)
+        alert(3)
+        const body = e.target.commentBody.value;
+        if (!body || body === this.commentBody) {
+          return;
+        }
+        this.commentBody = body;
+        return this.props.store.articleStore.addComment({
+          slug: this.state.article.slug,
+          body,
+        });
+      },
 
 
 
@@ -158,18 +174,6 @@
         if (!this.props.article.error) {
           this.props.history.replace(`/author/${this.props.user.username}`);
         }
-      },
-      addComment(event) {
-        event.preventDefault();
-        const body = this.commentInput.value;
-        if (!body || body === this.commentBody) {
-          return;
-        }
-        this.commentBody = body;
-        this.props.dispatch(addComment({
-          slug: this.props.article.article.slug,
-          body,
-        }));
       },
       async deleteComment(id) {
         this.props.dispatch(deleteComment({
