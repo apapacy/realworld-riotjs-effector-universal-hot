@@ -92,7 +92,15 @@
             </button>
           </div>
         </form>
-        <div is="comments" if={ state.comments } each={ comment in  state.comments } comment={ comment } store={ props.store }/>
+        <div
+          is="comments"
+          if={ state.comments }
+          each={ comment in  state.comments }
+          comment={ comment }
+          user={ state.user }
+          article={state.article}
+          store={ props.store.articleStore }
+      />
       </div>
     </div>
   </div>
