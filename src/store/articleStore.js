@@ -25,8 +25,8 @@ export default class ArticleStore {
     this.init = createEvent();
     this.articleStore = createStore(null)
       .on(this.init, (state, store) => ({ ...store} ))
-      .on(this.successArticle, (state, data) => ({ ...state, article: data.article }))
-      .on(this.successComments, (state, data) => ({ ...state, comments: data.comments }))
+      .on(this.successArticle, (state, { article }) => ({ ...state, article }))
+      .on(this.successComments, (state, { comments }) => ({ ...state, comments }))
       .on(this.error, (state, error) => ({ error }))
       .on(this.updateError, (state, error) => ({...state, error }));
   }
