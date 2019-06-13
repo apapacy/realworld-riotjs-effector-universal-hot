@@ -53,6 +53,7 @@
     </div>
   </div>
   <script>
+    import history from '../../history'
     export default {
       connect(props, state) {
         state.article = props.store.articleStore.store.article
@@ -71,13 +72,16 @@
       },
       async onsubmit(e) {
         e.preventDefault();
-        await return this.props.store.articleStore.saveArticle({
+        await this.props.store.articleStore.saveArticle({
           slug: this.state.article.slug,
           title: e.target.title.value,
           description: e.target.description.value,
           body: e.target.body.value,
-          tagList: e.target.tagList.value
+          tagList: e.target.tagList.value.split(','),
         });
+        if (this.state.article) {
+          history.navigate(`/article/${ this.state.article.slug }`);
+        }
       }
     }
   </script>
