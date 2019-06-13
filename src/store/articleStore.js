@@ -50,24 +50,21 @@ article({ req, slug }) {
   );
 }
 
-
-/*export function saveArticle(article) { // eslint-disable-line no-shadow
+saveArticle(article) {
   const { slug } = article;
   const data = { article };
-  return (dispatch) => {
-    dispatch({ type: ARTICLE_SAVE_REQUEST });
-    return request(undefined, {
-      method: slug ? 'put' : 'post',
-      url: slug ? `/articles/${slug}` : '/articles',
-      data,
-    }).then(
-      response => dispatch({ type: ARTICLE_SAVE_SUCCESS, payload: response.data }),
-      error => dispatch({ type: ARTICLE_SAVE_FAILURE, error: parseError(error) }),
-    );
-  };
+  return request(undefined, {
+    method: slug ? 'put' : 'post',
+    url: slug ? `/articles/${slug}` : '/articles',
+    data,
+  }).then(
+    response => this.successArticle(response.data),
+    error => this.error(parseError(error)),
+  );
 }
 
-export function deleteArticle(article) { // eslint-disable-line no-shadow
+
+/*export function deleteArticle(article) { // eslint-disable-line no-shadow
   const { slug } = article;
   return (dispatch) => {
     dispatch({ type: ARTICLE_DELETE_REQUEST });

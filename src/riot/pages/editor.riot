@@ -2,7 +2,7 @@
   <div class="container page">
     <div class="row">
       <div class="col-md-10 offset-md-1 col-xs-12">
-        <form>
+        <form onsubmit={this.onsubmit}>
           <fieldset>
             <fieldset class="form-group">
               <input
@@ -68,6 +68,16 @@
       },
       init(route) {
         return route.store.articleStore.article({ slug: route.data.req.params.article })
+      },
+      async onsubmit(e) {
+        e.preventDefault();
+        await return this.props.store.articleStore.saveArticle({
+          slug: this.state.article.slug,
+          title: e.target.title.value,
+          description: e.target.description.value,
+          body: e.target.body.value,
+          tagList: e.target.tagList.value
+        });
       }
     }
   </script>
