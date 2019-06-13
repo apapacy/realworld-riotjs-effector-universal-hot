@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config src/webpack.config.js",
+    "build": "rm -rf ./build && mkdir ./build && NODE_ENV=production webpack --config src/config.client.js --mode=production && NODE_ENV=production webpack --config=./src/config.server.js --mode=production",
     "hot": "rm -rf ./build && mkdir ./build && NODE_ENV=development webpack -d --config=./src/config.server.js --mode=development && NODE_ENV=development node ./src/dev_server",
-    "now-start": "rm -rf ./build && mkdir ./build && NODE_ENV=development webpack -d --config=./src/config.server.js --mode=development && NODE_ENV=development node ./src/dev_server",
+    "start": "npm run build && NODE_ENV=production node ./src/server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

@@ -4,9 +4,18 @@ import ssr from '@riotjs/ssr';
 import App from './riot/App.riot'
 import router from './router';
 import getStore, {getState} from './store';
+import stats from '../build/stats.generated';
 
 const pages = {}
 const isDevelopment = process.env.NODE_ENV === 'development'
+
+function assets(name) {
+  const prefix = '/static/';
+  if (name instanceof Array) {
+    return prefix + name[0];
+  }
+  return prefix + name;
+}
 
 export const render = async function(req, res, next) {
   const store = getStore();
@@ -53,8 +62,8 @@ export const render = async function(req, res, next) {
         </head>
         <body>
           ${html}
-          <script src='/static/common.bundle.js' type='text/javascript'></script>
-          <script src='/static/main.bundle.js' type='text/javascript'></script>
+          <script src='${assets(stats.common)}' type='text/javascript'></script>
+          <script src='${assets(stats.main)}' type='text/javascript'></script>
         </body>
       </html>
     `);
