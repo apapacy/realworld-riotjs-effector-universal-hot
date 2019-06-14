@@ -13,17 +13,19 @@
           <span class="date">{ this.publicationDate }</span>
         </div>
         <a
+          if={state.article.author.username === state.user.data.username }
           is="navigationlink"
           class="btn btn-sm btn-outline-secondary"
           href={`/edit/${state.article.slug}`}
           action="edit"
         >
-          <i className="ion-edit" />
+          <i class="ion-edit" />
           &nbsp;
-          Edit <span className="counter" />
-        </a>,
-        <span key="spase">&nbsp;&nbsp;</span>,
+          Edit <span class="counter" />
+        </a>
+        <span>&nbsp;&nbsp;</span>
         <a
+          if={state.article.author.username === state.user.data.username }
           is="navigationlink"
           class="btn btn-sm btn-outline-danger"
           role="button"
@@ -32,8 +34,8 @@
         >
           <i class="ion-trash-a" />
           &nbsp;
-          Delete <span className="counter" />
-        </a>,
+          Delete <span class="counter" />
+        </a>
         <following
         />
         &nbsp;&nbsp;
