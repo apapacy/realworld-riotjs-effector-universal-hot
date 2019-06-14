@@ -1,0 +1,6 @@
+<favorite-button class={`btn btn-sm btn${ props.article.favorited ? '' : '-outline' }-primary${ props.text ? '' : ' pull-xs-right' }`}>
+  <i class="ion-heart" />
+    <span if={ props.text }>&nbsp;Favorite Post</span>
+      &nbsp;
+  <span class="counter">{props.article.favoritesCount}</span>
+</favorite-button>

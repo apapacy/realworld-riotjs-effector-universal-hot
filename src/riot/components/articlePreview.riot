@@ -10,8 +10,7 @@
         </a>
         <span class="date">{ publicationDate }</span>
       </div>
-      <Favorited
-      />
+      <button is="favorited" article={ props.article } user={ props.user } text={ false } onclick={this.onclick}/>
     </div>
     <a  is="navigationlink" href={`/article/${props.article.slug}`} class="preview-link">
       <h1>{props.article.title}</h1>
@@ -29,6 +28,7 @@
   <script>
     import moment from 'moment';
     import Navigationlink from '../navigationLink.riot';
+    import Favorited from './favorited.riot';
 
     export default {
       get publicationDate() {
@@ -39,6 +39,16 @@
       },
       components: {
         Navigationlink,
+        Favorited
+      }
+      onclick(e) {
+        if (!(this.props.user && this.props.user.data)) {
+          retutn;
+        }
+        if (this.props.user.data.username === this.props.article.author.username) {
+          return
+        }
+        alert(1)
       }
     }
   </script>
