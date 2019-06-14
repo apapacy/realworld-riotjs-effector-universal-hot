@@ -19,9 +19,11 @@ function assets(name) {
 
 export const render = async function(req, res, next) {
   const store = getStore();
-  try {
-    await store.userStore.me({ req });
-  } catch(ex) {
+  if (req.signedCookies && req.signedCookies.token) {
+    try {
+      await store.userStore.me({ req });
+    } catch(ex) {
+    }
   }
   const route = await router.resolve(req.originalUrl);
   if (isDevelopment || !pages[route.page] ) {

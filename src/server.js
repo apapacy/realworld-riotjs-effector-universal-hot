@@ -4,17 +4,17 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const cookieEncrypter = require('cookie-encrypter');
 const bodyParser = require('body-parser');
-const webpack = require('webpack');
-const webpackClientDevMiddleware = require('webpack-dev-middleware');
-const webpackClientHotMiddleware = require('webpack-hot-middleware');
-const webpackClientConfig = require('./config.client');
-const serverConfig = require('./config.server');
+const apicache = require('apicache');
 
-const serverCompiler = webpack(serverConfig);
-const clientCompiler = webpack(webpackClientConfig);
 const port = Number(process.env.PORT) || 3000;
 const app = express();
 const nodeEnv = process.env.NODE_ENV || 'development';
+
+const cache = apicache.options({
+  appendKey: req => req.signedCookies && req.signedCookies.token,
+  defaultDuration: 1000,
+  headerBlacklist: ['Authorization', 'authorization'],
+}).middleware;
 
 const serverPath = path.resolve(__dirname, '../build/render.server.js');
 let render = require(serverPath).render; // eslint-disable-line import/no-dynamic-require
@@ -35,7 +35,7 @@ app.use('/token', (req, res) => {
 
 app.use('/static', express.static('build'));
 
-app.use('/', (req, res, next) => render(req, res, next));
+app.use('/', cache(1000), render);
 
 app.listen(port, () => {
   console.log(`Listening at ${port}`);
