@@ -10,7 +10,7 @@
                 class="form-control form-control-lg"
                 placeholder="Article Title"
                 name="title"
-                value={console.log('state', state) || state.article.title}
+                value={state.article.title}
               />
             </fieldset>
             <fieldset class="form-group">
@@ -61,11 +61,9 @@
       }
       onBeforeMount(props, state) {
         this.connect(props, state);
-        console.log(state)
       },
       onBeforeUpdate(props, state) {
         this.connect(props, state);
-        console.log(state)
       },
       init(route) {
         return route.store.articleStore.article({ slug: route.data.req.params.article })

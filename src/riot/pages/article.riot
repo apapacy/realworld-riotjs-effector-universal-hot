@@ -147,9 +147,6 @@
       },
       addComment(e) {
         e.preventDefault();
-        console.log(e)
-        console.log(this)
-        alert(3)
         const body = e.target.commentBody.value;
         if (!body || body === this.commentBody) {
           return;
