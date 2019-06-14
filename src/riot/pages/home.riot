@@ -74,9 +74,13 @@
         this.connect(props, state);
       },
       async init(route) {
+        const page = Number(route.data.req.params.page || 1);
+        const tag = route.data.req.params.tag;
+        const action = route.data.action
+        console.log({ page, tag, action })
         await Promise.all([
           route.store.articlesStore.getTags({}),
-          route.store.articlesStore.feed({})
+          route.store.articlesStore.feed({ page, tag, action })
         ]);
         /*const page = Number(match.params.page) || 1;
         let filter;

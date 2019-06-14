@@ -1,7 +1,7 @@
 <pagination-nav>
   <ul class="pagination">
     <li each={page in this.preparePages()} class={
-      `page-item ${ props.req.params.page == page || page == 1 && !props.req.params.page ?  'active' : '' }`
+      `page-item ${ page == 1 && !props.req.params.page || props.req.params.page == page ?  'active' : '' }`
     }>
       <a is="navigationlink" class="page-link" href={this.prepareLink(page)}>
         <span>{ page }</span>

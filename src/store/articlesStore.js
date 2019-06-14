@@ -20,31 +20,21 @@ export default class ArticlesStore {
     this.init = createEvent();
     this.articlesStore = createStore(null)
       .on(this.init, (state, store) => ({ ...store} ))
-      .on(this.successArticles, (state, {articles, articlesCount}) => ({ ...state, articles, articlesCount }))
+      .on(this.successArticles, (state, {articles, articlesCount}) => console.log(articles)|| ({ ...state, articles, articlesCount }))
       .on(this.successTags, (state, tags) => ({ ...state, tags }))
-      .on(this.updateError, (state, error) => ({...state, error }));
+      .on(this.updateError, (state, error) => console.log(error)|| ({...state, error }));
   }
 
-  feed({ req, filter, value, page }) {
-    let limit;
-    let offset;
-    if (!filter || filter === 'feed' || filter === 'tag') {
-      limit = GLOBAL_FEED_COUNT;
-    } else {
-      limit = PERSONAL_FEED_COUNT;
-    }
-    if (!page) {
-      offset = 0;
-    } else {
-      offset = (page - 1) * limit;
-    }
+  feed({ req, action, page, tag }) {
+    const limit = 10
+    const offset = (page - 1) * limit;
     const params = { limit, offset };
-    if (filter === 'author' || filter === 'favorited' || filter === 'tag') {
-      params[filter] = decodeURIComponent(value);
+    if (action === 'tag') {
+      params.tag = decodeURIComponent(tag);
     }
     return request(req, {
       method: 'get',
-      url: filter === 'feed' ? '/articles/feed' : '/articles',
+      url: action === 'feed' ? '/articles/feed' : '/articles',
       params,
     }).then(
       response => this.successArticles(response.data),
