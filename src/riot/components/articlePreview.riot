@@ -40,7 +40,7 @@
       components: {
         Navigationlink,
         Favorited
-      }
+      },
       async onclick(e) {
         if (!(this.props.user && this.props.user.data)) {
           return;
@@ -59,7 +59,6 @@
         this.props.store.articlesStore.updateCurrentArticle(
           this.props.store.articleStore.store.article);
         e.target.blur();
-
       }
     }
   </script>

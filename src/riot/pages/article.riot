@@ -37,7 +37,12 @@
         <following
         />
         &nbsp;&nbsp;
-        <favorited
+        <button
+          is="favorited"
+          article={ state.article }
+          user={ state.user }
+          text={ true }
+          onclick={this.onclick}
         />
       </div>
     </div>
@@ -68,7 +73,12 @@
         <following
         />
         &nbsp;
-        <favorited
+        <button
+          is="favorited"
+          article={ state.article }
+          user={ state.user }
+          text={ true }
+          onclick={this.onclick}
         />
       </div>
     </div>
@@ -110,7 +120,7 @@
     import Navigationlink from '../navigationLink.riot';
     import Raw from '../components/raw.riot';
     //import Following from '../components/following';
-    //import Favorited from '../components/favorited';
+    import Favorited from '../components/favorited.riot';
     import Comments from '../components/comments.riot';
 
     const KEY_DEL = 46;
@@ -126,12 +136,13 @@
         Navigationlink,
         Raw,
         Comments,
+        Favorited,
       },
       connect(props, state) {
+        state.user = props.store.userStore.store;
         state.article = props.store.articleStore.store.article
         state.comments = props.store.articleStore.store.comments
         state.article.html = marked(state.article && state.article.body);
-        state.user = props.store.userStore.store
       }
       onBeforeMount(props, state) {
         this.connect(props, state);
@@ -156,6 +167,23 @@
           slug: this.state.article.slug,
           body,
         });
+      },
+      async onclick(e) {
+        if (!(this.state.user && this.state.user.data)) {
+          return;
+        }
+        if (this.state.user.data.username === this.state.article.author.username) {
+          return;
+        }
+        const { slug } = this.state.article
+        let method;
+        if (this.state.article.favorited) {
+          method = 'delete';
+        } else {
+          method = 'post';
+        }
+        await this.props.store.articleStore.favorite({ slug, method})
+        e.target.blur();
       },
 
 
