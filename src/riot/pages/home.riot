@@ -30,6 +30,7 @@
             is="articlepreview"
             article={ article }
             user={ state.user }
+            store={ props.store }
           />
           <nav is="pagination" count={state.articlesCount} req={state.req}/>
         </div>
@@ -42,7 +43,6 @@
                 is="navigationlink"
                 href={`/tags/${tag}`}
                 class="tag-pill tag-default"
-                key={tag}
               >
                 #<span>{tag}</span>
               </a>

@@ -25,7 +25,14 @@
             </li>
           </ul>
         </div>
-        <div if={state.articles} each={article in state.articles} is="articlepreview" article={article} />
+        <div
+          if={ state.articles }
+          each={ article in state.articles }
+          is="articlepreview"
+          article={ article }
+          user={ state.user }
+          store={ props.store }
+        />
         <nav is="pagination" count={state.articlesCount} req={state.req}/>
       </div>
     </div>
@@ -47,11 +54,13 @@
         Navigationlink,
       },
       connect(props, state) {
-        state.profile = props.store.profileStore.store
+        state.user = props.store.userStore.store;
         state.articles = props.store.articlesStore.store.articles
         state.articlesCount = props.store.articlesStore.store.articlesCount
+        state.tags = props.store.articlesStore.store.tags
         state.currentTag = props.req.params.tag
         state.req = props.req
+        state.profile = props.store.profileStore.store
       }
       onBeforeMount(props, state) {
         this.connect(props, state);

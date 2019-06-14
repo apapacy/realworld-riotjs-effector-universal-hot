@@ -41,14 +41,25 @@
         Navigationlink,
         Favorited
       }
-      onclick(e) {
+      async onclick(e) {
         if (!(this.props.user && this.props.user.data)) {
-          retutn;
+          return;
         }
         if (this.props.user.data.username === this.props.article.author.username) {
           return
         }
-        alert(1)
+        const { slug } = this.props.article
+        let method;
+        if (this.props.article.favorited) {
+          method = 'delete';
+        } else {
+          method = 'post';
+        }
+        await this.props.store.articleStore.favorite({ slug, method})
+        this.props.store.articlesStore.updateCurrentArticle(
+          this.props.store.articleStore.store.article);
+        e.target.blur();
+
       }
     }
   </script>

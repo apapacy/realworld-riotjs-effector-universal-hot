@@ -17,12 +17,23 @@ export default class ArticlesStore {
     this.successArticles = createEvent();
     this.successTags = createEvent();
     this.updateError = createEvent();
+    this.updateArticle = createEvent();
     this.init = createEvent();
     this.articlesStore = createStore(null)
       .on(this.init, (state, store) => ({ ...store} ))
       .on(this.successArticles, (state, {articles, articlesCount}) => ({ ...state, articles, articlesCount }))
       .on(this.successTags, (state, tags) => ({ ...state, tags }))
-      .on(this.updateError, (state, error) => ({...state, error }));
+      .on(this.updateError, (state, error) => ({...state, error }))
+      .on(this.updateArticle, (state, article) => {
+        const articles = state.articles.map(item => {
+          if (item.slug === article.slug) {
+            return article;
+          } else {
+            return item;
+          }
+        });
+        return { ...state, articles };
+      })
   }
 
   feed({ req, action, page, tag, author, favorited }) {
@@ -57,6 +68,9 @@ export default class ArticlesStore {
     );
   }
 
+  updateCurrentArticle(article) {
+    this.updateArticle(article);
+  }
 /*export function favorite({ slug, method }) {
   return (dispatch) => {
     dispatch({ type: ARTICLE_FAVORITE_REQUEST });

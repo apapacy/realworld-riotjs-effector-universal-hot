@@ -128,27 +128,19 @@ deleteComment({ slug, id }) {
       error => dispatch({ type: ARTICLE_FOLLOW_FAILURE, error: parseError(error) }),
     );
   };
-}
+}*/
 
-export function favorite({ slug, method }) {
-  if (method !== 'post' && method !== 'delete') {
-    return { type: ARTICLE_FAVORITE_FAILURE, error: { message: 'usernameOnly post or delete methos alowed' } };
-  }
+favorite({ slug, method }) {
+  return request(undefined, {
+    method,
+    url: `/articles/${slug}/favorite`,
+  }).then(
+  response => this.successArticle(response.data),
+  error => this.error(parseError(error)),
+  );
+};
 
-  return (dispatch) => {
-    dispatch({ type: ARTICLE_FAVORITE_REQUEST });
-
-    return request(undefined, {
-      method,
-      url: `/articles/${slug}/favorite`,
-    }).then(
-      response => dispatch({ type: ARTICLE_FAVORITE_SUCCESS, payload: response.data }),
-      error => dispatch({ type: ARTICLE_FAVORITE_FAILURE, error: parseError(error) }),
-    );
-  };
-}
-
-export function clearErrors() {
+/*export function clearErrors() {
   return { type: CLEAR_ERRORS };
 }*/
 }
