@@ -5,14 +5,16 @@
     </p>
   </div>
   <div class="card-footer">
-    <a is="navigationlink" href={`/author/${props.comment.author.username}`} class="comment-author">
-      <img alt="" src={props.comment.author.image} class="comment-author-img" />
+    <a is="navigationlink" href={ `/author/${ props.comment.author.username }` } class="comment-author">
+      <img alt="" src={ props.comment.author.image } class="comment-author-img" />
     </a>
     &nbsp;
-    <a is="navigationlink" href={`/author/${props.comment.author.username}`} class="comment-author"><span>{ props.comment.author.username }</span></a>
+    <a is="navigationlink" href={ `/author/${ props.comment.author.username }` } class="comment-author">
+      <span>{ props.comment.author.username }</span>
+    </a>
     <span class="date-posted">{ commentDate }</span>
       <span class="mod-options" if={ props.user.data.username === props.comment.author.username } onclick={ this.deleteComment }>
-        <i class="ion-trash-a" />
+        <i class="ion-trash-a"/>
       </span>
   </div>
   <script>
@@ -35,7 +37,7 @@
       },
       components: {
         Navigationlink,
-      }
+      },
     }
   </script>
 </comment-tag>

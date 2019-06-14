@@ -1,42 +1,44 @@
 <layout>
   <nav class="navbar navbar-light">
     <div class="container">
-      <a is='navigationlink' class={"navbar-brand"} href={'/feed'}>
+      <a is='navigationlink' class="navbar-brand" href='/feed'>
         conduit
       </a>
-      <ul class={"nav navbar-nav pull-xs-right"}>
+      <ul class="nav navbar-nav pull-xs-right">
           <li is="navigationitem" to="/feed" {...props.data}>
-            <i class={"ion-home"} />&nbsp;Home
+            <i class="ion-home" />&nbsp;Home
           </li>
           <li is="navigationitem" to="/new-post" {...props.data}>
-            <i class={"ion-compose"} />&nbsp;New Post
+            <i class="ion-compose" />&nbsp;New Post
           </li>
           <li is="navigationitem" to="/settings" {...props.data}>
-            <i class={"ion-gear-a"} />&nbsp;Settings
+            <i class="ion-gear-a" />&nbsp;Settings
           </li>
-          <li is="navigationitemauthor" if={ state.user && state.user.data} user={state.user} to={`/author/${ state.user.data.username }`} key="author">
-          </li>
+          <li is="navigationitemauthor"
+            if={ state.user && state.user.data }
+            user={ state.user }
+            to={ `/author/${ state.user.data.username }` }
+          />
           <li is="navigationitem" to="/sign-out" {...props.data}>
-            <i class={"ion-log-out"} />&nbsp;Sign out
+            <i class="ion-log-out" />&nbsp;Sign out
           </li>
           <li is="navigationitem" to="/" {...props.data}>
-            <i class={"ion-home"} />&nbsp;Home
+            <i class="ion-home" />&nbsp;Home
           </li>
           <li is="navigationitem" to="/sign-in" {...props.data}>
-            <i class={"ion-log-in"} />&nbsp;Sign in
+            <i class="ion-log-in" />&nbsp;Sign in
           </li>
           <li is="navigationitem" to="/sign-up" {...props.data}>
-            <i class={"ion-person-add"} />&nbsp;Sign up
+            <i class="ion-person-add" />&nbsp;Sign up
           </li>
       </ul>
     </div>
   </nav>
-  <div class="home-page" is={props.page} store={props.store} {...props.data}>
-  </div>
+  <div class="home-page" is={ props.page } store={ props.store } { ...props.data } />
   <footer>
-    <div class={"container"}>
+    <div class={ "container" }>
       <mylink href="/" class={"logo-font"}>conduit</mylink>
-      <span class={"attribution"}>
+      <span class="attribution">
         An interactive learning project from <a href="https://thinkster.io">Thinkster</a>. Code &amp; design licensed under MIT.
       </span>
     </div>
@@ -46,6 +48,7 @@
     import Navigationitem from './navigationItem.riot';
     import Navigationitemauthor from './navigationItemAuthor.riot';
     import Login from '../pages/login.riot';
+    
     export default {
       connect(props, state) {
         state.userStore = props.store.userStore;

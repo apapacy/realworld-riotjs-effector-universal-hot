@@ -1,10 +1,14 @@
 <article-preview>
   <div class="article-preview">
     <div class="article-meta">
-      <a is="navigationlink" href={`/author/${encodeURIComponent(props.article.author.username)}`} ><img alt="☺" src={props.article.author.image} /></a>
+      <a is="navigationlink" href={`/author/${ encodeURIComponent(props.article.author.username) }`} >
+        <img alt="☺" src={props.article.author.image}/>
+      </a>
       <div class="info">
-        <a is="navigationlink" href={`/author/${encodeURIComponent(props.article.author.username)}`} class="author"><span>{props.article.author.username}</span></a>
-        <span class="date">{publicationDate}</span>
+        <a is="navigationlink" href={`/author/${ encodeURIComponent(props.article.author.username) }`} class="author">
+          <span>{ props.article.author.username }</span>
+        </a>
+        <span class="date">{ publicationDate }</span>
       </div>
       <Favorited
       />
@@ -17,18 +21,14 @@
     <div>
       <ul props.article.tagList} class="tag-list" >
         <li  each={tag in props.article.tagList} class="tag-default tag-pill tag-outline" >
-          <a is="navigationlink" href={`/tags/${tag}`}><span>#<span>{tag}</span></span></a>
+          <a is="navigationlink" href={`/tags/${tag}`}>#<span>{tag}</span></a>
         </li>
       </ul>
     </div>
   </div>
   <script>
     import moment from 'moment';
-    //import Link from '../asyncLink';
-    //import { favorite } from '../../redux/services/articles';
-    //import Favorited from './favorited';
     import Navigationlink from '../navigationLink.riot';
-
 
     export default {
       get publicationDate() {
