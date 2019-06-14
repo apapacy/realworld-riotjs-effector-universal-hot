@@ -7,7 +7,8 @@
     export default {
       getText() {
         console.log(this.props)
-        if (!(this.props.user && this.props.user.data)) {
+        if (!(this.props.user && this.props.user.data)
+          || this.props.user.data.username === this.props.article.author.username) {
           return 'Favorited count'
         }
         if (this.props.article.favorited) {
