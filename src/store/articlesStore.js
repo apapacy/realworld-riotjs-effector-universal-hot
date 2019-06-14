@@ -25,13 +25,20 @@ export default class ArticlesStore {
       .on(this.updateError, (state, error) => ({...state, error }));
   }
 
-  feed({ req, action, page, tag }) {
+  feed({ req, action, page, tag, author, favorited }) {
     const limit = 10
     const offset = (page - 1) * limit;
     const params = { limit, offset };
     if (action === 'tag') {
       params.tag = decodeURIComponent(tag);
     }
+    if (action === 'author') {
+      params.author = decodeURIComponent(author);
+    }
+    if (action === 'favorited') {
+      params.tag = decodeURIComponent(favorited);
+    }
+
     return request(req, {
       method: 'get',
       url: action === 'feed' ? '/articles/feed' : '/articles',

@@ -11,5 +11,7 @@ export default new UniversalRouter([
   { path: '/tags/:tag/page/:page', action: (req) => ({ page: 'home', data: { req, action: 'tag' } }) },
   { path: '/article/:article', action: (req) => ({ page: 'article', data: { req, action: 'article' } }) },
   { path: '/edit/:article', action: (req) => ({ page: 'editor', data: { req, action: 'edit' } }) },
+  { path: '/author/:author', action: (req) => ({ page: 'profile', data: { req, action: 'author' } }) },
+  { path: '/author/favorited/:author', action: (req) => ({ page: 'profile', data: { req, action: 'favorited' } }) },
   { path: '(.*)', action: () => ({ page: 'page3' }) },
 ])

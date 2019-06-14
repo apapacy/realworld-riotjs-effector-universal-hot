@@ -1,0 +1,93 @@
+<profile-div class={"profile-page"}>
+  <div class="user-info">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-10 offset-md-1">
+          <img alt="" src={"this.props.profile.image"} className="user-img" />
+          <h4>{"this.props.profile.username"}</h4>
+          <p>{"this.props.profile.bio"}</p>
+          <following
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-10 offset-md-1">
+        <div class="articles-toggle">
+          <ul class="nav nav-pills outline-active">
+            <li is="navigationitem" to={`/author/this.props.profile.username`}>
+              My Articles
+            </li>
+            <li is="navigationitem" to={`/favorited/this.props.profile.username`}>
+              Favorited Articles
+            </li>
+          </ul>
+        </div>
+        <div if={state.articles} each={article in state.articles} is="articlepreview" article={article} />
+        <nav is="pagination" count={state.articlesCount} req={state.req}/>
+      </div>
+    </div>
+  </div>
+  <script>
+    //import { me } from '../../redux/services/user';
+    //import { getProfile, follow } from '../../redux/services/profile';
+    //import { feed } from '../../redux/services/articles';
+    import Articlepreview from '../components/articlePreview.riot';
+    import Navigationitem from '../components/navigationItem.riot';
+    import Pagination from '../components/pagination.riot';
+    import Navigationlink from '../navigationLink.riot';
+
+    export default {
+      components: {
+        Articlepreview,
+        Navigationitem,
+        Pagination,
+        Navigationlink,
+      },
+      connect(props, state) {
+        state.articles = props.store.articlesStore.store.articles
+        state.articlesCount = props.store.articlesStore.store.articlesCount
+        state.currentTag = props.req.params.tag
+        state.req = props.req
+      }
+      onBeforeMount(props, state) {
+        this.connect(props, state);
+      },
+      onBeforeUpdate(props, state) {
+        this.connect(props, state);
+      },
+      async init(route) {
+        const page = Number(route.data.req.params.page || 1);
+        const author = route.data.req.params.author;
+        const action = route.data.action
+        const { req } = route;
+        await Promise.all([
+          route.store.profileStore.getProfile({req, author}),
+          route.store.articlesStore.feed({ page, action, author, req })
+        ]);
+        /*const page = Number(match.params.page) || 1;
+        let filter;
+        let value;
+        if (req && !user) {
+          promises.unshift(dispatch(me({ req })));
+        }
+        if (match.path.slice(0, 5) === '/feed') {
+          if (req && !req.signedCookies.token) {
+            return { redirectUrl: '/' };
+          }
+          filter = 'feed';
+        } else if (match.params.tag) {
+          filter = 'tag';
+          value = match.params.tag;
+        } else {
+          filter = undefined;
+        }
+        promises.push(dispatch(feed({ req, filter, value, page })));
+        promises.push(dispatch(tags({ req })));
+        return Promise.all(promises);*/
+      }
+    }
+  </script>
+</profile-div>
