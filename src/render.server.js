@@ -23,6 +23,7 @@ export const render = async function(req, res, next) {
     try {
       await store.userStore.me({ req });
     } catch(ex) {
+      console.log(ex)
     }
   }
   const route = await router.resolve(req.originalUrl);
@@ -41,7 +42,7 @@ export const render = async function(req, res, next) {
     riot.register('layout', pages['layout']);
   }
   if (pages[route.page] && pages[route.page].exports && pages[route.page].exports.init) {
-    await pages[route.page].exports.init({...route, store, req});
+    await pages[route.page].exports.init({ ...route, store, req });
   }
   const html = ssr('section', App, {...route, store })
   res.writeHead(200);

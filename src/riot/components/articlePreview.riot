@@ -1,23 +1,23 @@
 <article-preview>
   <div class="article-preview">
     <div class="article-meta">
-      <a to={`/author/${props.article.author.username}`}><img alt="☺" src={props.article.author.image} /></a>
+      <a is="navigationlink" href={`/author/${encodeURIComponent(props.article.author.username)}`} ><img alt="☺" src={props.article.author.image} /></a>
       <div class="info">
-        <a is="navigationlink" href={`/author/${encodeURIComponent(props.article.author.username)}`} class="author">{props.article.author.username}</a>
+        <a is="navigationlink" href={`/author/${encodeURIComponent(props.article.author.username)}`} class="author"><span>{props.article.author.username}</span></a>
         <span class="date">{publicationDate}</span>
       </div>
       <Favorited
       />
     </div>
-    <a is="navigationlink" href={`/article/${props.article.slug}`} class="preview-link">
+    <a  is="navigationlink" href={`/article/${props.article.slug}`} class="preview-link">
       <h1>{props.article.title}</h1>
       <p>{props.article.description}</p>
       <span>Read more...</span>
     </a>
     <div>
-      <ul class="tag-list">
-        <li if={props.article.tagList} each={tag in props.article.tagList} class="tag-default tag-pill tag-outline" >
-          <a is="navigationlink" href={`/tags/${tag}`}>#{tag}</a>
+      <ul props.article.tagList} class="tag-list" >
+        <li  each={tag in props.article.tagList} class="tag-default tag-pill tag-outline" >
+          <a is="navigationlink" href={`/tags/${tag}`}><span>#<span>{tag}</span></span></a>
         </li>
       </ul>
     </div>
