@@ -19,9 +19,10 @@ function assets(name) {
 
 export const render = async function(req, res, next) {
   const store = getStore();
+  const promises = [];
   if (req.signedCookies && req.signedCookies.token) {
     try {
-      await store.userStore.me({ req });
+      promises.push(store.userStore.me({ req }));
     } catch(ex) {
       console.log(ex)
     }
@@ -42,7 +43,10 @@ export const render = async function(req, res, next) {
     riot.register('layout', pages['layout']);
   }
   if (pages[route.page] && pages[route.page].exports && pages[route.page].exports.init) {
-    await pages[route.page].exports.init({ ...route, store, req });
+    promises.push(pages[route.page].exports.init({ ...route, store, req }));
+  }
+  if (promises.length > 0) {
+    await Promise.all(promises);
   }
   const html = ssr('section', App, {...route, store })
   res.writeHead(200);
