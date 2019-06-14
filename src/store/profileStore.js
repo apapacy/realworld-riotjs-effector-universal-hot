@@ -31,7 +31,7 @@ getProfile({ req, author }) {
     method: 'get',
     url: `/profiles/${decodeURIComponent(author)}`,
   }).then(
-    response => this.success(response.data),
+    response => this.success(response.data.profile),
     error => this.error(parseError(error))
   );
 }

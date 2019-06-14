@@ -26,19 +26,17 @@ export default class ArticlesStore {
   }
 
   feed({ req, action, page, tag, author, favorited }) {
+    console.log(arguments)
     const limit = 10
     const offset = (page - 1) * limit;
     const params = { limit, offset };
     if (action === 'tag') {
       params.tag = decodeURIComponent(tag);
-    }
-    if (action === 'author') {
+    } else if (action === 'author') {
       params.author = decodeURIComponent(author);
+    } else if (action === 'favorited') {
+      params.favorited = decodeURIComponent(author);
     }
-    if (action === 'favorited') {
-      params.tag = decodeURIComponent(favorited);
-    }
-
     return request(req, {
       method: 'get',
       url: action === 'feed' ? '/articles/feed' : '/articles',
