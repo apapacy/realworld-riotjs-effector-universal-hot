@@ -20,9 +20,9 @@ export default class ArticlesStore {
     this.init = createEvent();
     this.articlesStore = createStore(null)
       .on(this.init, (state, store) => ({ ...store} ))
-      .on(this.successArticles, (state, {articles, articlesCount}) => console.log(articles)|| ({ ...state, articles, articlesCount }))
+      .on(this.successArticles, (state, {articles, articlesCount}) => ({ ...state, articles, articlesCount }))
       .on(this.successTags, (state, tags) => ({ ...state, tags }))
-      .on(this.updateError, (state, error) => console.log(error)|| ({...state, error }));
+      .on(this.updateError, (state, error) => ({...state, error }));
   }
 
   feed({ req, action, page, tag }) {

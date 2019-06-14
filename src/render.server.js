@@ -24,7 +24,6 @@ export const render = async function(req, res, next) {
     try {
       promises.push(store.userStore.me({ req }));
     } catch(ex) {
-      console.log(ex)
     }
   }
   const route = await router.resolve(req.originalUrl);
@@ -38,15 +37,24 @@ export const render = async function(req, res, next) {
     try {
       riot.unregister('layout');
     } catch (ex) {
+      console.log(ex)
     }
     riot.register(route.page, pages[route.page]);
     riot.register('layout', pages['layout']);
   }
   if (pages[route.page] && pages[route.page].exports && pages[route.page].exports.init) {
-    promises.push(pages[route.page].exports.init({ ...route, store, req }));
+    try {
+      promises.push(pages[route.page].exports.init({ ...route, store, req }));
+    } catch(ex) {
+      console.log(ex)
+    }
   }
   if (promises.length > 0) {
-    await Promise.all(promises);
+    try {
+      await Promise.all(promises);
+    } catch (ex) {
+      console.log(ex);
+    }
   }
   const html = ssr('section', App, {...route, store })
   res.writeHead(200);

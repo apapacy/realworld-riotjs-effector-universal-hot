@@ -18,11 +18,6 @@ export function setJWT(value) {
 }
 
 export function request(req, { url, method, params, data }) {
-  try {
-    console.log('333333333333', req.token)
-  } catch(ex) {
-    
-  }
   const headers = {};
   if (req && req.token) {
     headers.Authorization = `Token ${req.token}`;
@@ -31,6 +26,5 @@ export function request(req, { url, method, params, data }) {
   } else if (JWT) {
     headers.Authorization = `Token ${JWT}`;
   }
-  console.log(headers)
   return transport.request({ url, method, params, data, headers });
 }
