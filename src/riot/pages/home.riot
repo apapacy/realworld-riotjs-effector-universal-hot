@@ -25,7 +25,7 @@
             </ul>
           </div>
           <div if={state.articles} each={article in state.articles} is="articlepreview" article={article} />
-          <div is="pagination"  />
+          <nav is="pagination" count={state.articlesCount} req={state.req}/>
         </div>
         <div class="col-md-3">
           <div class="sidebar">
@@ -51,19 +51,21 @@
     //import { feed, tags } from '../../redux/services/articles';
     import Articlepreview from '../components/articlePreview.riot';
     import Navigationitem from '../components/navigationItem.riot';
-    //import Pagination from '../components/pagination.riot';
+    import Pagination from '../components/pagination.riot';
     import Navigationlink from '../navigationLink.riot';
     export default {
       components: {
         Articlepreview,
         Navigationitem,
-        //Pagination,
+        Pagination,
         Navigationlink,
       },
       connect(props, state) {
         state.articles = props.store.articlesStore.store.articles
+        state.articlesCount = props.store.articlesStore.store.articlesCount
         state.tags = props.store.articlesStore.store.tags
         state.currentTag = props.req.params.tag
+        state.req = props.req
       }
       onBeforeMount(props, state) {
         this.connect(props, state);

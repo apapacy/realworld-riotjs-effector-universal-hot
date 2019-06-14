@@ -5,6 +5,7 @@ export default new UniversalRouter([
   { path: '/settings', action: () => ({ page: 'settings', data: {action: 'settings' } }) },
   { path: '/', action: (req) => ({ page: 'home', data: { req, action: 'home' } }) },
   { path: '/feed', action: (req) => ({ page: 'home', data: { req, action: 'feed' } }) },
+  { path: '/feed/page/:page', action: (req) => ({ page: 'home', data: { req, action: 'feed' } }) },
   { path: '/tags/:tag', action: (req) => ({ page: 'home', data: { req, action: 'tag' } }) },
   { path: '/article/:article', action: (req) => ({ page: 'article', data: { req, action: 'article' } }) },
   { path: '/edit/:article', action: (req) => ({ page: 'editor', data: { req, action: 'edit' } }) },

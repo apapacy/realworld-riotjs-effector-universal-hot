@@ -20,7 +20,7 @@ export default class ArticlesStore {
     this.init = createEvent();
     this.articlesStore = createStore(null)
       .on(this.init, (state, store) => ({ ...store} ))
-      .on(this.successArticles, (state, articles) => ({ ...state, articles }))
+      .on(this.successArticles, (state, {articles, articlesCount}) => ({ ...state, articles, articlesCount }))
       .on(this.successTags, (state, tags) => ({ ...state, tags }))
       .on(this.updateError, (state, error) => ({...state, error }));
   }
@@ -47,7 +47,7 @@ export default class ArticlesStore {
       url: filter === 'feed' ? '/articles/feed' : '/articles',
       params,
     }).then(
-      response => this.successArticles(response.data.articles),
+      response => this.successArticles(response.data),
       error => this.updateError(parseError(error)),
     );
   }
