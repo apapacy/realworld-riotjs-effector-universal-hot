@@ -1,87 +1,85 @@
-const path = require('path');
-const express = require('express');
-const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
-const cookieEncrypter = require('cookie-encrypter');
-const bodyParser = require('body-parser');
-const webpack = require('webpack');
-const webpackClientDevMiddleware = require('webpack-dev-middleware');
-const webpackClientHotMiddleware = require('webpack-hot-middleware');
-const webpackClientConfig = require('./config.client');
-const serverConfig = require('./config.server');
+const path = require('path')
+const express = require('express')
+const morgan = require('morgan')
+const cookieParser = require('cookie-parser')
+const cookieEncrypter = require('cookie-encrypter')
+const bodyParser = require('body-parser')
+const webpack = require('webpack')
+const webpackClientDevMiddleware = require('webpack-dev-middleware')
+const webpackClientHotMiddleware = require('webpack-hot-middleware')
+const webpackClientConfig = require('./config.client')
+const serverConfig = require('./config.server')
 
-const serverCompiler = webpack(serverConfig);
-const clientCompiler = webpack(webpackClientConfig);
-const port = Number(process.env.PORT) || 3000;
-const app = express();
-const nodeEnv = process.env.NODE_ENV || 'development';
+const serverCompiler = webpack(serverConfig)
+const clientCompiler = webpack(webpackClientConfig)
+const port = Number(process.env.PORT) || 3000
+const app = express()
+const nodeEnv = process.env.NODE_ENV || 'development'
 
-const serverPath = path.resolve(__dirname, '../build/render.server.js');
-let render = require(serverPath).render; // eslint-disable-line import/no-dynamic-require
-app.set('env', nodeEnv);
+const serverPath = path.resolve(__dirname, '../build/render.server.js')
+let render = require(serverPath).render
+app.set('env', nodeEnv)
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
-app.use(cookieParser('change secret value'));
-app.use(cookieEncrypter('change secret value.............'));
-app.use(bodyParser.json());
+app.use(cookieParser('change secret value'))
+app.use(cookieEncrypter('change secret value.............'))
+app.use(bodyParser.json())
 
 app.use(webpackClientDevMiddleware(clientCompiler, {
   publicPath: webpackClientConfig.output.publicPath,
   headers: { 'Access-Control-Allow-Origin': '*' },
   stats: { colors: true },
-  historyApiFallback: true,
-}));
+  historyApiFallback: true
+}))
 
 app.use(webpackClientHotMiddleware(clientCompiler, {
   log: console.log,
   path: '/__webpack_hmr',
-  heartbeat: 1000,
-}));
+  heartbeat: 1000
+}))
 
 app.use('/token', (req, res) => {
   if (req.body.token) {
-    res.cookie('token', req.body.token, { signed: true, httpOnly: false, maxAge: 999999999999 });
+    res.cookie('token', req.body.token, { signed: true, httpOnly: false, maxAge: 999999999999 })
   } else {
-    res.cookie('token', '', { signed: false });
+    res.cookie('token', '', { signed: false })
   }
-  res.send('');
-});
+  res.send('')
+})
 
-
-app.use('/', (req, res, next) => render(req, res, next));
+app.use('/', (req, res, next) => render(req, res, next))
 
 app.listen(port, () => {
-  console.log(`Listening at ${port}`);
-});
+  console.log(`Listening at ${port}`)
+})
 
-function clearCache() {
-  const cacheIds = Object.keys(require.cache);
+function clearCache () {
+  const cacheIds = Object.keys(require.cache)
 
   cacheIds.forEach((id) => {
     if (id === serverPath) {
-      delete require.cache[id];
+      delete require.cache[id]
     }
-  });
+  })
 }
 
-function onServerChange(err, stats) {
+function onServerChange (err, stats) {
   if (err || (stats.compilation && stats.compilation.errors && stats.compilation.errors.length)) {
-    console.log('Server bundling error:', err || stats.compilation.errors);
+    console.log('Server bundling error:', err || stats.compilation.errors)
   }
-  clearCache();
+  clearCache()
   try {
-    render = require(serverPath).render; // eslint-disable-line import/no-dynamic-require, global-require, max-len
+    render = require(serverPath).render
   } catch (ex) {
-    console.log('Error detecded', ex);
+    console.log('Error detecded', ex)
   }
 }
 
-function watch() {
+function watch () {
   const compilerOptions = {
     aggregateTimeout: 300,
-    poll: 150,
-  };
-
-  serverCompiler.watch(compilerOptions, onServerChange);
+    poll: 150
+  }
+  serverCompiler.watch(compilerOptions, onServerChange)
 }
 
-watch();
+watch()

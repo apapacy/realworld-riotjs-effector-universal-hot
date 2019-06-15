@@ -1,16 +1,17 @@
-const webpack = require('webpack');
-const path = require('path');
+const webpack = require('webpack')
+const path = require('path')
 
-const nodeEnv = process.env.NODE_ENV || 'development';
-const isDevelopment = nodeEnv === 'development';
+const nodeEnv = process.env.NODE_ENV || 'development'
+const isDevelopment = nodeEnv === 'development'
 
-const entry = {};
+const entry = {}
 
 entry['main'] = [
-  '../src/index.client.js',
-];
+  '../src/index.client.js'
+]
+
 if (isDevelopment) {
-  entry['main'].unshift('webpack-hot-middleware/client');
+  entry['main'].unshift('webpack-hot-middleware/client')
 }
 
 module.exports = {
@@ -25,7 +26,7 @@ module.exports = {
     path: path.resolve(__dirname, '../build'),
     publicPath: isDevelopment ? '/static/' : '/static/',
     filename: isDevelopment ? '[name].bundle.js' : '[name].[hash].bundle.js',
-    chunkFilename: isDevelopment ? '[name].bundle.js' : '[name].[hash].bundle.js',
+    chunkFilename: isDevelopment ? '[name].bundle.js' : '[name].[hash].bundle.js'
   },
   module: {
     rules: [{
@@ -38,11 +39,11 @@ module.exports = {
         presets: [
           ['@babel/preset-env', {
             targets: {
-              browsers: ['>90%'],
+              browsers: ['>90%']
             },
-            exclude: ['transform-async-to-generator', 'transform-regenerator',],
+            exclude: ['transform-async-to-generator', 'transform-regenerator']
           }],
-          '@babel/preset-react',
+          '@babel/preset-react'
         ],
         plugins: (isDevelopment ? [
           ['module:fast-async', { spec: true }],
@@ -50,36 +51,34 @@ module.exports = {
             corejs: false,
             helpers: true,
             regenerator: true,
-            useESModules: false,
+            useESModules: false
           }],
           '@babel/plugin-syntax-dynamic-import',
-          ["@babel/plugin-proposal-decorators", { "legacy": true }],
-          ["@babel/plugin-proposal-class-properties", { "loose": true }]
+          ['@babel/plugin-proposal-decorators', { 'legacy': true }],
+          ['@babel/plugin-proposal-class-properties', { 'loose': true }]
         ] : [
           ['@babel/plugin-transform-runtime', {
             corejs: false,
             helpers: true,
             regenerator: true,
-            useESModules: false,
+            useESModules: false
           }],
           '@babel/plugin-syntax-dynamic-import',
-          ["@babel/plugin-proposal-decorators", { "legacy": true }],
-          ["@babel/plugin-proposal-class-properties", { "loose": true }]
+          ['@babel/plugin-proposal-decorators', { 'legacy': true }],
+          ['@babel/plugin-proposal-class-properties', { 'loose': true }]
         ]).concat([
-        ]),
-      },
+        ])
+      }
     }, {
       test: /\.riot$/,
       exclude: /node_modules/,
       use: [{
         loader: '@riotjs/webpack-loader',
         options: {
-          hot: isDevelopment, // set it to true if you are using hmr
-          // add here all the other @riotjs/compiler options riot.js.org/compiler
-          // template: 'pug' for example
+          hot: isDevelopment
         }
       }]
-    }],
+    }]
   },
   optimization: {
     minimize: !isDevelopment,
@@ -94,24 +93,24 @@ module.exports = {
           name: 'common',
           enforce: true,
           maxAsyncRequests: 1,
-          maxInitialRequests: 1,
-        },
-      },
-    },
+          maxInitialRequests: 1
+        }
+      }
+    }
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.NamedModulesPlugin(),
-    function StatsPlugin() {
+    function StatsPlugin () {
       this.plugin('done', stats =>
-        require('fs').writeFileSync( // eslint-disable-line no-sync, global-require
+        require('fs').writeFileSync(
           path.join(__dirname, '../build', 'stats.generated.js'),
-          `module.exports=${JSON.stringify(stats.toJson().assetsByChunkName)};\n`,
-        ));
-    },
+          `module.exports=${JSON.stringify(stats.toJson().assetsByChunkName)};\n`
+        ))
+    }
   ].concat(isDevelopment ? [
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ] : [
-  ]),
-};
+  ])
+}

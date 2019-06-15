@@ -1,7 +1,7 @@
 import { createBrowserHistory } from 'history'
 import parse from 'url-parse'
 import deepEqual from 'deep-equal'
-const isNode = new Function('try {return this===global;}catch(e){return false;}')
+const isNode = new Function('try {return this===global;}catch(e){return false;}') //eslint-disable-line
 let history
 
 if (!isNode()) {
