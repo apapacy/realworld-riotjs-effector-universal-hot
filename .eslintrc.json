@@ -1,5 +1,9 @@
 {
     "parser": "babel-eslint",
+    "plugins": [
+        "html",
+        "riot"
+    ],
     "env": {
         "browser": true,
         "es6": true

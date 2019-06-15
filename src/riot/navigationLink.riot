@@ -1,14 +1,14 @@
 <navigation-link href={props.href} onclick={action}>
   <slot/>
   <script>
-    import history from '../history';
+    import history from '../history'
     export default {
-      action(e) {
-        e.preventDefault();
-        history.navigate(e.currentTarget.getAttribute('href'));
+      action (e) {
+        e.preventDefault()
+        history.navigate(e.currentTarget.getAttribute('href'))
         if (this.props.onclick) {
-          this.props.onclick.call(this, e);
-          e.stopPropagation();
+          this.props.onclick.call(this, e)
+          e.stopPropagation()
         }
       }
     }

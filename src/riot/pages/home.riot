@@ -13,13 +13,13 @@
             <ul class="nav nav-pills outline-active">
               <li is="navigationitem" to="/feed">Your Feed</li>
               <li is="navigationitem" to="/">Global Feed</li>
-              <li if={state.currentTag} class={ 'nav-item'  + ('/' + props.action === props.to ? ' active' : '') }>
+              <li if={ state.currentTag } class={ 'nav-item'  + ('/' + props.action === props.to ? ' active' : '') }>
                 <a
                   is='navigationlink'
                   class='nav-link'
                   href={ props.to }
                 >
-                  #<span>{state.currentTag}</span>
+                  #<span>{ state.currentTag }</span>
                 </a>
               </li>
             </ul>
@@ -32,19 +32,19 @@
             user={ state.user }
             store={ props.store }
           />
-          <nav is="pagination" count={state.articlesCount} req={state.req}/>
+          <nav is="pagination" count={ state.articlesCount } req={ state.req }/>
         </div>
         <div class="col-md-3">
           <div class="sidebar">
             <p>Popular Tags</p>
             <div class="tag-list">
-              <a if={state.tags}
-                each={tag in state.tags}
+              <a if={ state.tags }
+                each={ tag in state.tags }
                 is="navigationlink"
-                href={`/tags/${tag}`}
+                href={ `/tags/${tag}` }
                 class="tag-pill tag-default"
               >
-                #<span>{tag}</span>
+                #<span>{ tag }</span>
               </a>
             </div>
           </div>
@@ -53,21 +53,20 @@
     </div>
   </div>
   <script>
-    //import { me } from '../../redux/services/user';
-    //import { feed, tags } from '../../redux/services/articles';
     import Articlepreview from '../components/articlePreview.riot';
     import Navigationitem from '../components/navigationItem.riot';
     import Pagination from '../components/pagination.riot';
     import Navigationlink from '../navigationLink.riot';
+
     export default {
       components: {
         Articlepreview,
         Navigationitem,
         Pagination,
-        Navigationlink,
+        Navigationlink
       },
-      connect(props, state) {
-        state.user = props.store.userStore.store;
+      connect (props, state) {
+        state.user = props.store.userStore.store
         state.articles = props.store.articlesStore.store.articles
         state.articlesCount = props.store.articlesStore.store.articlesCount
         state.tags = props.store.articlesStore.store.tags
@@ -75,23 +74,23 @@
         state.req = props.req
       }
       onBeforeMount(props, state) {
-        this.connect(props, state);
+        this.connect(props, state)
       },
       onBeforeUpdate(props, state) {
-        this.connect(props, state);
+        this.connect(props, state)
       },
       async init(route) {
-        const page = Number(route.data.req.params.page || 1);
-        const tag = route.data.req.params.tag;
+        const page = Number(route.data.req.params.page || 1)
+        const tag = route.data.req.params.tag
         const action = route.data.action
         if (route.data['sign-out']) {
-          await route.store.userStore.logout();
+          await route.store.userStore.logout()
         }
-        const { req } = route;
-        await Promise.all([
+        const { req } = route
+        return Promise.all([
           route.store.articlesStore.getTags({ req }),
           route.store.articlesStore.feed({ page, tag, action, req })
-        ]);
+        ])
       }
     }
   </script>

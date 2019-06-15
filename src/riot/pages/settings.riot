@@ -4,8 +4,8 @@
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
           <h1 class="text-xs-center">Your Settings</h1>
-          <ul is="errorslist" if={user && user.error} error={user && user.error} />
-          <form if={user && user.data} onsubmit={this.onsubmit}>
+          <ul is="errorslist" if={ user && user.error } error={ user && user.error }/>
+          <form if={ user && user.data } onsubmit={ this.onsubmit }>
             <fieldset>
               <fieldset class="form-group">
                 <input
@@ -14,7 +14,7 @@
                   placeholder="URL of profile picture"
                   name="image"
                   autoComplete="off"
-                  value={user.data.image}
+                  value={ user.data.image }
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -24,7 +24,7 @@
                   placeholder="Your Name"
                   name="username"
                   autoComplete="off"
-                  value={user.data.username}
+                  value={ user.data.username }
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -34,7 +34,7 @@
                   placeholder="Short bio about you"
                   name="bio"
                   autoComplete="off"
-                >{user.data.bio}</textarea>
+                >{ user.data.bio }</textarea>
               </fieldset>
               <fieldset class="form-group">
                 <input
@@ -43,7 +43,7 @@
                   placeholder="Email"
                   name="email"
                   autoComplete="off"
-                  value={user.data.email}
+                  value={ user.data.email }
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -68,31 +68,32 @@
     </div>
   </div>
   <script>
-    import Errorslist from '../components/errorsList.riot';
+    import Errorslist from '../components/errorsList.riot'
+
     export default {
-      get user() {
+      get user () {
         try {
-          return this.userStore.store;
+          return this.userStore.store
         } catch (ex) {
         }
       },
       get userStore() {
         try {
-          return this.props.store.userStore;
+          return this.props.store.userStore
         } catch (ex) {
         }
       },
       components: {
         Errorslist
       },
-      async onsubmit(e) {
-        e.preventDefault();
+      onsubmit(e) {
+        e.preventDefault()
         const bio = e.target.bio.value
         const email = e.target.email.value
         const image = e.target.image.value
         const username = e.target.username.value
         const password = e.target.password.value
-        await this.userStore.save({ bio, email, image, username, password })
+        return this.userStore.save({ bio, email, image, username, password })
       }
     }
   </script>

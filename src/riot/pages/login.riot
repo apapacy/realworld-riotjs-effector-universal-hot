@@ -1,4 +1,4 @@
-<log-in class={"auth-page"}>
+<log-in class={'auth-page'}>
   <div class="container page">
     <div class="row">
       <div class="col-md-6 offset-md-3 col-xs-12">
@@ -6,12 +6,12 @@
             { props.action === 'sign-up' ? 'Sign up' : 'Sign in' }
         </h1>
         <p class="text-xs-center">
-          <a if={props.action === 'sign-up'} is="navigationlink" href="/sign-in">Have an account?</a>
-          <a if={props.action === 'sign-in'} is="navigationlink" href="/sign-up">Need an account?</a>
+          <a if={ props.action === 'sign-up' } is="navigationlink" href="/sign-in">Have an account?</a>
+          <a if={ props.action === 'sign-in' } is="navigationlink" href="/sign-up">Need an account?</a>
         </p>
         <ul is="errorslist" if={ state.user && state.user.error } error={ state.user.error } />
-        <form onsubmit={this.onsubmit}>
-          <fieldset if={ props.action === 'sign-up'} class="form-group">
+        <form onsubmit={ this.onsubmit }>
+          <fieldset if={ props.action === 'sign-up' } class="form-group">
             <input
               class="form-control form-control-lg"
               type="text"
@@ -46,7 +46,6 @@
     </div>
   </div>
   <script>
-    let isFirstLoad = true
     import Navigationlink from '../navigationLink.riot'
     import Errorslist from '../components/errorsList.riot'
     import history from '../../history'
@@ -57,17 +56,17 @@
         Errorslist
       },
       connect(props, state) {
-        state.userStore = props.store.userStore;
-        state.user = props.store.userStore.store;
+        state.userStore = props.store.userStore
+        state.user = props.store.userStore.store
       },
       onBeforeMount(props, state) {
-        this.connect(props, state);
+        this.connect(props, state)
       },
       onBeforeUpdate(props, state) {
-        this.connect(props, state);
+        this.connect(props, state)
       },
       async onsubmit(e) {
-        e.preventDefault();
+        e.preventDefault()
         const email = e.target.email.value
         const password = e.target.password.value
         if (this.props.action === 'sign-in') {
@@ -77,7 +76,7 @@
           await this.state.userStore.signup({ email, password, username})
         }
         if (!this.state.user.error) {
-          history.navigate(`/author/${ this.state.user.data.username }`);
+          return history.navigate(`/author/${ this.state.user.data.username }`)
         }
       }
     }

@@ -1,8 +1,8 @@
-<editor-div class={"editor-page"}>
+<editor-div class={'editor-page'}>
   <div class="container page">
     <div class="row">
       <div class="col-md-10 offset-md-1 col-xs-12">
-        <form onsubmit={this.onsubmit}>
+        <form onsubmit={ this.onsubmit }>
           <fieldset>
             <fieldset class="form-group">
               <input
@@ -10,7 +10,7 @@
                 class="form-control form-control-lg"
                 placeholder="Article Title"
                 name="title"
-                value={state.article.title || ''}
+                value={ state.article.title || '' }
               />
             </fieldset>
             <fieldset class="form-group">
@@ -19,7 +19,7 @@
                 class="form-control"
                 placeholder="What's this article about?"
                 name="description"
-                value={state.article.description || ''}
+                value={ state.article.description || '' }
               />
             </fieldset>
             <fieldset class="form-group">
@@ -29,7 +29,7 @@
                 placeholder="Write your article (in markdown)"
                 name="body"
                 value=
-              >{ state.article.body || ''}</textarea>
+              >{ state.article.body || '' }</textarea>
             </fieldset>
             <fieldset class="form-group">
               <input
@@ -37,7 +37,7 @@
                 class="form-control"
                 placeholder="Enter tags"
                 name="tagList"
-                value={state.article.tagList || ''}
+                value={ state.article.tagList || '' }
               />
               <div class="tag-list" />
             </fieldset>
@@ -54,24 +54,25 @@
   </div>
   <script>
     import history from '../../history'
+
     export default {
-      connect(props, state) {
+      connect (props, state) {
         if (props.action === 'edit') {
-          state.article = props.store.articleStore.store.article;
+          state.article = props.store.articleStore.store.article
         } else {
-          state.article = {};
+          state.article = {}
         }
         state.user = props.store.userStore.store
       }
       onBeforeMount(props, state) {
-        this.connect(props, state);
+        this.connect(props, state)
       },
       onBeforeUpdate(props, state) {
-        this.connect(props, state);
+        this.connect(props, state)
       },
       init(route) {
         if (route.data.action === 'edit') {
-          return route.store.articleStore.article({ slug: route.data.req.params.article });
+          return route.store.articleStore.article({ slug: route.data.req.params.article })
         }
       },
       async onsubmit(e) {
@@ -81,10 +82,10 @@
           title: e.target.title.value,
           description: e.target.description.value,
           body: e.target.body.value,
-          tagList: e.target.tagList.value.split(','),
+          tagList: e.target.tagList.value.split(',')
         });
         if (this.props.store.articleStore.store.article) {
-          history.navigate(`/article/${ this.props.store.articleStore.store.article.slug }`);
+          history.navigate(`/article/${this.props.store.articleStore.store.article.slug}`)
         }
       }
     }
