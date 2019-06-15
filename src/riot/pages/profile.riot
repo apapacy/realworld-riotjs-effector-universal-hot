@@ -21,10 +21,10 @@
       <div class="col-xs-12 col-md-10 offset-md-1">
         <div class="articles-toggle">
           <ul class="nav nav-pills outline-active">
-            <li is="navigationitem" to={ `/author/${state.profile.data.username}` }>
+            <li is="navigationitem" active={ props.action === 'author' } to={ `/author/${state.profile.data.username}` }>
               My Articles
             </li>
-            <li is="navigationitem" to={ `/favorited/${state.profile.data.username}` }>
+            <li is="navigationitem" active={ props.action === 'favorited' } to={ `/favorited/${state.profile.data.username}` }>
               Favorited Articles
             </li>
           </ul>

@@ -1,5 +1,5 @@
-<navigation-item class={ `nav-item${`/${props.action}` === props.to ? ' active' : ''}` }>
-  <a is="navigationlink" class="nav-link" href={ props.to }>
+<navigation-item class={ `nav-item${props.active ? ' active' : ''}` }>
+  <a is="navigationlink" class={ `nav-link${props.active ? ' active' : ''}` } href={ props.to }>
     <slot/>
   </a>
   <script>

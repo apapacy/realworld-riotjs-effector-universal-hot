@@ -11,12 +11,12 @@
         <div class="col-md-9">
           <div class="feed-toggle">
             <ul class="nav nav-pills outline-active">
-              <li is="navigationitem" to="/feed">Your Feed</li>
-              <li is="navigationitem" to="/">Global Feed</li>
-              <li if={ state.currentTag } class={ 'nav-item'  + ('/' + props.action === props.to ? ' active' : '') }>
+              <li is="navigationitem" if={ state.user && state.user.data } active={ props.action === 'feed' } to="/feed">Your Feed</li>
+              <li is="navigationitem" active={ props.action === 'home' } to="/">Global Feed</li>
+              <li if={ state.currentTag } class="nav-item">
                 <a
                   is='navigationlink'
-                  class='nav-link'
+                  class='nav-link active'
                   href={ props.to }
                 >
                   #<span>{ state.currentTag }</span>
