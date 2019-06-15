@@ -1,63 +1,62 @@
 import * as riot from 'riot'
-import ssr from '@riotjs/ssr';
-// import App from './riot/components/layout.riot'
+import ssr from '@riotjs/ssr'
 import App from './riot/App.riot'
-import router from './router';
-import getStore, {getState} from './store';
-import stats from '../build/stats.generated';
+import router from './router'
+import getStore, { getState } from './store'
+import stats from '../build/stats.generated'
 
 const pages = {}
 const isDevelopment = process.env.NODE_ENV === 'development'
 
-function assets(name) {
-  const prefix = '/static/';
+function assets (name) {
+  const prefix = '/static/'
   if (name instanceof Array) {
-    return prefix + name[0];
+    return prefix + name[0]
   }
-  return prefix + name;
+  return prefix + name
 }
 
-export const render = async function(req, res, next) {
-  const store = getStore();
-  const promises = [];
+export const render = async function (req, res, next) {
+  const store = getStore()
+  const promises = []
   if (req.signedCookies && req.signedCookies.token) {
     try {
-      promises.push(store.userStore.me({ req }));
-    } catch(ex) {
+      promises.push(store.userStore.me({ req }))
+    } catch (ex) {
     }
   }
-  const route = await router.resolve(req.originalUrl);
-  if (isDevelopment || !pages[route.page] ) {
+  const route = await router.resolve(req.originalUrl)
+  if (isDevelopment || !pages[route.page]) {
     pages[route.page] = require(`./riot/pages/${route.page}.riot`).default
     pages['layout'] = require(`./riot/components/layout.riot`).default
     try {
-      riot.unregister(route.page);
+      riot.unregister(route.page)
     } catch (ex) {
     }
     try {
-      riot.unregister('layout');
+      riot.unregister('layout')
     } catch (ex) {
       console.log(ex)
     }
-    riot.register(route.page, pages[route.page]);
-    riot.register('layout', pages['layout']);
+    riot.register(route.page, pages[route.page])
+    riot.register('layout', pages['layout'])
   }
   if (pages[route.page] && pages[route.page].exports && pages[route.page].exports.init) {
     try {
-      promises.push(pages[route.page].exports.init({ ...route, store, req }));
-    } catch(ex) {
+      promises.push(pages[route.page].exports.init({ ...route, store, req }))
+    } catch (ex) {
       console.log(ex)
     }
   }
   if (promises.length > 0) {
     try {
-      await Promise.all(promises);
+      await Promise.all(promises)
     } catch (ex) {
-      console.log(ex);
+      console.log(ex)
     }
   }
-  const html = ssr('section', App, {...route, store })
-  res.writeHead(200);
+  const html = ssr('section', App, { ...route, store })
+  res.writeHead(200)
   res.write(`
       <!DOCTYPE html>
       <!DOCTYPE html>
@@ -81,6 +80,6 @@ export const render = async function(req, res, next) {
           <script src='${assets(stats.main)}' type='text/javascript'></script>
         </body>
       </html>
-    `);
-    res.end();
+    `)
+  res.end()
 }
