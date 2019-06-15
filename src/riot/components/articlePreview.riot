@@ -1,64 +1,64 @@
 <article-preview>
   <div class="article-preview">
     <div class="article-meta">
-      <a is="navigationlink" href={`/author/${ encodeURIComponent(props.article.author.username) }`} >
+      <a is="navigationlink" href={ `/author/${encodeURIComponent(props.article.author.username)}` } >
         <img alt="☺" src={props.article.author.image}/>
       </a>
       <div class="info">
-        <a is="navigationlink" href={`/author/${ encodeURIComponent(props.article.author.username) }`} class="author">
+        <a is="navigationlink" href={ `/author/${encodeURIComponent(props.article.author.username)}` } class="author">
           <span>{ props.article.author.username }</span>
         </a>
         <span class="date">{ publicationDate }</span>
       </div>
-      <button is="favorited" article={ props.article } user={ props.user } text={ false } onclick={this.onclick}/>
+      <button is="favorited" article={ props.article } user={ props.user } text={ false } onclick={ this.onclick }/>
     </div>
-    <a  is="navigationlink" href={`/article/${props.article.slug}`} class="preview-link">
-      <h1>{props.article.title}</h1>
-      <p>{props.article.description}</p>
+    <a  is="navigationlink" href={ `/article/${props.article.slug}` } class="preview-link">
+      <h1>{ props.article.title }</h1>
+      <p>{ props.article.description }</p>
       <span>Read more...</span>
     </a>
     <div>
-      <ul class="tag-list" >
-        <li  each={tag in props.article.tagList} class="tag-default tag-pill tag-outline" >
-          <a is="navigationlink" href={`/tags/${tag}`}>#<span>{tag}</span></a>
+      <ul class="tag-list">
+        <li  each={ tag in props.article.tagList } class="tag-default tag-pill tag-outline" >
+          <a is="navigationlink" href={ `/tags/${tag}` }>#<span>{ tag }</span></a>
         </li>
       </ul>
     </div>
   </div>
   <script>
-    import moment from 'moment';
-    import Navigationlink from '../navigationLink.riot';
-    import Favorited from './favorited.riot';
+    import moment from 'moment'
+    import Navigationlink from '../navigationLink.riot'
+    import Favorited from './favorited.riot'
 
     export default {
-      get publicationDate() {
+      get publicationDate () {
         try {
-          return moment(this.props.article.updatedAt).format('ddd MMM DD YYYY');
-        } catch(ex) {
+          return moment(this.props.article.updatedAt).format('ddd MMM DD YYYY')
+        } catch (ex) {
         }
       },
       components: {
         Navigationlink,
         Favorited
       },
-      async onclick(e) {
+      async onclick (e) {
         if (!(this.props.user && this.props.user.data)) {
-          return;
+          return
         }
         if (this.props.user.data.username === this.props.article.author.username) {
           return
         }
         const { slug } = this.props.article
-        let method;
+        let method
         if (this.props.article.favorited) {
-          method = 'delete';
+          method = 'delete'
         } else {
-          method = 'post';
+          method = 'post'
         }
-        await this.props.store.articleStore.favorite({ slug, method})
+        await this.props.store.articleStore.favorite({ slug, method })
         this.props.store.articlesStore.updateCurrentArticle(
-          this.props.store.articleStore.store.article);
-        e.target.blur();
+          this.props.store.articleStore.store.article)
+        e.target.blur()
       }
     }
   </script>

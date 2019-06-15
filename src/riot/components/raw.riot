@@ -1,13 +1,13 @@
 <raw>
   <script>
     export default {
-      setInnerHTML() {
+      setInnerHTML () {
         this.root.innerHTML = this.props.html
-      }
-      onMounted() {
+      },
+      onMounted () {
         this.setInnerHTML()
       },
-      onUpdated() {
+      onUpdated () {
         this.setInnerHTML()
       }
     }

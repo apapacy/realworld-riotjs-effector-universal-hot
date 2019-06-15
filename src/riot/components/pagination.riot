@@ -3,31 +3,31 @@
     <li each={page in this.preparePages()} class={
       `page-item ${ page == 1 && !props.req.params.page || props.req.params.page == page ?  'active' : '' }`
     }>
-      <a is="navigationlink" class="page-link" href={this.prepareLink(page)}>
+      <a is="navigationlink" class="page-link" href={ this.prepareLink(page) }>
         <span>{ page }</span>
       </a>
     </li>
   </ul>
   <script>
-    import Navigationlink from '../navigationLink.riot';
+    import Navigationlink from '../navigationLink.riot'
     export default {
       components: {
         Navigationlink
       },
-      preparePages(page) {
-        const pageCount = Math.ceil(this.props.count / 10);
-        const pages = [];
+      preparePages (page) {
+        const pageCount = Math.ceil(this.props.count / 10)
+        const pages = []
         for (let i = 1; i <= pageCount; i++) {
-          pages.push(i);
+          pages.push(i)
         }
-        return pages;
-      }
-      prepareLink(page) {
-        const basePath = this.props.req.path.replace(/\/(page\/[0-9]+)?$/, '');
+        return pages
+      },
+      prepareLink (page) {
+        const basePath = this.props.req.path.replace(/\/(page\/[0-9]+)?$/, '')
         if (page === 1) {
-          return basePath || '/';
+          return basePath || '/'
         }
-        return `${basePath}/page/${page}`;
+        return `${basePath}/page/${page}`
       }
     }
   </script>

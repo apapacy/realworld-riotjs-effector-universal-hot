@@ -1,13 +1,10 @@
-<navigation-item class={ 'nav-item'  + ('/' + props.action === props.to ? ' active' : '') }>
-  <a
-    is='navigationlink'
-    class='nav-link'
-    href={ props.to }
-  >
+<navigation-item class={ `nav-item${`/${props.action}` === props.to ? ' active' : ''}` }>
+  <a is="navigationlink" class="nav-link" href={ props.to }>
     <slot/>
   </a>
   <script>
     import Navigationlink from '../navigationLink.riot'
+
     export default {
       components: {
         Navigationlink

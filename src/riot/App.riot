@@ -1,22 +1,23 @@
-<app id={'app'}>
-    <div is="layout" {...Object.assign({}, state, {id: 'layout'})}/>
+<app id={ 'app' }>
+    <div is="layout" { ...Object.assign({ }, state, { id: 'layout' })}/>
   <script>
     import Layout from './components/layout.riot'
+
     export default {
       components: {
         Layout
       },
-      onBeforeMount(props, state) {
+      onBeforeMount (props, state) {
         Object.assign(state, props)
         this.unsubscribeUser = state.store.userStore.userStore.watch(() => this.mounted && this.update())
         this.unsubscribeArticles = state.store.articlesStore.articlesStore.watch(() => this.mounted && this.update())
         this.unsubscribeArticle = state.store.articleStore.articleStore.watch(() => this.mounted && this.update())
         this.unsubscribeProfile = state.store.profileStore.profileStore.watch(() => this.mounted && this.update())
       },
-      onMounted() {
+      onMounted () {
         this.mounted = true
       },
-      onUnmounted(props, state) {
+      onUnmounted (props, state) {
         this.unsubscribeUser()
         this.unsubscribeArticles()
         this.unsubscribeArticle()

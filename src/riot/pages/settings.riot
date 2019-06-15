@@ -77,7 +77,7 @@
         } catch (ex) {
         }
       },
-      get userStore() {
+      get userStore () {
         try {
           return this.props.store.userStore
         } catch (ex) {
@@ -86,7 +86,7 @@
       components: {
         Errorslist
       },
-      onsubmit(e) {
+      onsubmit (e) {
         e.preventDefault()
         const bio = e.target.bio.value
         const email = e.target.email.value

@@ -1,4 +1,4 @@
-<log-in class={'auth-page'}>
+<log-in class={ 'auth-page' }>
   <div class="container page">
     <div class="row">
       <div class="col-md-6 offset-md-3 col-xs-12">
@@ -55,28 +55,28 @@
         Navigationlink,
         Errorslist
       },
-      connect(props, state) {
+      connect (props, state) {
         state.userStore = props.store.userStore
         state.user = props.store.userStore.store
       },
-      onBeforeMount(props, state) {
+      onBeforeMount (props, state) {
         this.connect(props, state)
       },
-      onBeforeUpdate(props, state) {
+      onBeforeUpdate (props, state) {
         this.connect(props, state)
       },
-      async onsubmit(e) {
+      async onsubmit (e) {
         e.preventDefault()
         const email = e.target.email.value
         const password = e.target.password.value
         if (this.props.action === 'sign-in') {
-          await this.state.userStore.login({ email, password})
+          await this.state.userStore.login({ email, password })
         } else {
           const username = e.target.username.value
-          await this.state.userStore.signup({ email, password, username})
+          await this.state.userStore.signup({ email, password, username })
         }
         if (!this.state.user.error) {
-          return history.navigate(`/author/${ this.state.user.data.username }`)
+          return history.navigate(`/author/${this.state.user.data.username}`)
         }
       }
     }

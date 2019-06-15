@@ -1,11 +1,14 @@
 {
     "parser": "babel-eslint",
     "plugins": [
-        "html",
-        "riot"
+        "html"
     ],
+    "settings": {
+        "html/html-extensions": [".html", ".riot"]
+    },
     "env": {
         "browser": true,
+        "node": true,
         "es6": true
     },
     "extends": "standard",

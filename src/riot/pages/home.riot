@@ -53,10 +53,10 @@
     </div>
   </div>
   <script>
-    import Articlepreview from '../components/articlePreview.riot';
-    import Navigationitem from '../components/navigationItem.riot';
-    import Pagination from '../components/pagination.riot';
-    import Navigationlink from '../navigationLink.riot';
+    import Articlepreview from '../components/articlePreview.riot'
+    import Navigationitem from '../components/navigationItem.riot'
+    import Pagination from '../components/pagination.riot'
+    import Navigationlink from '../navigationLink.riot'
 
     export default {
       components: {
@@ -72,14 +72,14 @@
         state.tags = props.store.articlesStore.store.tags
         state.currentTag = props.req.params.tag
         state.req = props.req
-      }
-      onBeforeMount(props, state) {
+      },
+      onBeforeMount (props, state) {
         this.connect(props, state)
       },
-      onBeforeUpdate(props, state) {
+      onBeforeUpdate (props, state) {
         this.connect(props, state)
       },
-      async init(route) {
+      async init (route) {
         const page = Number(route.data.req.params.page || 1)
         const tag = route.data.req.params.tag
         const action = route.data.action

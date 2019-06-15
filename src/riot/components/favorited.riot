@@ -1,19 +1,19 @@
-<favorite-button class={`btn btn-sm btn${ props.article.favorited ? '' : '-outline' }-primary${ props.text ? '' : ' pull-xs-right' }`}>
+<favorite-button class={ `btn btn-sm btn${props.article.favorited ? '' : '-outline'}-primary${props.text ? '' : ' pull-xs-right'}` }>
   <i class="ion-heart" />
     <span if={ props.text }> {getText()}</span>
       &nbsp;
-  <span class="counter">{props.article.favoritesCount}</span>
+  <span class="counter">{ props.article.favoritesCount }</span>
   <script>
     export default {
-      getText() {
-        if (!(this.props.user && this.props.user.data)
-          || this.props.user.data.username === this.props.article.author.username) {
+      getText () {
+        if (!(this.props.user && this.props.user.data) ||
+          this.props.user.data.username === this.props.article.author.username) {
           return 'Favorited count'
         }
         if (this.props.article.favorited) {
-          return 'Unfavorite';
+          return 'Unfavorite'
         }
-        return 'Favorite';
+        return 'Favorite'
       }
     }
   </script>

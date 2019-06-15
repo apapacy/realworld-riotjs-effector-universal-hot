@@ -1,4 +1,4 @@
-<article-div class={'article-page'}>
+<article-div class={ 'article-page' }>
   <div class="banner">
     <div class="container">
       <h1>{ state.article.title }</h1>
@@ -123,20 +123,20 @@
     </div>
   </div>
   <script>
-    import moment from 'moment';
-    import marked from 'marked';
-    import Navigationlink from '../navigationLink.riot';
-    import Raw from '../components/raw.riot';
-    import Following from '../components/following.riot';
-    import Favorited from '../components/favorited.riot';
-    import Comments from '../components/comments.riot';
+    import moment from 'moment'
+    import marked from 'marked'
+    import Navigationlink from '../navigationLink.riot'
+    import Raw from '../components/raw.riot'
+    import Following from '../components/following.riot'
+    import Favorited from '../components/favorited.riot'
+    import Comments from '../components/comments.riot'
     import history from '../../history'
 
     export default {
       get publicationDate () {
         try {
           return moment(this.state.article.updatedAt).format('ddd MMM DD YYYY')
-        } catch(ex) {
+        } catch (ex) {
         }
       },
       components: {
@@ -151,7 +151,7 @@
         state.article = props.store.articleStore.store.article
         state.comments = props.store.articleStore.store.comments
         state.article.html = marked(state.article && state.article.body)
-      }
+      },
       onBeforeMount (props, state) {
         this.connect(props, state)
       },
@@ -190,8 +190,8 @@
         } else {
           method = 'post'
         }
-        await this.props.store.articleStore.favorite({ slug, method})
-        e.target.blur();
+        await this.props.store.articleStore.favorite({ slug, method })
+        e.target.blur()
       },
       async follow (e) {
         if (!(this.state.user && this.state.user.data)) {
@@ -202,9 +202,9 @@
         }
         const author = this.state.article.author.username
         const method = this.state.article.author.following ? 'delete' : 'post'
-        await this.props.store.profileStore.follow({ author, method})
+        await this.props.store.profileStore.follow({ author, method })
         await this.props.store.articleStore.article({ slug: this.state.article.slug })
-        e.target.blur();
+        e.target.blur()
       },
       async deleteArticle (e) {
         e.preventDefault()
@@ -212,7 +212,7 @@
           slug: this.state.article.slug
         })
         if (!this.props.store.articleStore.store.error) {
-          history.navigate(`/author/${ this.state.user.data.username }`)
+          history.navigate(`/author/${this.state.user.data.username}`)
         }
       }
     }
