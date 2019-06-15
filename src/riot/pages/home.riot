@@ -85,7 +85,6 @@
         const tag = route.data.req.params.tag;
         const action = route.data.action
         const { req } = route;
-        console.log({ page, tag, action })
         await Promise.all([
           route.store.articlesStore.getTags({ req }),
           route.store.articlesStore.feed({ page, tag, action, req })

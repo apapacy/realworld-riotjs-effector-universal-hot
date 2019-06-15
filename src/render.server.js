@@ -36,7 +36,6 @@ export const render = async function (req, res, next) {
     try {
       riot.unregister('layout')
     } catch (ex) {
-      console.log(ex)
     }
     riot.register(route.page, pages[route.page])
     riot.register('layout', pages['layout'])
@@ -45,14 +44,12 @@ export const render = async function (req, res, next) {
     try {
       promises.push(pages[route.page].exports.init({ ...route, store, req }))
     } catch (ex) {
-      console.log(ex)
     }
   }
   if (promises.length > 0) {
     try {
       await Promise.all(promises)
     } catch (ex) {
-      console.log(ex)
     }
   }
   const html = ssr('section', App, { ...route, store })
