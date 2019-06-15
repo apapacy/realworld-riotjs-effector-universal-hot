@@ -2,6 +2,7 @@ import UniversalRouter from 'universal-router'
 export default new UniversalRouter([
   { path: '/sign-in', action: () => ({ page: 'login', data: { action: 'sign-in' } }) },
   { path: '/sign-up', action: () => ({ page: 'login', data: { action: 'sign-up' } }) },
+  { path: '/sign-out', action: (req) => ({ page: 'home', data: { req, action: 'home', 'sign-out': true } }) },
   { path: '/settings', action: () => ({ page: 'settings', data: { action: 'settings' } }) },
   { path: '/', action: (req) => ({ page: 'home', data: { req, action: 'home' } }) },
   { path: '/page/:page', action: (req) => ({ page: 'home', data: { req, action: 'home' } }) },
@@ -15,5 +16,5 @@ export default new UniversalRouter([
   { path: '/author/:author', action: (req) => ({ page: 'profile', data: { req, action: 'author' } }) },
   { path: '/favorited/:author', action: (req) => ({ page: 'profile', data: { req, action: 'favorited' } }) },
   { path: '/favorited/:author/page/:page', action: (req) => ({ page: 'profile', data: { req, action: 'favorited' } }) },
-  { path: '(.*)', action: () => ({ page: 'page3' }) }
+  { path: '(.*)', action: () => ({ page: 'notFound', data: { action: 'not-found' } }) }
 ])

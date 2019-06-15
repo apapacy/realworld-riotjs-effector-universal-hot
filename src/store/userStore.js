@@ -40,6 +40,14 @@ export default class UserStore {
     )
   }
 
+  logout () {
+    setJWT(undefined)
+    axios.post('/token', { token: '' }).then(
+      () => this.success(null),
+      error => this.error(parseError(error))
+    )
+  }
+
   me ({ req }) {
     return request(req, {
       method: 'get',
