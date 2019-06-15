@@ -37,23 +37,18 @@ getProfile({ req, author }) {
 }
 
 
-/*export function follow({ author, method }) {
-  if (method !== 'post' && method !== 'delete') {
-    return { type: PROFILE_FOLLOW_FAILURE, error: { message: 'Only post or delete methos alowed' } };
-  }
-  return (dispatch) => {
-    dispatch({ type: PROFILE_FOLLOW_REQUEST });
-    return request(undefined, {
-      method,
-      url: `/profiles/${author}/follow`,
-    }).then(
-      response => dispatch({ type: PROFILE_FOLLOW_SUCCESS, payload: response.data }),
-      error => dispatch({ type: PROFILE_FOLLOW_FAILURE, error: parseError(error) }),
-    );
-  };
+follow({ author, method }) {
+  return request(undefined, {
+    method,
+    url: `/profiles/${author}/follow`,
+  }).then(
+    response => this.success(response.data.profile),
+    error => this.error(parseError(error))
+  );
 }
 
-export function clearErrors() {
+
+/*export function clearErrors() {
   return { type: CLEAR_ERRORS };
 }
 */

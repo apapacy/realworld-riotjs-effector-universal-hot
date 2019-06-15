@@ -35,7 +35,11 @@
           &nbsp;
           Delete <span class="counter" />
         </a>
-        <following
+        <button
+          is="following"
+          if={ state.article.author.username !== state.user.data.username }
+          profile={ state.article.author }
+          onclick={this.follow}
         />
         &nbsp;&nbsp;
         <button
@@ -71,7 +75,11 @@
           </a>
           <span class="date">{ this.publicationDate }</span>
         </div>
-        <following
+        <button
+          is="following"
+          if={ state.article.author.username !== state.user.data.username }
+          profile={ state.article.author }
+          onclick={this.follow}
         />
         &nbsp;
         <button
@@ -120,7 +128,7 @@
     import marked from 'marked';
     import Navigationlink from '../navigationLink.riot';
     import Raw from '../components/raw.riot';
-    //import Following from '../components/following';
+    import Following from '../components/following.riot';
     import Favorited from '../components/favorited.riot';
     import Comments from '../components/comments.riot';
     import history from '../../history'
@@ -139,6 +147,7 @@
         Raw,
         Comments,
         Favorited,
+        Following,
       },
       connect(props, state) {
         state.user = props.store.userStore.store;
@@ -185,6 +194,19 @@
           method = 'post';
         }
         await this.props.store.articleStore.favorite({ slug, method})
+        e.target.blur();
+      },
+      async follow(e) {
+        if (!(this.state.user && this.state.user.data)) {
+          return;
+        }
+        if (this.state.user.data.username === this.state.article.author.username) {
+          return;
+        }
+        const author = this.state.article.author.username;
+        const method = this.state.article.author.following ? 'delete' : 'post';
+        await this.props.store.profileStore.follow({ author, method});
+        await this.props.store.articleStore.article({ slug: this.state.article.slug }),
         e.target.blur();
       },
       async deleteArticle(e) {
