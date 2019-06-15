@@ -21,6 +21,25 @@ export default class UserStore {
       .on(this.updateError, (state, error) => ({ ...state, error }))
   }
 
+  signup ({ username, email, password }) {
+    return request(undefined, {
+      method: 'post',
+      url: '/users',
+      data: { user: { username, email, password } }
+    }).then(
+      (response) => {
+        this.success(response.data.user)
+        setJWT(response.data.user.token)
+        axios.post('/token', { token: response.data.user.token })
+      },
+      (error) => {
+        this.error(parseError(error))
+        setJWT(undefined)
+        axios.post('/token', { token: '' })
+      }
+    )
+  }
+
   login ({ email, password }) {
     return request(undefined, {
       method: 'post',

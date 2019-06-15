@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-6 offset-md-3 col-xs-12">
         <h1 class="text-xs-center">
-            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' } { state.user && state.user.data && state.user.data.email }
+            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' }
         </h1>
         <p class="text-xs-center">
           <a if={props.action === 'sign-up'} is="navigationlink" href="/sign-in">Have an account?</a>
@@ -17,7 +17,7 @@
               type="text"
               placeholder="Your Name"
               autoComplete="off"
-              name="name"
+              name="username"
             />
           </fieldset>
           <fieldset class="form-group" >
@@ -47,8 +47,10 @@
   </div>
   <script>
     let isFirstLoad = true
-    import Navigationlink from '../navigationLink.riot';
-    import Errorslist from '../components/errorsList.riot';
+    import Navigationlink from '../navigationLink.riot'
+    import Errorslist from '../components/errorsList.riot'
+    import history from '../../history'
+
     export default {
       components: {
         Navigationlink,
@@ -68,8 +70,15 @@
         e.preventDefault();
         const email = e.target.email.value
         const password = e.target.password.value
-        await this.state.userStore.login({ email, password})
-        this.update();
+        if (this.props.action === 'sign-in') {
+          await this.state.userStore.login({ email, password})
+        } else {
+          const username = e.target.username.value
+          await this.state.userStore.signup({ email, password, username})
+        }
+        if (!this.state.user.error) {
+          history.navigate(`/author/${ this.state.user.data.username }`);
+        }
       }
     }
   </script>
