@@ -15,7 +15,7 @@
         Navigationlink
       },
       preparePages (page) {
-        const pageCount = Math.ceil(this.props.count / 10)
+        const pageCount = Math.ceil(this.props.count / this.props.limit)
         const pages = []
         for (let i = 1; i <= pageCount; i++) {
           pages.push(i)

@@ -33,8 +33,7 @@ export default class ArticlesStore {
       })
   }
 
-  feed ({ req, action, page, tag, author, favorited }) {
-    const limit = 10
+  feed ({ req, action, page, tag, author, favorited, limit }) {
     const offset = (page - 1) * limit
     const params = { limit, offset }
     if (action === 'tag') {

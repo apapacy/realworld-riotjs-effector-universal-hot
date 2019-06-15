@@ -32,7 +32,7 @@
             user={ state.user }
             store={ props.store }
           />
-          <nav is="pagination" count={ state.articlesCount } req={ state.req }/>
+          <nav is="pagination" count={ state.articlesCount } req={ state.req } limit={ this.limit }/>
         </div>
         <div class="col-md-3">
           <div class="sidebar">
@@ -58,7 +58,12 @@
     import Pagination from '../components/pagination.riot'
     import Navigationlink from '../navigationLink.riot'
 
+    const limit = 10
+
     export default {
+      get limit () {
+        return limit
+      },
       components: {
         Articlepreview,
         Navigationitem,
@@ -89,7 +94,7 @@
         const { req } = route
         return Promise.all([
           route.store.articlesStore.getTags({ req }),
-          route.store.articlesStore.feed({ page, tag, action, req })
+          route.store.articlesStore.feed({ page, tag, action, req, limit })
         ])
       }
     }

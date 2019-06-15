@@ -37,7 +37,7 @@
           user={ state.user }
           store={ props.store }
         />
-        <nav is="pagination" count={ state.articlesCount } req={ state.req }/>
+        <nav is="pagination" count={ state.articlesCount } req={ state.req } limit={ this.limit }/>
       </div>
     </div>
   </div>
@@ -48,7 +48,12 @@
     import Navigationlink from '../navigationLink.riot'
     import Following from '../components/following.riot'
 
+    const limit = 5
+
     export default {
+      get limit () {
+        return limit
+      },
       components: {
         Articlepreview,
         Navigationitem,
@@ -77,7 +82,7 @@
         const { req } = route
         return Promise.all([
           route.store.profileStore.getProfile({ req, author }),
-          route.store.articlesStore.feed({ page, action, author, req })
+          route.store.articlesStore.feed({ page, action, author, req, limit })
         ])
       },
       onclick (e) {
