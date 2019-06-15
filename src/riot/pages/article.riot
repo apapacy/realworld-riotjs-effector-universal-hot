@@ -13,7 +13,7 @@
           <span class="date">{ this.publicationDate }</span>
         </div>
         <a
-          if={state.article.author.username === state.user.data.username }
+          if={ state.user && state.user.data && state.article.author.username === state.user.data.username }
           is="navigationlink"
           class="btn btn-sm btn-outline-secondary"
           href={`/edit/${state.article.slug}`}
@@ -25,7 +25,7 @@
         </a>
         <span>&nbsp;&nbsp;</span>
         <a
-          if={state.article.author.username === state.user.data.username }
+          if={ state.user && state.user.data &&  state.article.author.username === state.user.data.username }
           is="navigationlink"
           class="btn btn-sm btn-outline-danger"
           tabIndex={-1}
@@ -37,7 +37,7 @@
         </a>
         <button
           is="following"
-          if={ state.article.author.username !== state.user.data.username }
+          if={ state.user && state.user.data && state.article.author.username !== state.user.data.username }
           profile={ state.article.author }
           onclick={this.follow}
         />
@@ -77,7 +77,7 @@
         </div>
         <button
           is="following"
-          if={ state.article.author.username !== state.user.data.username }
+          if={ state.user && state.user.data && state.article.author.username !== state.user.data.username }
           profile={ state.article.author }
           onclick={this.follow}
         />

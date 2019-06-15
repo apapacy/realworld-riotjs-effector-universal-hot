@@ -8,7 +8,7 @@
           <p>{state.profile.data.bio}</p>
           <button
             is="following"
-            if={ state.profile.data.username !== state.user.data.username }
+            if={ state.user && state.user.data && state.profile.data.username !== state.user.data.username }
             profile={ state.profile.data }
             onclick={this.onclick}
           />
