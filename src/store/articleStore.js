@@ -64,19 +64,16 @@ saveArticle(article) {
 }
 
 
-/*export function deleteArticle(article) { // eslint-disable-line no-shadow
+deleteArticle(article) {
   const { slug } = article;
-  return (dispatch) => {
-    dispatch({ type: ARTICLE_DELETE_REQUEST });
-    return request(undefined, {
-      method: 'delete',
-      url: `/articles/${slug}`,
-    }).then(
-      () => dispatch({ type: ARTICLE_DELETE_SUCCESS }),
-      error => dispatch({ type: ARTICLE_DELETE_FAILURE, error: parseError(error) }),
-    );
-  };
-}*/
+  return request(undefined, {
+    method: 'delete',
+    url: `/articles/${slug}`,
+  }).then(
+    () =>  response => this.successArticle(null),
+    error => this.error(parseError(error)),
+  );
+}
 
 comments({ req, slug }) {
   return request(req, {

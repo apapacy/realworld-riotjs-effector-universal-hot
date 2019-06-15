@@ -10,7 +10,7 @@
                 class="form-control form-control-lg"
                 placeholder="Article Title"
                 name="title"
-                value={state.article.title}
+                value={state.article.title || ''}
               />
             </fieldset>
             <fieldset class="form-group">
@@ -19,7 +19,7 @@
                 class="form-control"
                 placeholder="What's this article about?"
                 name="description"
-                value={state.article.description}
+                value={state.article.description || ''}
               />
             </fieldset>
             <fieldset class="form-group">
@@ -29,7 +29,7 @@
                 placeholder="Write your article (in markdown)"
                 name="body"
                 value=
-              >{ state.article.body }</textarea>
+              >{ state.article.body || ''}</textarea>
             </fieldset>
             <fieldset class="form-group">
               <input
@@ -37,7 +37,7 @@
                 class="form-control"
                 placeholder="Enter tags"
                 name="tagList"
-                value={state.article.tagList}
+                value={state.article.tagList || ''}
               />
               <div class="tag-list" />
             </fieldset>
@@ -56,7 +56,11 @@
     import history from '../../history'
     export default {
       connect(props, state) {
-        state.article = props.store.articleStore.store.article
+        if (props.action === 'edit') {
+          state.article = props.store.articleStore.store.article;
+        } else {
+          state.article = {};
+        }
         state.user = props.store.userStore.store
       }
       onBeforeMount(props, state) {
@@ -66,7 +70,9 @@
         this.connect(props, state);
       },
       init(route) {
-        return route.store.articleStore.article({ slug: route.data.req.params.article })
+        if (route.data.action === 'edit') {
+          return route.store.articleStore.article({ slug: route.data.req.params.article });
+        }
       },
       async onsubmit(e) {
         e.preventDefault();
@@ -77,8 +83,8 @@
           body: e.target.body.value,
           tagList: e.target.tagList.value.split(','),
         });
-        if (this.state.article) {
-          history.navigate(`/article/${ this.state.article.slug }`);
+        if (this.props.store.articleStore.store.article) {
+          history.navigate(`/article/${ this.props.store.articleStore.store.article.slug }`);
         }
       }
     }

@@ -18,7 +18,7 @@
       <span>Read more...</span>
     </a>
     <div>
-      <ul props.article.tagList} class="tag-list" >
+      <ul class="tag-list" >
         <li  each={tag in props.article.tagList} class="tag-default tag-pill tag-outline" >
           <a is="navigationlink" href={`/tags/${tag}`}>#<span>{tag}</span></a>
         </li>
