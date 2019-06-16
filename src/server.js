@@ -5,9 +5,11 @@ const cookieParser = require('cookie-parser')
 const cookieEncrypter = require('cookie-encrypter')
 const bodyParser = require('body-parser')
 const apicache = require('apicache')
+const favicon = require('serve-favicon')
 
 const port = Number(process.env.PORT) || 3000
 const app = express()
+app.use(favicon(path.resolve(__dirname, './favicon.ico')))
 const nodeEnv = process.env.NODE_ENV || 'development'
 
 const cache = apicache.options({
