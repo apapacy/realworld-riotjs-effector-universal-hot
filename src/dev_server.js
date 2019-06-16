@@ -8,9 +8,9 @@ const webpack = require('webpack')
 const webpackClientDevMiddleware = require('webpack-dev-middleware')
 const webpackClientHotMiddleware = require('webpack-hot-middleware')
 const webpackClientConfig = require('./config.client')
-const serverConfig = require('./config.server')
+const webpackServerConfig = require('./config.server')
 
-const serverCompiler = webpack(serverConfig)
+const serverCompiler = webpack(webpackServerConfig)
 const clientCompiler = webpack(webpackClientConfig)
 const port = Number(process.env.PORT) || 3000
 const app = express()
