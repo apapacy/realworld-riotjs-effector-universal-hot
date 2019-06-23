@@ -72,7 +72,7 @@ export const render = async function (req, res, next) {
           </script>
         </head>
         <body>
-          ${html}
+          <section id="app">123</section>
           <script src='${assets(stats.common)}' type='text/javascript'></script>
           <script src='${assets(stats.main)}' type='text/javascript'></script>
         </body>
