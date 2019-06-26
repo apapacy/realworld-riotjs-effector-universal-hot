@@ -12,6 +12,6 @@ function inner(props = {}, child = []) {
 
   function onclick(e) {
     console.log(e)
-    alert('click')
+    alert('click++')
   }
 }

@@ -16,6 +16,32 @@ export function e (type='div', props={}, child=[]) {
   return root
 }
 
-export function t (text) {
-  return document.createTextNode(text)
+export function map (props = {}) {
+  const out = {}
+  out.store = props.store
+  out.router = props.router
+  return out
 }
+
+export function t (text) {
+  if (typeof text === 'function') {
+    return document.createTextNode(text())
+  } else {
+    return document.createTextNode(text)
+  }
+}
+
+/*
+
+document.getElementById('app').appendChild(inner({class: 'gold'}, [t('hi-hi')]))
+
+function inner(props = {}, child = []) {
+  return e('div', { ...props, onclick }, child)
+
+  function onclick(e) {
+    console.log(e)
+    alert('click')
+  }
+}
+
+*/
