@@ -23,9 +23,9 @@ export function map (props = {}) {
   return out
 }
 
-export function t (text) {
+export function t (props, text) {
   if (typeof text === 'function') {
-    return document.createTextNode(text())
+    return document.createTextNode(text(props))
   } else {
     return document.createTextNode(text)
   }
