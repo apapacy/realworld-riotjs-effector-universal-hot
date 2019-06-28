@@ -1,0 +1,93 @@
+<editor-div class={ 'editor-page' }>
+  <div class="container page">
+    <div class="row">
+      <div class="col-md-10 offset-md-1 col-xs-12">
+        <form onsubmit={ this.onsubmit }>
+          <fieldset>
+            <fieldset class="form-group">
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                placeholder="Article Title"
+                name="title"
+                value={ state.article.title || '' }
+              />
+            </fieldset>
+            <fieldset class="form-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="What's this article about?"
+                name="description"
+                value={ state.article.description || '' }
+              />
+            </fieldset>
+            <fieldset class="form-group">
+              <textarea
+                class="form-control"
+                rows="8"
+                placeholder="Write your article (in markdown)"
+                name="body"
+                value=
+              >{ state.article.body || '' }</textarea>
+            </fieldset>
+            <fieldset class="form-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter tags"
+                name="tagList"
+                value={ state.article.tagList || '' }
+              />
+              <div class="tag-list" />
+            </fieldset>
+            <button
+              class="btn btn-lg pull-xs-right btn-primary"
+              type="submit"
+            >
+                Publish Article
+            </button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    import history from '../../history'
+
+    export default {
+      connect (props, state) {
+        if (props.action === 'edit') {
+          state.article = props.store.articleStore.store.article
+        } else {
+          state.article = {}
+        }
+        state.user = props.store.userStore.store
+      },
+      onBeforeMount (props, state) {
+        this.connect(props, state)
+      },
+      onBeforeUpdate (props, state) {
+        this.connect(props, state)
+      },
+      init (route) {
+        if (route.data.action === 'edit') {
+          return route.store.articleStore.article({ slug: route.data.req.params.article })
+        }
+      },
+      async onsubmit (e) {
+        e.preventDefault()
+        await this.props.store.articleStore.saveArticle({
+          slug: this.state.article.slug,
+          title: e.target.title.value,
+          description: e.target.description.value,
+          body: e.target.body.value,
+          tagList: e.target.tagList.value.split(',')
+        })
+        if (this.props.store.articleStore.store.article) {
+          history.navigate(`/article/${this.props.store.articleStore.store.article.slug}`)
+        }
+      }
+    }
+  </script>
+</editor-div>

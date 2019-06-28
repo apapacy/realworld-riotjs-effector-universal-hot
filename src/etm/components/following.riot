@@ -1,0 +1,6 @@
+<following-button class={ 'btn btn-sm btn-secondary action-btn' }>
+  <i if={ props.profile.following } class="ion-minus-round" />
+  <i if={ !props.profile.following } class="ion-plus-round" />
+  &nbsp;
+  <span>{ props.profile.following ? 'Unfollow' : 'Follow' } { props.profile.username }</span>
+</following-button>

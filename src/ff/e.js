@@ -1,4 +1,4 @@
-export function e (type='div', props={}, child=[]) {
+export function e (type = 'div', props = {}, child = []) {
   let root
   if (typeof type === 'string') {
     root = document.createElement(type)
@@ -16,14 +16,7 @@ export function e (type='div', props={}, child=[]) {
   return root
 }
 
-export function map (props = {}) {
-  const out = {}
-  out.store = props.store
-  out.router = props.router
-  return out
-}
-
-export function t (props, text) {
+export function t (text, props) {
   if (typeof text === 'function') {
     return document.createTextNode(text(props))
   } else {
@@ -31,6 +24,12 @@ export function t (props, text) {
   }
 }
 
+export function m (base = {}, props = {}) {
+  const out = {}
+  out.store = base.store
+  out.router = base.router
+  return { ...props, ...out }
+}
 /*
 
 document.getElementById('app').appendChild(inner({class: 'gold'}, [t('hi-hi')]))

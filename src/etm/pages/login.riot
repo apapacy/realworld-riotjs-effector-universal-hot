@@ -1,0 +1,84 @@
+<log-in class={ 'auth-page' }>
+  <div class="container page">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 col-xs-12">
+        <h1 class="text-xs-center">
+            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' }
+        </h1>
+        <p class="text-xs-center">
+          <a if={ props.action === 'sign-up' } is="navigationlink" href="/sign-in">Have an account?</a>
+          <a if={ props.action === 'sign-in' } is="navigationlink" href="/sign-up">Need an account?</a>
+        </p>
+        <ul is="errorslist" if={ state.user && state.user.error } error={ state.user.error } />
+        <form onsubmit={ this.onsubmit }>
+          <fieldset if={ props.action === 'sign-up' } class="form-group">
+            <input
+              class="form-control form-control-lg"
+              type="text"
+              placeholder="Your Name"
+              autoComplete="off"
+              name="username"
+            />
+          </fieldset>
+          <fieldset class="form-group" >
+            <input
+              class="form-control form-control-lg"
+              type="text"
+              placeholder="Email"
+              autoComplete="off"
+              name="email"
+            />
+          </fieldset>
+          <fieldset class="form-group">
+            <input
+              class="form-control form-control-lg"
+              type="password"
+              placeholder="Password"
+              autoComplete="off"
+              name="password"
+            />
+          </fieldset>
+          <button class="btn btn-lg btn-primary pull-xs-right">
+            { props.action === 'sign-up' ? 'Sign up' : 'Sign in' }
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    import Navigationlink from '../navigationLink.riot'
+    import Errorslist from '../components/errorsList.riot'
+    import history from '../../history'
+
+    export default {
+      components: {
+        Navigationlink,
+        Errorslist
+      },
+      connect (props, state) {
+        state.userStore = props.store.userStore
+        state.user = props.store.userStore.store
+      },
+      onBeforeMount (props, state) {
+        this.connect(props, state)
+      },
+      onBeforeUpdate (props, state) {
+        this.connect(props, state)
+      },
+      async onsubmit (e) {
+        e.preventDefault()
+        const email = e.target.email.value
+        const password = e.target.password.value
+        if (this.props.action === 'sign-in') {
+          await this.state.userStore.login({ email, password })
+        } else {
+          const username = e.target.username.value
+          await this.state.userStore.signup({ email, password, username })
+        }
+        if (!this.state.user.error) {
+          return history.navigate(`/author/${this.state.user.data.username}`)
+        }
+      }
+    }
+  </script>
+</log-in>

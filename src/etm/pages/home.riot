@@ -1,0 +1,102 @@
+<home-page>
+  <div class="home-page">
+    <div class="banner">
+      <div class="container">
+        <h1 class="logo-font">conduit</h1>
+        <p class="test">A place to share your knowledge.</p>
+      </div>
+    </div>
+    <div class="container page">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="feed-toggle">
+            <ul class="nav nav-pills outline-active">
+              <li is="navigationitem" if={ state.user && state.user.data } active={ props.action === 'feed' } to="/feed">Your Feed</li>
+              <li is="navigationitem" active={ props.action === 'home' } to="/">Global Feed</li>
+              <li if={ state.currentTag } class="nav-item">
+                <a
+                  is='navigationlink'
+                  class='nav-link active'
+                  href={ props.to }
+                >
+                  #<span>{ state.currentTag }</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            if={ state.articles }
+            each={ article in state.articles }
+            is="articlepreview"
+            article={ article }
+            user={ state.user }
+            store={ props.store }
+          />
+          <nav is="pagination" count={ state.articlesCount } req={ state.req } limit={ this.limit }/>
+        </div>
+        <div class="col-md-3">
+          <div class="sidebar">
+            <p>Popular Tags</p>
+            <div class="tag-list">
+              <a if={ state.tags }
+                each={ tag in state.tags }
+                is="navigationlink"
+                href={ `/tags/${tag}` }
+                class="tag-pill tag-default"
+              >
+                #<span>{ tag }</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    import Articlepreview from '../components/articlePreview.riot'
+    import Navigationitem from '../components/navigationItem.riot'
+    import Pagination from '../components/pagination.riot'
+    import Navigationlink from '../navigationLink.riot'
+
+    const limit = 10
+
+    export default {
+      get limit () {
+        return limit
+      },
+      components: {
+        Articlepreview,
+        Navigationitem,
+        Pagination,
+        Navigationlink
+      },
+      connect (props, state) {
+        state.user = props.store.userStore.store
+        state.articles = props.store.articlesStore.store.articles
+        state.articlesCount = props.store.articlesStore.store.articlesCount
+        state.tags = props.store.articlesStore.store.tags
+        state.currentTag = props.req.params.tag
+        state.req = props.req
+      },
+      onBeforeMount (props, state) {
+        this.connect(props, state)
+      },
+      onBeforeUpdate (props, state) {
+        this.connect(props, state)
+      },
+      async init (route) {
+        const page = Number(route.data.req.params.page || 1)
+        const tag = route.data.req.params.tag
+        const action = route.data.action
+        if (route.data['sign-out']) {
+          await route.store.userStore.logout()
+        }
+        const { req } = route
+        return Promise.all([
+          route.store.articlesStore.getTags({ req }),
+          route.store.articlesStore.feed({ page, tag, action, req, limit })
+        ])
+      }
+    }
+  </script>
+</home-page>

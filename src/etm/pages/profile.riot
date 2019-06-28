@@ -1,0 +1,95 @@
+<profile-div class={ 'profile-page' }>
+  <div class="user-info">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-10 offset-md-1">
+          <img alt="" src={ state.profile.data.image } class="user-img" />
+          <h4>{ state.profile.data.username }</h4>
+          <p>{ state.profile.data.bio }</p>
+          <button
+            is="following"
+            if={ state.user && state.user.data && state.profile.data.username !== state.user.data.username }
+            profile={ state.profile.data }
+            onclick={ this.onclick }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-10 offset-md-1">
+        <div class="articles-toggle">
+          <ul class="nav nav-pills outline-active">
+            <li is="navigationitem" active={ props.action === 'author' } to={ `/author/${state.profile.data.username}` }>
+              My Articles
+            </li>
+            <li is="navigationitem" active={ props.action === 'favorited' } to={ `/favorited/${state.profile.data.username}` }>
+              Favorited Articles
+            </li>
+          </ul>
+        </div>
+        <div
+          if={ state.articles }
+          each={ article in state.articles }
+          is="articlepreview"
+          article={ article }
+          user={ state.user }
+          store={ props.store }
+        />
+        <nav is="pagination" count={ state.articlesCount } req={ state.req } limit={ this.limit }/>
+      </div>
+    </div>
+  </div>
+  <script>
+    import Articlepreview from '../components/articlePreview.riot'
+    import Navigationitem from '../components/navigationItem.riot'
+    import Pagination from '../components/pagination.riot'
+    import Navigationlink from '../navigationLink.riot'
+    import Following from '../components/following.riot'
+
+    const limit = 5
+
+    export default {
+      get limit () {
+        return limit
+      },
+      components: {
+        Articlepreview,
+        Navigationitem,
+        Pagination,
+        Navigationlink,
+        Following
+      },
+      connect (props, state) {
+        state.user = props.store.userStore.store
+        state.articles = props.store.articlesStore.store.articles
+        state.articlesCount = props.store.articlesStore.store.articlesCount
+        state.tags = props.store.articlesStore.store.tags
+        state.req = props.req
+        state.profile = props.store.profileStore.store
+      },
+      onBeforeMount (props, state) {
+        this.connect(props, state)
+      },
+      onBeforeUpdate (props, state) {
+        this.connect(props, state)
+      },
+      init (route) {
+        const page = Number(route.data.req.params.page || 1)
+        const author = route.data.req.params.author
+        const action = route.data.action
+        const { req } = route
+        return Promise.all([
+          route.store.profileStore.getProfile({ req, author }),
+          route.store.articlesStore.feed({ page, action, author, req, limit })
+        ])
+      },
+      onclick (e) {
+        const author = this.state.profile.data.username
+        const method = this.state.profile.data.following ? 'delete' : 'post'
+        this.props.store.profileStore.follow({ author, method })
+      }
+    }
+  </script>
+</profile-div>

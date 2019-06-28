@@ -1,0 +1,220 @@
+<article-div class={ 'article-page' }>
+  <div class="banner">
+    <div class="container">
+      <h1>{ state.article.title }</h1>
+      <div class="article-meta">
+        <a is="navigationlink" href={ `/author/${state.article.author.username}` }>
+          <img alt="" src={ state.article.author.image } />
+        </a>
+        <div class="info">
+          <a is="navigationlink" href={ `/author/${state.article.author.username}` } class="author">
+            <span>{ state.article.author.username }</span>
+          </a>
+          <span class="date">{ this.publicationDate }</span>
+        </div>
+        <a
+          if={ state.user && state.user.data && state.article.author.username === state.user.data.username }
+          is="navigationlink"
+          class="btn btn-sm btn-outline-secondary"
+          href={ `/edit/${state.article.slug}` }
+          action="edit"
+        >
+          <i class="ion-edit" />
+          &nbsp;
+          Edit <span class="counter" />
+        </a>
+        <span>&nbsp;&nbsp;</span>
+        <a
+          if={ state.user && state.user.data &&  state.article.author.username === state.user.data.username }
+          is="navigationlink"
+          class="btn btn-sm btn-outline-danger"
+          onclick={ this.deleteArticle }
+        >
+          <i class="ion-trash-a" />
+          &nbsp;
+          Delete <span class="counter" />
+        </a>
+        <button
+          is="following"
+          if={ state.user && state.user.data && state.article.author.username !== state.user.data.username }
+          profile={ state.article.author }
+          onclick={ this.follow }
+        />
+        &nbsp;&nbsp;
+        <button
+          is="favorited"
+          article={ state.article }
+          user={ state.user }
+          text={ true }
+          onclick={ this.onclick }
+        />
+      </div>
+    </div>
+  </div>
+  <div class="container page">
+    <div class="row article-content">
+      <div class="col-md-12">
+        <div is="raw" html={ state.article.html } />
+      </div>
+    </div>
+    <ul class="tag-list">
+      <li each={tag in state.article.tagList} class="tag-default tag-pill tag-outline">
+        <a is="navigationlink" href={ `/tags/${tag}` }>#<span>{ tag }</span></a>
+      </li>
+    </ul>
+    <hr />
+    <div class="article-actions">
+      <div class="article-meta">
+        <a to={ `/author/${state.article.author.username}` }>
+          <img alt="" src={ state.article.author.image } />
+        </a>
+        <div class="info">
+          <a is="navigationlink" href={ `/author/${state.article.author.username}` } class="author">
+            <span>{ state.article.author.username }</span>
+          </a>
+          <span class="date">{ this.publicationDate }</span>
+        </div>
+        <button
+          is="following"
+          if={ state.user && state.user.data && state.article.author.username !== state.user.data.username }
+          profile={ state.article.author }
+          onclick={ this.follow }
+        />
+        &nbsp;
+        <button
+          is="favorited"
+          article={ state.article }
+          user={ state.user }
+          text={ true }
+          onclick={ this.onclick }
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-md-8 offset-md-2">
+        <form if={ state.user && state.user.data } class="card comment-form" onsubmit={ this.addComment }>
+          <div class="card-block">
+            <textarea
+              name="commentBody"
+              class="form-control"
+              placeholder="Write a comment..."
+              rows="3"
+            />
+          </div>
+          <div class="card-footer">
+            <img alt="" src={ state.user.data.image } class="comment-author-img" />
+            &nbsp;
+            <a is="navigationlink" href={ `/author/${state.user.data.username}` }>{ state.user.data.username }</a>
+            <button class="btn btn-sm btn-primary">
+              Post Comment
+            </button>
+          </div>
+        </form>
+        <div
+          is="comments"
+          if={ state.comments }
+          each={ comment in  state.comments }
+          comment={ comment }
+          user={ state.user }
+          article={ state.article }
+          store={ props.store.articleStore }
+      />
+      </div>
+    </div>
+  </div>
+  <script>
+    import moment from 'moment'
+    import marked from 'marked'
+    import Navigationlink from '../navigationLink.riot'
+    import Raw from '../components/raw.riot'
+    import Following from '../components/following.riot'
+    import Favorited from '../components/favorited.riot'
+    import Comments from '../components/comments.riot'
+    import history from '../../history'
+
+    export default {
+      get publicationDate () {
+        try {
+          return moment(this.state.article.updatedAt).format('ddd MMM DD YYYY')
+        } catch (ex) {
+        }
+      },
+      components: {
+        Navigationlink,
+        Raw,
+        Comments,
+        Favorited,
+        Following
+      },
+      connect (props, state) {
+        state.user = props.store.userStore.store
+        state.article = props.store.articleStore.store.article
+        state.comments = props.store.articleStore.store.comments
+        state.article.html = marked(state.article && state.article.body)
+      },
+      onBeforeMount (props, state) {
+        this.connect(props, state)
+      },
+      onBeforeUpdate (props, state) {
+        this.connect(props, state)
+      },
+      init (route) {
+        return Promise.all([
+          route.store.articleStore.article({ slug: route.data.req.params.article }),
+          route.store.articleStore.comments({ slug: route.data.req.params.article })
+        ])
+      },
+      addComment (e) {
+        e.preventDefault()
+        const body = e.target.commentBody.value
+        if (!body || body === this.commentBody) {
+          return
+        }
+        this.commentBody = body
+        return this.props.store.articleStore.addComment({
+          slug: this.state.article.slug,
+          body
+        })
+      },
+      async onclick (e) {
+        if (!(this.state.user && this.state.user.data)) {
+          return
+        }
+        if (this.state.user.data.username === this.state.article.author.username) {
+          return
+        }
+        const { slug } = this.state.article
+        let method
+        if (this.state.article.favorited) {
+          method = 'delete'
+        } else {
+          method = 'post'
+        }
+        await this.props.store.articleStore.favorite({ slug, method })
+        e.target.blur()
+      },
+      async follow (e) {
+        if (!(this.state.user && this.state.user.data)) {
+          return
+        }
+        if (this.state.user.data.username === this.state.article.author.username) {
+          return
+        }
+        const author = this.state.article.author.username
+        const method = this.state.article.author.following ? 'delete' : 'post'
+        await this.props.store.profileStore.follow({ author, method })
+        await this.props.store.articleStore.article({ slug: this.state.article.slug })
+        e.target.blur()
+      },
+      async deleteArticle (e) {
+        e.preventDefault()
+        await this.props.store.articleStore.deleteArticle({
+          slug: this.state.article.slug
+        })
+        if (!this.props.store.articleStore.store.error) {
+          history.navigate(`/author/${this.state.user.data.username}`)
+        }
+      }
+    }
+  </script>
+</article-div>

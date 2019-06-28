@@ -1,0 +1,46 @@
+<comment-tag class={ 'card' }>
+  <div class="card-block">
+    <p class="card-text">
+      { props.comment.body }
+    </p>
+  </div>
+  <div class="card-footer">
+    <a is="navigationlink" href={ `/author/${props.comment.author.username}` } class="comment-author">
+      <img alt="" src={ props.comment.author.image } class="comment-author-img" />
+    </a>
+    &nbsp;
+    <a is="navigationlink" href={ `/author/${ props.comment.author.username }` } class="comment-author">
+      <span>{ props.comment.author.username }</span>
+    </a>
+    <span class="date-posted">{ commentDate }</span>
+      <span class="mod-options"
+        if={ props.user.data.username === props.comment.author.username }
+        onclick={ this.deleteComment }
+      >
+        <i class="ion-trash-a"/>
+      </span>
+  </div>
+  <script>
+    import moment from 'moment'
+    import Navigationlink from '../navigationLink.riot'
+
+    export default {
+      deleteComment (e) {
+        e.preventDefault()
+        return this.props.store.deleteComment({
+          id: this.props.comment.id,
+          slug: this.props.article.slug
+        })
+      },
+      get commentDate () {
+        try {
+          return moment(this.props.comment.updatedAt).format('ddd MMM DD YYYY HH:mm')
+        } catch (ex) {
+        }
+      },
+      components: {
+        Navigationlink
+      }
+    }
+  </script>
+</comment-tag>
