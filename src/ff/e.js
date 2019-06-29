@@ -9,10 +9,10 @@ export function e (type = 'div', props = {}, child = []) {
         root.setAttribute(key, props[key])
       }
     }
+    child.forEach(node => root.appendChild(node))
   } else {
     root = type(props, child)
   }
-  child.forEach(node => root.appendChild(node))
   return root
 }
 
