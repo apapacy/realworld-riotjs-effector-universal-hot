@@ -15,7 +15,7 @@
     "@riotjs/hydrate": "^4.0.0",
     "@riotjs/ssr": "^4.0.0",
     "apicache": "^1.4.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "babel-loader": "^8.0.6",
     "cookie-encrypter": "^1.0.1",
     "cookie-parser": "^1.4.4",
