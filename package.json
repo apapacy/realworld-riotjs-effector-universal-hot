@@ -24,7 +24,7 @@
     "eslint-utils": "^1.4.3",
     "express": "^4.17.1",
     "history": "^4.9.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "marked": "^0.7.0",
     "mobx": "^5.10.0",
     "moment": "^2.24.0",
