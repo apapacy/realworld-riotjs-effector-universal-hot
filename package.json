@@ -34,7 +34,7 @@
     "riotjs": "^1.0.4",
     "serve-favicon": "^2.5.0",
     "universal-router": "^8.2.0",
-    "url-parse": "^1.4.7",
+    "url-parse": "^1.5.6",
     "webpack-node-externals": "^1.7.2"
   },
   "devDependencies": {
