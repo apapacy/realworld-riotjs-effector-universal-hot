@@ -22,7 +22,7 @@
     "deep-equal": "^1.0.1",
     "effector": "^19.1.0",
     "eslint-utils": "^1.4.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "history": "^4.9.0",
     "lodash": "^4.17.15",
     "marked": "^0.7.0",
